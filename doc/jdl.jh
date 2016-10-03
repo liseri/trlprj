@@ -1,0 +1,56 @@
+/*技术成熟度评估系统*/
+
+enum TCL {
+	TCLA, TCLB, TCLC
+}
+ 
+enum TRL {
+	TRL1, TRL2, TRL3, TRL4, TRL5, TRL6, TRL7, TRL8, TRL9
+}
+
+enum PrjStatus {
+	CREATED,   //已创建
+    STARTED,  //已启动
+    PAUSED,  //已暂停
+    COMPLETED  //已完成
+}
+
+entity Project {
+	name String required maxlength(50),            //名称
+    statu PrjStatus required,                      //项目状态
+    //tbsRoot Technology,                          //技术树根结点
+    descript1 String required maxlength(500),      //项目描述
+    descript2 String required maxlength(500),      //项目背景
+    descript3 String required maxlength(500),      //项目目标
+    descript4 String required maxlength(500),      //项目进展
+    startTime ZonedDateTime,                       //项目启动时间
+    completeTime ZonedDateTime                     //项目完成时间
+}
+
+entity Technology {
+	name String required maxlength(50),  //名称
+    descript String maxlength(500),      //描述
+    //prj Project required,              //所属项目
+    isKey Boolean required,              //是否是关键技术
+    tcl TCL,                             //TCL类别
+    trl TRL                              //TRL级别
+}
+
+relationship ManyToOne {
+	Technology{prj} to Project
+}
+
+
+// Set pagination options
+paginate Project with infinite-scroll
+//paginate * with pagination
+
+dto Project with mapstruct
+
+// Set service options to all except few
+service all with serviceImpl
+
+skipClient for Technology
+
+// Set an angular suffix
+angularSuffix * with mySuffix
