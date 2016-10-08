@@ -78,7 +78,7 @@ public class UserService {
             });
     }
 
-    public User createUser(String login, String password, String firstName, String lastName, String email,
+    public User createUser(String login, String password, String name, String email,
         String langKey) {
 
         User newUser = new User();
@@ -88,8 +88,7 @@ public class UserService {
         newUser.setLogin(login);
         // new user gets initially a generated password
         newUser.setPassword(encryptedPassword);
-        newUser.setFirstName(firstName);
-        newUser.setLastName(lastName);
+        newUser.setName(name);
         newUser.setEmail(email);
         newUser.setLangKey(langKey);
         // new user is not active
@@ -106,8 +105,7 @@ public class UserService {
     public User createUser(ManagedUserVM managedUserVM) {
         User user = new User();
         user.setLogin(managedUserVM.getLogin());
-        user.setFirstName(managedUserVM.getFirstName());
-        user.setLastName(managedUserVM.getLastName());
+        user.setName(managedUserVM.getName());
         user.setEmail(managedUserVM.getEmail());
         if (managedUserVM.getLangKey() == null) {
             user.setLangKey("zh-cn"); // default language
@@ -131,10 +129,9 @@ public class UserService {
         return user;
     }
 
-    public void updateUser(String firstName, String lastName, String email, String langKey) {
+    public void updateUser(String name, String email, String langKey) {
         userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).ifPresent(u -> {
-            u.setFirstName(firstName);
-            u.setLastName(lastName);
+            u.setName(name);
             u.setEmail(email);
             u.setLangKey(langKey);
             userRepository.save(u);
@@ -142,15 +139,14 @@ public class UserService {
         });
     }
 
-    public void updateUser(Long id, String login, String firstName, String lastName, String email,
+    public void updateUser(Long id, String login, String name, String email,
         boolean activated, String langKey, Set<String> authorities) {
 
         userRepository
             .findOneById(id)
             .ifPresent(u -> {
                 u.setLogin(login);
-                u.setFirstName(firstName);
-                u.setLastName(lastName);
+                u.setName(name);
                 u.setEmail(email);
                 u.setActivated(activated);
                 u.setLangKey(langKey);

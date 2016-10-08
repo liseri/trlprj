@@ -135,8 +135,8 @@ public class UserResource {
         if (existingUser.isPresent() && (!existingUser.get().getId().equals(managedUserVM.getId()))) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("userManagement", "userexists", "Login already in use")).body(null);
         }
-        userService.updateUser(managedUserVM.getId(), managedUserVM.getLogin(), managedUserVM.getFirstName(),
-            managedUserVM.getLastName(), managedUserVM.getEmail(), managedUserVM.isActivated(),
+        userService.updateUser(managedUserVM.getId(), managedUserVM.getLogin(), managedUserVM.getName(),
+            managedUserVM.getEmail(), managedUserVM.isActivated(),
             managedUserVM.getLangKey(), managedUserVM.getAuthorities());
 
         return ResponseEntity.ok()
@@ -146,7 +146,7 @@ public class UserResource {
 
     /**
      * GET  /users : get all users.
-     * 
+     *
      * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and with body all users
      * @throws URISyntaxException if the pagination headers couldn't be generated

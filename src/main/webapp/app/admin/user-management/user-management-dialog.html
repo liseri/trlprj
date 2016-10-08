@@ -33,26 +33,13 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label" data-translate="userManagement.firstName">First Name</label>
-            <input type="text" class="form-control" name="firstName"
-                   ng-model="vm.user.firstName" ng-maxlength="50">
+            <label class="control-label" data-translate="userManagement.name">Name</label>
+            <input type="text" class="form-control" name="name"
+                   ng-model="vm.user.name" ng-maxlength="50">
 
-            <div ng-show="editForm.firstName.$invalid">
+            <div ng-show="editForm.name.$invalid">
                 <p class="help-block"
-                   ng-show="editForm.firstName.$error.maxlength" data-translate="entity.validation.maxlength"
-                   translate-value-max="50">
-                    This field cannot be longer than 50 characters.
-                </p>
-            </div>
-        </div>
-        <div class="form-group">
-            <label data-translate="userManagement.lastName">Last Name</label>
-            <input type="text" class="form-control" name="lastName"
-                   ng-model="vm.user.lastName" ng-maxlength="50">
-
-            <div ng-show="editForm.lastName.$invalid">
-                <p class="help-block"
-                   ng-show="editForm.lastName.$error.maxlength" data-translate="entity.validation.maxlength"
+                   ng-show="editForm.name.$error.maxlength" data-translate="entity.validation.maxlength"
                    translate-value-max="50">
                     This field cannot be longer than 50 characters.
                 </p>
