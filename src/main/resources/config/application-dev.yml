@@ -13,6 +13,7 @@
 
 spring:
     profiles:
+        active: dev
         include: swagger
     devtools:
         restart:
@@ -43,10 +44,15 @@ spring:
             hibernate.generate_statistics: true
             hibernate.cache.region.factory_class: org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
     mail:
-        host: localhost
-        port: 25
-        username:
-        password:
+            host: smtp.126.com
+            port: 25
+            username: lishuai061@126.com
+            password: Abcd201412
+            tls: true
+            properties.mail.smtp:
+                auth: true
+                starttls.enable: true
+                ssl.trust: smtp.126.com
     messages:
         cache-seconds: 1
     thymeleaf:

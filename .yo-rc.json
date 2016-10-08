@@ -1,6 +1,6 @@
 {
   "generator-jhipster": {
-    "jhipsterVersion": "3.8.0",
+    "jhipsterVersion": "3.9.0",
     "baseName": "trlprj",
     "packageName": "com.caecc.trlprj",
     "packageFolder": "com/caecc/trlprj",
@@ -27,6 +27,7 @@
     "nativeLanguage": "zh-cn",
     "languages": [
       "zh-cn"
-    ]
+    ],
+    "serviceDiscoveryType": false
   }
 }

@@ -3,7 +3,7 @@
 enum TCL {
 	TCLA, TCLB, TCLC
 }
- 
+
 enum TRL {
 	TRL1, TRL2, TRL3, TRL4, TRL5, TRL6, TRL7, TRL8, TRL9
 }
@@ -15,6 +15,15 @@ enum PrjStatus {
     COMPLETED  //已完成
 }
 
+enum NoteType {
+    TKEYTECH,    //选为关键技术—技术人员
+    EKEYTECH,    //选为关键技术-审核专家
+    TTCL,        //TCL分类—技术人员
+    ETCL,        //TCL分类—审核专家
+    TTRL,        //TRL分级—技术人员
+    ETRL         //TRL分级—审核专家
+}
+entity User {}
 entity Project {
 	name String required maxlength(50),            //名称
     statu PrjStatus required,                      //项目状态
@@ -36,19 +45,39 @@ entity Technology {
     trl TRL                              //TRL级别
 }
 
-relationship ManyToOne {
-	Technology{prj} to Project
+entity Note {
+    techId Long required,                 //所属技术
+    noteType NoteType required,           //类型
+    boolValue Boolean,                    //开关量
+    numberValue Integer,                  //数字量
+    noteText String maxlength(1000)       //文字量
 }
 
+relationship ManyToOne {
+	//一个项目只有一个从属创建者
+    Project{creator} to User,
+    //一个技术只有一个从属项目
+	Technology{prj} to Project
+}
+relationship OneToOne {
+    //一个项目只有一个根技术结点
+	Project{rootTech} to Technology,
+    //一个技术只有一个从属父结点
+    Technology{parentTech} to Technology
+}
+relationship OneToMany {
+	//一个技术结点有多个子结点创建人
+	Technology{subCreator} to User
+}
 
 // Set pagination options
-paginate Project with infinite-scroll
-//paginate * with pagination
+paginate Project with pagination
+paginate Technology with infinite-scroll
 
-dto Project with mapstruct
+//dto Project with mapstruct
 
 // Set service options to all except few
-service all with serviceImpl
+service all with serviceClass
 
 skipClient for Technology
 

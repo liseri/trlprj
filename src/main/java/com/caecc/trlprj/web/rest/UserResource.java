@@ -12,7 +12,6 @@ import com.caecc.trlprj.web.rest.util.HeaderUtil;
 import com.caecc.trlprj.web.rest.util.PaginationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -58,9 +57,6 @@ import java.util.stream.Collectors;
 public class UserResource {
 
     private final Logger log = LoggerFactory.getLogger(UserResource.class);
-
-    @Inject
-    private MessageSource messageSource;
 
     @Inject
     private UserRepository userRepository;
@@ -150,7 +146,7 @@ public class UserResource {
 
     /**
      * GET  /users : get all users.
-     *
+     * 
      * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and with body all users
      * @throws URISyntaxException if the pagination headers couldn't be generated
@@ -202,13 +198,5 @@ public class UserResource {
         log.debug("REST request to delete User: {}", login);
         userService.deleteUser(login);
         return ResponseEntity.ok().headers(HeaderUtil.createAlert( "userManagement.deleted", login)).build();
-    }
-    @PutMapping(value = "/users/test",
-        produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> test() {
-        User user = userService.getUserWithAuthorities();
-        Locale locale = Locale.forLanguageTag(user.getLangKey());
-        String subject = messageSource.getMessage("my.test.title", null, locale);
-        return ResponseEntity.ok().build();
     }
 }
