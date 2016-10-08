@@ -24,6 +24,9 @@ enum NoteType {
     ETRL         //TRL分级—审核专家
 }
 entity User {}
+entity Brahch {
+	name String required maxlength(50)            //单位名称
+}
 entity Project {
 	name String required maxlength(50),            //名称
     statu PrjStatus required,                      //项目状态
