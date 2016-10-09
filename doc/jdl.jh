@@ -66,9 +66,9 @@ relationship OneToOne {
 	Project{rootTech} to Technology
 }
 
+/*Technology{subCreator(name)} to User*/
 relationship OneToMany {
     Technology{subTech} to Technology{parentTech(name)}
-	/*Technology{subCreator(name)} to User*/
 }
 
 paginate Project,Note with pagination

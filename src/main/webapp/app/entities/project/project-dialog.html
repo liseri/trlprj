@@ -1,0 +1,159 @@
+
+<form name="editForm" role="form" novalidate ng-submit="vm.save()" show-validation>
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()">&times;</button>
+        <h4 class="modal-title" id="myProjectLabel" data-translate="trlprjApp.project.home.createOrEditLabel">Create or edit a Project</h4>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" ng-show="vm.project.id">
+            <label for="id" data-translate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                    ng-model="vm.project.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="trlprjApp.project.name" for="field_name">Name</label>
+            <input type="text" class="form-control" name="name" id="field_name"
+                    ng-model="vm.project.name"
+                    required ng-maxlength="50" />
+            <div ng-show="editForm.name.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.name.$error.required" data-translate="entity.validation.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.name.$error.maxlength" data-translate="entity.validation.maxlength" translate-value-max="50">
+                    This field cannot be longer than 50 characters.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="trlprjApp.project.statu" for="field_statu">Statu</label>
+            <select class="form-control" name="statu" ng-model="vm.project.statu" id="field_statu" required>
+                <option value="CREATED" data-translate="trlprjApp.PrjStatus.CREATED">CREATED</option>
+                <option value="STARTED" data-translate="trlprjApp.PrjStatus.STARTED">STARTED</option>
+                <option value="PAUSED" data-translate="trlprjApp.PrjStatus.PAUSED">PAUSED</option>
+                <option value="COMPLETED" data-translate="trlprjApp.PrjStatus.COMPLETED">COMPLETED</option>
+            </select>
+            <div ng-show="editForm.statu.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.statu.$error.required" data-translate="entity.validation.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="trlprjApp.project.descript1" for="field_descript1">Descript 1</label>
+            <input type="text" class="form-control" name="descript1" id="field_descript1"
+                    ng-model="vm.project.descript1"
+                    required ng-maxlength="500" />
+            <div ng-show="editForm.descript1.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.descript1.$error.required" data-translate="entity.validation.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.descript1.$error.maxlength" data-translate="entity.validation.maxlength" translate-value-max="500">
+                    This field cannot be longer than 500 characters.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="trlprjApp.project.descript2" for="field_descript2">Descript 2</label>
+            <input type="text" class="form-control" name="descript2" id="field_descript2"
+                    ng-model="vm.project.descript2"
+                    required ng-maxlength="500" />
+            <div ng-show="editForm.descript2.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.descript2.$error.required" data-translate="entity.validation.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.descript2.$error.maxlength" data-translate="entity.validation.maxlength" translate-value-max="500">
+                    This field cannot be longer than 500 characters.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="trlprjApp.project.descript3" for="field_descript3">Descript 3</label>
+            <input type="text" class="form-control" name="descript3" id="field_descript3"
+                    ng-model="vm.project.descript3"
+                    required ng-maxlength="500" />
+            <div ng-show="editForm.descript3.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.descript3.$error.required" data-translate="entity.validation.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.descript3.$error.maxlength" data-translate="entity.validation.maxlength" translate-value-max="500">
+                    This field cannot be longer than 500 characters.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="trlprjApp.project.descript4" for="field_descript4">Descript 4</label>
+            <input type="text" class="form-control" name="descript4" id="field_descript4"
+                    ng-model="vm.project.descript4"
+                    required ng-maxlength="500" />
+            <div ng-show="editForm.descript4.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.descript4.$error.required" data-translate="entity.validation.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.descript4.$error.maxlength" data-translate="entity.validation.maxlength" translate-value-max="500">
+                    This field cannot be longer than 500 characters.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="trlprjApp.project.startTime" for="field_startTime">Start Time</label>
+                <div class="input-group">
+                    <input id="field_startTime" type="text" class="form-control" name="startTime" datetime-picker="{{dateformat}}" ng-model="vm.project.startTime" is-open="vm.datePickerOpenStatus.startTime"
+                      />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="vm.openCalendar('startTime')"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="trlprjApp.project.completeTime" for="field_completeTime">Complete Time</label>
+                <div class="input-group">
+                    <input id="field_completeTime" type="text" class="form-control" name="completeTime" datetime-picker="{{dateformat}}" ng-model="vm.project.completeTime" is-open="vm.datePickerOpenStatus.completeTime"
+                      />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="vm.openCalendar('completeTime')"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </div>
+        </div>
+
+        <div class="form-group">
+            <label data-translate="trlprjApp.project.rootTech" for="field_rootTech">Root Tech</label>
+            <select class="form-control" id="field_rootTech" name="rootTech" ng-model="vm.project.rootTech" ng-options="technology as technology.id for technology in vm.rootteches | orderBy:'id' track by technology.id">
+                <option value=""></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label data-translate="trlprjApp.project.creator" for="field_creator">Creator</label>
+            <select class="form-control" id="field_creator" name="creator" ng-model="vm.project.creator" ng-options="user as user.name for user in vm.users track by user.id">
+                <option value=""></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label data-translate="trlprjApp.project.tech" for="field_tech">Tech</label>
+            <select class="form-control" id="field_tech" name="tech" ng-model="vm.project.tech" ng-options="technology as technology.id for technology in vm.technologies track by technology.id">
+                <option value=""></option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span data-translate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span data-translate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

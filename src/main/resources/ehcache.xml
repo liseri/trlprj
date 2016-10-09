@@ -37,5 +37,25 @@
            timeToLiveSeconds="3600">
     </cache>
     
+    <cache name="com.caecc.trlprj.domain.Brahch"
+                               timeToLiveSeconds="3600">
+                        </cache>
+                        
+    <cache name="com.caecc.trlprj.domain.Project"
+                               timeToLiveSeconds="3600">
+                        </cache>
+                        
+    <cache name="com.caecc.trlprj.domain.Technology"
+                               timeToLiveSeconds="3600">
+                        </cache>
+                        
+    <cache name="com.caecc.trlprj.domain.Technology.subTeches"
+                               timeToLiveSeconds="3600">
+                        </cache>
+                        
+    <cache name="com.caecc.trlprj.domain.Note"
+                               timeToLiveSeconds="3600">
+                        </cache>
+                        
     <!-- jhipster-needle-ehcache-add-entry -->
 </ehcache>

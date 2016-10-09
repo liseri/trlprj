@@ -1,0 +1,13 @@
+{
+    "trlprjApp": {
+        "NoteType" : {
+            "null": "",
+            "TKEYTECH": "TKEYTECH",
+            "EKEYTECH": "EKEYTECH",
+            "TTCL": "TTCL",
+            "ETCL": "ETCL",
+            "TTRL": "TTRL",
+            "ETRL": "ETRL"
+        }
+    }
+}

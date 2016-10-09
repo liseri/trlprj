@@ -1,0 +1,72 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "subTech",
+            "otherEntityName": "technology",
+            "otherEntityRelationshipName": "parentTech"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "creator",
+            "otherEntityName": "user",
+            "otherEntityField": "name"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "prj",
+            "otherEntityName": "project",
+            "otherEntityField": "name"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "parentTech",
+            "otherEntityName": "technology",
+            "otherEntityField": "name"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required",
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 50
+        },
+        {
+            "fieldName": "descript",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 500
+        },
+        {
+            "fieldName": "isKey",
+            "comment": "prj Project required,",
+            "fieldType": "Boolean",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "tcl",
+            "fieldType": "TCL",
+            "fieldValues": "TCLA,TCLB,TCLC"
+        },
+        {
+            "fieldName": "trl",
+            "fieldType": "TRL",
+            "fieldValues": "TRL1,TRL2,TRL3,TRL4,TRL5,TRL6,TRL7,TRL8,TRL9"
+        }
+    ],
+    "changelogDate": "20161009160137",
+    "entityTableName": "technology",
+    "dto": "no",
+    "pagination": "infinite-scroll",
+    "service": "serviceClass",
+    "angularSuffix": "mySuffix"
+}

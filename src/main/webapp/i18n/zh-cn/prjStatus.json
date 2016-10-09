@@ -1,0 +1,11 @@
+{
+    "trlprjApp": {
+        "PrjStatus" : {
+            "null": "",
+            "CREATED": "CREATED",
+            "STARTED": "STARTED",
+            "PAUSED": "PAUSED",
+            "COMPLETED": "COMPLETED"
+        }
+    }
+}

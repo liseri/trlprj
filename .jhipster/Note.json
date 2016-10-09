@@ -1,0 +1,43 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "techId",
+            "fieldType": "Long",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "noteType",
+            "fieldType": "NoteType",
+            "fieldValues": "TKEYTECH,EKEYTECH,TTCL,ETCL,TTRL,ETRL",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "boolValue",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "numberValue",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "noteText",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 500
+        }
+    ],
+    "changelogDate": "20161009160138",
+    "entityTableName": "note",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "serviceClass",
+    "angularSuffix": "mySuffix"
+}

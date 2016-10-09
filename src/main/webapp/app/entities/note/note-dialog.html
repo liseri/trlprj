@@ -1,0 +1,83 @@
+
+<form name="editForm" role="form" novalidate ng-submit="vm.save()" show-validation>
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()">&times;</button>
+        <h4 class="modal-title" id="myNoteLabel" data-translate="trlprjApp.note.home.createOrEditLabel">Create or edit a Note</h4>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" ng-show="vm.note.id">
+            <label for="id" data-translate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                    ng-model="vm.note.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="trlprjApp.note.techId" for="field_techId">Tech Id</label>
+            <input type="number" class="form-control" name="techId" id="field_techId"
+                    ng-model="vm.note.techId"
+                    required />
+            <div ng-show="editForm.techId.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.techId.$error.required" data-translate="entity.validation.required">
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.techId.$error.number" data-translate="entity.validation.number">
+                    This field should be a number.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="trlprjApp.note.noteType" for="field_noteType">Note Type</label>
+            <select class="form-control" name="noteType" ng-model="vm.note.noteType" id="field_noteType" required>
+                <option value="TKEYTECH" data-translate="trlprjApp.NoteType.TKEYTECH">TKEYTECH</option>
+                <option value="EKEYTECH" data-translate="trlprjApp.NoteType.EKEYTECH">EKEYTECH</option>
+                <option value="TTCL" data-translate="trlprjApp.NoteType.TTCL">TTCL</option>
+                <option value="ETCL" data-translate="trlprjApp.NoteType.ETCL">ETCL</option>
+                <option value="TTRL" data-translate="trlprjApp.NoteType.TTRL">TTRL</option>
+                <option value="ETRL" data-translate="trlprjApp.NoteType.ETRL">ETRL</option>
+            </select>
+            <div ng-show="editForm.noteType.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.noteType.$error.required" data-translate="entity.validation.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="trlprjApp.note.boolValue" for="field_boolValue">Bool Value</label>
+            <input type="checkbox" class="form-control" name="boolValue" id="field_boolValue"
+                    ng-model="vm.note.boolValue"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="trlprjApp.note.numberValue" for="field_numberValue">Number Value</label>
+            <input type="number" class="form-control" name="numberValue" id="field_numberValue"
+                    ng-model="vm.note.numberValue"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="trlprjApp.note.noteText" for="field_noteText">Note Text</label>
+            <input type="text" class="form-control" name="noteText" id="field_noteText"
+                    ng-model="vm.note.noteText"
+                    ng-maxlength="500" />
+            <div ng-show="editForm.noteText.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.noteText.$error.maxlength" data-translate="entity.validation.maxlength" translate-value-max="500">
+                    This field cannot be longer than 500 characters.
+                </p>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span data-translate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span data-translate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

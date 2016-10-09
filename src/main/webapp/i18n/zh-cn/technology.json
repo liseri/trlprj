@@ -1,0 +1,30 @@
+{
+    "trlprjApp": {
+        "technology" : {
+            "home": {
+                "title": "Technologies",
+                "createLabel": "Create a new Technology",
+                "createOrEditLabel": "Create or edit a Technology",
+                "search": "Search for Technology"
+            },
+            "created": "A new Technology is created with identifier {{ param }}",
+            "updated": "A Technology is updated with identifier {{ param }}",
+            "deleted": "A Technology is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Technology {{ id }}?"
+            },
+            "detail": {
+                "title": "Technology"
+            },
+            "name": "Name",
+            "descript": "Descript",
+            "isKey": "Is Key",
+            "tcl": "Tcl",
+            "trl": "Trl",
+            "subTech": "Sub Tech",
+            "creator": "Creator",
+            "prj": "Prj",
+            "parentTech": "Parent Tech"
+        }
+    }
+}
