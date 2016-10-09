@@ -57,16 +57,16 @@ entity Note {
 }
 
 relationship ManyToOne {
-    Project{creator} to User,
-    Technology{creator} to User,
-	Technology{prj} to Project{tech}
+    Project{creator(name)} to User,
+    Technology{creator(name)} to User,
+	Technology{prj(name)} to Project{tech}
 }
 relationship OneToOne {
 	Project{rootTech} to Technology
 }
 relationship OneToMany {
-	Technology{subCreator} to User,
-    Technology{subTech} to Technology{parentTech}
+	Technology{subCreator(name)} to User,
+    Technology{subTech} to Technology{parentTech(name)}
 }
 
 paginate Project,Note with pagination
