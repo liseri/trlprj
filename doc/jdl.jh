@@ -53,37 +53,27 @@ entity Note {
     noteType NoteType required,           //类型
     boolValue Boolean,                    //开关量
     numberValue Integer,                  //数字量
-    noteText String maxlength(1000)       //文字量
+    noteText String maxlength(500)       //文字量
 }
 
 relationship ManyToOne {
-	/*一个项目只有一个从属创建者*/
     Project{creator} to User,
-    /*一个技术只有一个从属项目*/
-	Technology{prj} to Project
+    Technology{creator} to User,
+	Technology{prj} to Project{tech}
 }
 relationship OneToOne {
-    /*一个项目只有一个根技术结点*/
-	Project{rootTech} to Technology,
-    /*一个技术只有一个从属父结点*/
-    Technology{parentTech} to Technology
+	Project{rootTech} to Technology
 }
 relationship OneToMany {
-	/*一个技术结点有多个子结点创建人*/
 	Technology{subCreator} to User,
-    /*一个技术结点有多个子结点*/
-    Technology{subTech} to Technology
+    Technology{subTech} to Technology{parentTech}
 }
 
 paginate Project,Note with pagination
 paginate Technology with infinite-scroll
 
-/*dto Project with mapstruct*/
-
-/*Set service options to all except few*/
 service all with serviceClass
 
 skipClient for Technology
 
-/* Set an angular suffix*/
 angularSuffix * with mySuffix
