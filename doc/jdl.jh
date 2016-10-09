@@ -23,7 +23,7 @@ enum NoteType {
     TTRL,        //TRL分级—技术人员
     ETRL         //TRL分级—审核专家
 }
-entity User {}
+
 entity Brahch {
 	name String required maxlength(50)            //单位名称
 }
