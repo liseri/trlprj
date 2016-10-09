@@ -55,6 +55,11 @@ public class Technology implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Technology> subTeches = new HashSet<>();
 
+    @OneToMany
+//    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<User> subCreators = new HashSet<>();
+
     @ManyToOne
     private User creator;
 
@@ -160,6 +165,29 @@ public class Technology implements Serializable {
 
     public void setSubTeches(Set<Technology> technologies) {
         this.subTeches = technologies;
+    }
+
+    public Set<User> getSubCreators() {
+        return subCreators;
+    }
+
+    public Technology subCreators(Set<User> users) {
+        this.subCreators = users;
+        return this;
+    }
+
+    public Technology addSubCreator(User creator) {
+        subCreators.add(creator);
+        return this;
+    }
+
+    public Technology removeCreator(User creator) {
+        subCreators.remove(creator);
+        return this;
+    }
+
+    public void setSubCreators(Set<User> subCreators) {
+        this.subCreators = subCreators;
     }
 
     public User getCreator() {
