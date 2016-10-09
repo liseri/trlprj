@@ -10,7 +10,7 @@
     function stateConfig($stateProvider) {
         $stateProvider
         .state('brahch', {
-            parent: 'entity',
+            parent: 'admin',
             url: '/brahch',
             data: {
                 authorities: ['ROLE_USER'],
@@ -18,7 +18,7 @@
             },
             views: {
                 'content@': {
-                    templateUrl: 'app/entities/brahch/brahches.html',
+                    templateUrl: 'app/admin/brahch/brahches.html',
                     controller: 'BrahchController',
                     controllerAs: 'vm'
                 }
@@ -32,7 +32,7 @@
             }
         })
         .state('brahch-detail', {
-            parent: 'entity',
+            parent: 'admin',
             url: '/brahch/{id}',
             data: {
                 authorities: ['ROLE_USER'],
@@ -40,7 +40,7 @@
             },
             views: {
                 'content@': {
-                    templateUrl: 'app/entities/brahch/brahch-detail.html',
+                    templateUrl: 'app/admin/brahch/brahch-detail.html',
                     controller: 'BrahchDetailController',
                     controllerAs: 'vm'
                 }
@@ -71,7 +71,7 @@
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
-                    templateUrl: 'app/entities/brahch/brahch-dialog.html',
+                    templateUrl: 'app/admin/brahch/brahch-dialog.html',
                     controller: 'BrahchDialogController',
                     controllerAs: 'vm',
                     backdrop: 'static',
@@ -96,7 +96,7 @@
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
-                    templateUrl: 'app/entities/brahch/brahch-dialog.html',
+                    templateUrl: 'app/admin/brahch/brahch-dialog.html',
                     controller: 'BrahchDialogController',
                     controllerAs: 'vm',
                     backdrop: 'static',
@@ -124,7 +124,7 @@
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
-                    templateUrl: 'app/entities/brahch/brahch-dialog.html',
+                    templateUrl: 'app/admin/brahch/brahch-dialog.html',
                     controller: 'BrahchDialogController',
                     controllerAs: 'vm',
                     backdrop: 'static',
@@ -149,7 +149,7 @@
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
-                    templateUrl: 'app/entities/brahch/brahch-delete-dialog.html',
+                    templateUrl: 'app/admin/brahch/brahch-delete-dialog.html',
                     controller: 'BrahchDeleteController',
                     controllerAs: 'vm',
                     size: 'md',

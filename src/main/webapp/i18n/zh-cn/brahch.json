@@ -2,21 +2,21 @@
     "trlprjApp": {
         "brahch" : {
             "home": {
-                "title": "Brahches",
-                "createLabel": "Create a new Brahch",
-                "createOrEditLabel": "Create or edit a Brahch",
-                "search": "Search for Brahch"
+                "title": "单位管理",
+                "createLabel": "新建单位",
+                "createOrEditLabel": "新建或编辑单位",
+                "search": "查询"
             },
-            "created": "A new Brahch is created with identifier {{ param }}",
-            "updated": "A Brahch is updated with identifier {{ param }}",
-            "deleted": "A Brahch is deleted with identifier {{ param }}",
+            "created": "新单位创建成功",
+            "updated": "单位信息修改成功",
+            "deleted": "单位已删除",
             "delete": {
-                "question": "Are you sure you want to delete Brahch {{ id }}?"
+                "question": "确定要删除该单位?"
             },
             "detail": {
-                "title": "Brahch"
+                "title": "单位详情"
             },
-            "name": "Name"
+            "name": "名称"
         }
     }
 }

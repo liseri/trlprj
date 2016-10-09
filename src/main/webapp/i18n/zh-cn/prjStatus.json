@@ -2,10 +2,10 @@
     "trlprjApp": {
         "PrjStatus" : {
             "null": "",
-            "CREATED": "CREATED",
-            "STARTED": "STARTED",
-            "PAUSED": "PAUSED",
-            "COMPLETED": "COMPLETED"
+            "CREATED": "已创建",
+            "STARTED": "已启动",
+            "PAUSED": "暂停",
+            "COMPLETED": "完成"
         }
     }
 }
