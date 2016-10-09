@@ -61,9 +61,11 @@ relationship ManyToOne {
     Technology{creator(name)} to User,
 	Technology{prj(name)} to Project{tech}
 }
+
 relationship OneToOne {
 	Project{rootTech} to Technology
 }
+
 relationship OneToMany {
 	Technology{subCreator(name)} to User,
     Technology{subTech} to Technology{parentTech(name)}
