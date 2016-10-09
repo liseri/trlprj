@@ -30,7 +30,7 @@ entity Brahch {
 entity Project {
 	name String required maxlength(50),            //名称
     statu PrjStatus required,                      //项目状态
-    //tbsRoot Technology,                          //技术树根结点
+    /*tbsRoot Technology, */                       //技术树根结点
     descript1 String required maxlength(500),      //项目描述
     descript2 String required maxlength(500),      //项目背景
     descript3 String required maxlength(500),      //项目目标
@@ -42,7 +42,7 @@ entity Project {
 entity Technology {
 	name String required maxlength(50),  //名称
     descript String maxlength(500),      //描述
-    //prj Project required,              //所属项目
+    /*prj Project required, */           //所属项目
     isKey Boolean required,              //是否是关键技术
     tcl TCL,                             //TCL类别
     trl TRL                              //TRL级别
@@ -57,34 +57,33 @@ entity Note {
 }
 
 relationship ManyToOne {
-	//一个项目只有一个从属创建者
+	/*一个项目只有一个从属创建者*/
     Project{creator} to User,
-    //一个技术只有一个从属项目
+    /*一个技术只有一个从属项目*/
 	Technology{prj} to Project
 }
 relationship OneToOne {
-    //一个项目只有一个根技术结点
+    /*一个项目只有一个根技术结点*/
 	Project{rootTech} to Technology,
-    //一个技术只有一个从属父结点
+    /*一个技术只有一个从属父结点*/
     Technology{parentTech} to Technology
 }
 relationship OneToMany {
-	//一个技术结点有多个子结点创建人
+	/*一个技术结点有多个子结点创建人*/
 	Technology{subCreator} to User,
-    //一个技术结点有多个子结点
+    /*一个技术结点有多个子结点*/
     Technology{subTech} to Technology
 }
 
-// Set pagination options
 paginate Project,Note with pagination
 paginate Technology with infinite-scroll
 
-//dto Project with mapstruct
+/*dto Project with mapstruct*/
 
-// Set service options to all except few
+/*Set service options to all except few*/
 service all with serviceClass
 
 skipClient for Technology
 
-// Set an angular suffix
+/* Set an angular suffix*/
 angularSuffix * with mySuffix
