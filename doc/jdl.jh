@@ -70,11 +70,13 @@ relationship OneToOne {
 }
 relationship OneToMany {
 	//一个技术结点有多个子结点创建人
-	Technology{subCreator} to User
+	Technology{subCreator} to User,
+    //一个技术结点有多个子结点
+    Technology{subTech} to Technology
 }
 
 // Set pagination options
-paginate Project with pagination
+paginate Project,Note with pagination
 paginate Technology with infinite-scroll
 
 //dto Project with mapstruct
