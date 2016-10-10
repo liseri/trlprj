@@ -1,7 +1,12 @@
 package com.caecc.trlprj.service;
 
 import com.caecc.trlprj.domain.Project;
+import com.caecc.trlprj.domain.Technology;
+import com.caecc.trlprj.domain.User;
+import com.caecc.trlprj.domain.enumeration.PrjStatus;
 import com.caecc.trlprj.repository.ProjectRepository;
+import com.caecc.trlprj.repository.TechnologyRepository;
+import com.caecc.trlprj.web.rest.vm.ProjectVM;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -10,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
@@ -20,29 +27,73 @@ import java.util.List;
 public class ProjectService {
 
     private final Logger log = LoggerFactory.getLogger(ProjectService.class);
-    
+
     @Inject
     private ProjectRepository projectRepository;
 
+    @Inject
+    private TechnologyRepository technologyRepository;
+
+    @Inject
+    private UserService userService;
+
+    //region 项目增改删
     /**
-     * Save a project.
+     * 创建新项目.
      *
-     * @param project the entity to save
+     * @param projectVM the entity to save
      * @return the persisted entity
      */
-    public Project save(Project project) {
-        log.debug("Request to save Project : {}", project);
+    public Project createPrj(ProjectVM projectVM) {
+        log.debug("Request to save Project : {}", projectVM);
+        Project project = new Project()
+            .name(projectVM.getName())
+            .descript1(projectVM.getDescript1())
+            .descript2(projectVM.getDescript2())
+            .descript3(projectVM.getDescript3())
+            .descript4(projectVM.getDescript4())
+            .statu(PrjStatus.CREATED)                        //状态
+            .creator(userService.getUserWithAuthorities()); //创建人
         Project result = projectRepository.save(project);
         return result;
     }
+    /**
+     * 修改项目信息.
+     *
+     * @param projectVM the entity to save
+     * @return the persisted entity
+     */
+    public Project updatePrj(Project project, ProjectVM projectVM) {
+        log.debug("Request to save Project : {}", projectVM);
+        project.name(projectVM.getName())
+            .descript1(projectVM.getDescript1())
+            .descript2(projectVM.getDescript2())
+            .descript3(projectVM.getDescript3())
+            .descript4(projectVM.getDescript4())
+            .statu(PrjStatus.CREATED)                        //状态
+            .creator(userService.getUserWithAuthorities()); //创建人
+        Project result = projectRepository.save(project);
+        return result;
+    }
+    /**
+     *  Delete the  project by id.
+     *
+     *  @param project the id of the entity
+     */
+    public void delete(Project project) {
+        log.debug("Request to delete Project : {}", project);
+        projectRepository.delete(project);
+    }
+    //endregion
 
+    //region  项目查询
     /**
      *  Get all the projects.
-     *  
+     *
      *  @param pageable the pagination information
      *  @return the list of entities
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public Page<Project> findAll(Pageable pageable) {
         log.debug("Request to get all Projects");
         Page<Project> result = projectRepository.findAll(pageable);
@@ -55,20 +106,100 @@ public class ProjectService {
      *  @param id the id of the entity
      *  @return the entity
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public Project findOne(Long id) {
         log.debug("Request to get Project : {}", id);
         Project project = projectRepository.findOneWithEagerRelationships(id);
         return project;
     }
+    //endregion
+
+    //region 项目状态操作
+    /**
+     * 启动
+     * @param project
+     */
+    public void start(Project project) {
+        if (project.getStatu() == PrjStatus.STARTED)
+            return;
+        project.statu(PrjStatus.STARTED).startTime(LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE));
+    }
+    /**
+     * 暂停
+     * @param project
+     */
+    public void pause(Project project) {
+        if (project.getStatu() == PrjStatus.PAUSED)
+            return;
+        project.statu(PrjStatus.PAUSED);
+    }
+    /**
+     * 完成
+     * @param project
+     */
+    public void complete(Project project) {
+        if (project.getStatu() == PrjStatus.COMPLETED)
+            return;
+        project.statu(PrjStatus.PAUSED).completeTime(LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE));
+    }
+    //endregion
+
+    //region 项目相关人员添加操作
 
     /**
-     *  Delete the  project by id.
-     *
-     *  @param id the id of the entity
+     * 添加TRL技术人员
+     * @param project
+     * @param trler
      */
-    public void delete(Long id) {
-        log.debug("Request to delete Project : {}", id);
-        projectRepository.delete(id);
+    public void addTrler(Project project, User trler) {
+        project.addTrlers(trler);
+        projectRepository.save(project);
     }
+
+    /**
+     * 添加评审专家
+     * @param project
+     * @param evler
+     */
+    public void addEvler(Project project, User evler) {
+        project.addEvlers(evler);
+        projectRepository.save(project);
+    }
+    //endregion
+
+    //region 技术树操作
+    /**
+     * 添加根结点
+     * @param project
+     * @param technology
+     */
+    public void addRootTech(Project project, Technology technology) {
+        project.addTech(technology)
+            .rootTech(technology);
+        projectRepository.save(project);
+    }
+
+    /**
+     * 添加普通结点
+     * @param project
+     * @param parentTech
+     * @param technology
+     */
+    public void addNormalTech(Project project, Technology parentTech, Technology technology) {
+        project.addTech(technology);
+        technology.parentTech(parentTech);
+        projectRepository.save(project);
+    }
+
+    /**
+     * 为结点添加子结点创建人
+     * @param technology
+     * @param subCreator
+     */
+    public void addSubCreator(Technology technology, User subCreator) {
+        technology.addSubCreator(subCreator);
+        technologyRepository.save(technology);
+    }
+    //endregion
+
 }
