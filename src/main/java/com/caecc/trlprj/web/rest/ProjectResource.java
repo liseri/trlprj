@@ -1,5 +1,11 @@
 package com.caecc.trlprj.web.rest;
 
+import com.caecc.trlprj.domain.Technology;
+import com.caecc.trlprj.domain.User;
+import com.caecc.trlprj.repository.TechnologyRepository;
+import com.caecc.trlprj.service.UserService;
+import com.caecc.trlprj.web.rest.vm.ProjectVM;
+import com.caecc.trlprj.web.rest.vm.TechnologyVM;
 import com.codahale.metrics.annotation.Timed;
 import com.caecc.trlprj.domain.Project;
 import com.caecc.trlprj.service.ProjectService;
@@ -31,14 +37,20 @@ import java.util.Optional;
 public class ProjectResource {
 
     private final Logger log = LoggerFactory.getLogger(ProjectResource.class);
-        
+
+    @Inject
+    private TechnologyRepository technologyRepository;
+
     @Inject
     private ProjectService projectService;
 
+    @Inject
+    private UserService userService;
+    //region 项目增改删
     /**
      * POST  /projects : Create a new project.
      *
-     * @param project the project to create
+     * @param projectVM the project to create
      * @return the ResponseEntity with status 201 (Created) and with body the new project, or with status 400 (Bad Request) if the project has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
@@ -46,12 +58,12 @@ public class ProjectResource {
         method = RequestMethod.POST,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<Project> createProject(@Valid @RequestBody Project project) throws URISyntaxException {
-        log.debug("REST request to save Project : {}", project);
-        if (project.getId() != null) {
+    public ResponseEntity<Project> createProject(@Valid @RequestBody ProjectVM projectVM) throws URISyntaxException {
+        log.debug("REST request to save Project : {}", projectVM);
+        if (projectVM.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("project", "idexists", "A new project cannot already have an ID")).body(null);
         }
-        Project result = projectService.save(project);
+        Project result = projectService.createPrj(projectVM);
         return ResponseEntity.created(new URI("/api/projects/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert("project", result.getId().toString()))
             .body(result);
@@ -60,7 +72,7 @@ public class ProjectResource {
     /**
      * PUT  /projects : Updates an existing project.
      *
-     * @param project the project to update
+     * @param projectVM the project to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated project,
      * or with status 400 (Bad Request) if the project is not valid,
      * or with status 500 (Internal Server Error) if the project couldnt be updated
@@ -70,17 +82,34 @@ public class ProjectResource {
         method = RequestMethod.PUT,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<Project> updateProject(@Valid @RequestBody Project project) throws URISyntaxException {
-        log.debug("REST request to update Project : {}", project);
-        if (project.getId() == null) {
-            return createProject(project);
+    public ResponseEntity<Project> updateProject(@Valid @RequestBody ProjectVM projectVM) throws URISyntaxException {
+        log.debug("REST request to update Project : {}", projectVM);
+        if (projectVM.getId() == null) {
+            return createProject(projectVM);
         }
-        Project result = projectService.save(project);
+        Project result = projectService.updatePrj(projectVM);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert("project", project.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert("project", projectVM.getId().toString()))
             .body(result);
     }
+    /**
+     * DELETE  /projects/:id : delete the "id" project.
+     *
+     * @param id the id of the project to delete
+     * @return the ResponseEntity with status 200 (OK)
+     */
+    @RequestMapping(value = "/projects/{id}",
+        method = RequestMethod.DELETE,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<Void> deleteProject(@PathVariable Long id) {
+        log.debug("REST request to delete Project : {}", id);
+        projectService.delete(id);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("project", id.toString())).build();
+    }
+    //endregion
 
+    //region 项目查询
     /**
      * GET  /projects : get all the projects.
      *
@@ -119,21 +148,101 @@ public class ProjectResource {
                 HttpStatus.OK))
             .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
+    //endregion
 
-    /**
-     * DELETE  /projects/:id : delete the "id" project.
-     *
-     * @param id the id of the project to delete
-     * @return the ResponseEntity with status 200 (OK)
-     */
-    @RequestMapping(value = "/projects/{id}",
-        method = RequestMethod.DELETE,
+    //region 项目状态操作
+    @RequestMapping(value = "/projects/{id}/start",
+        method = RequestMethod.POST,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<Void> deleteProject(@PathVariable Long id) {
-        log.debug("REST request to delete Project : {}", id);
-        projectService.delete(id);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("project", id.toString())).build();
+    public ResponseEntity<Void> startPrj(@PathVariable Long id) {
+        Project project = projectService.findOne(id);
+        projectService.start(project);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityOperationAlert("project", "started", id.toString())).build();
     }
+    @RequestMapping(value = "/projects/{id}/pause",
+        method = RequestMethod.POST,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<Void> pausePrj(@PathVariable Long id) {
+        Project project = projectService.findOne(id);
+        projectService.pause(project);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityOperationAlert("project", "paused", id.toString())).build();
+    }
+    @RequestMapping(value = "/projects/{id}/complete",
+        method = RequestMethod.POST,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<Void> completePrj(@PathVariable Long id) {
+        Project project = projectService.findOne(id);
+        projectService.complete(project);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityOperationAlert("project", "completed", id.toString())).build();
+    }
+    //endregion
 
+    //region 项目相关人员添加操作
+    @RequestMapping(value = "/projects/{id}/addtrler/{trlerLogin}",
+        method = RequestMethod.POST,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<Void> addTrler(@PathVariable Long id, @PathVariable String trlerLogin) {
+        Project project = projectService.findOne(id);
+        User trler = userService.getUserWithAuthoritiesByLogin(trlerLogin).orElse(null);
+        projectService.addTrler(project, trler);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityOperationAlert("project", "addTrlered", id.toString())).build();
+    }
+    @RequestMapping(value = "/projects/{id}/rmtrler/{trlerLogin}",
+        method = RequestMethod.POST,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<Void> removeTrler(@PathVariable Long id, @PathVariable String trlerLogin) {
+        Project project = projectService.findOne(id);
+        User trler = userService.getUserWithAuthoritiesByLogin(trlerLogin).orElse(null);
+        projectService.removeTrler(project, trler);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityOperationAlert("project", "rmTrlered", id.toString())).build();
+    }
+    @RequestMapping(value = "/projects/{id}/addevler/{evlerLogin}",
+        method = RequestMethod.POST,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<Void> addEvler(@PathVariable Long id, @PathVariable String evlerLogin) {
+        Project project = projectService.findOne(id);
+        User trler = userService.getUserWithAuthoritiesByLogin(evlerLogin).orElse(null);
+        projectService.addEvler(project, trler);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityOperationAlert("project", "addEvlered", id.toString())).build();
+    }
+    @RequestMapping(value = "/projects/{id}/rmevler/{evlerLogin}",
+        method = RequestMethod.POST,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<Void> removeEvler(@PathVariable Long id, @PathVariable String evlerLogin) {
+        Project project = projectService.findOne(id);
+        User trler = userService.getUserWithAuthoritiesByLogin(evlerLogin).orElse(null);
+        projectService.removeEvler(project, trler);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityOperationAlert("project", "rmEvlered", id.toString())).build();
+    }
+    //endregion
+
+    //region 技术树操作
+    @RequestMapping(value = "/projects/{id}/addroottech",
+        method = RequestMethod.POST,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<Void> addRootTech(@PathVariable Long id, @Valid @RequestBody TechnologyVM technologyVM) {
+        Project project = projectService.findOne(id);
+        projectService.addTech(project, null, technologyVM);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityOperationAlert("project", "addRootTeched", id.toString())).build();
+    }
+    @RequestMapping(value = "/projects/{id}/rmroottech",
+        method = RequestMethod.POST,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<Void> removeRootTech(@PathVariable Long id) {
+        Project project = projectService.findOne(id);
+        Technology rootTech = project.getRootTech();
+        technologyRepository.delete(rootTech);
+        project.rootTech(null);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityOperationAlert("project", "rmRootTeched", id.toString())).build();
+    }
+    //endregion
 }

@@ -7,6 +7,7 @@ import com.caecc.trlprj.domain.enumeration.PrjStatus;
 import com.caecc.trlprj.repository.ProjectRepository;
 import com.caecc.trlprj.repository.TechnologyRepository;
 import com.caecc.trlprj.web.rest.vm.ProjectVM;
+import com.caecc.trlprj.web.rest.vm.TechnologyVM;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -63,8 +64,9 @@ public class ProjectService {
      * @param projectVM the entity to save
      * @return the persisted entity
      */
-    public Project updatePrj(Project project, ProjectVM projectVM) {
+    public Project updatePrj(ProjectVM projectVM) {
         log.debug("Request to save Project : {}", projectVM);
+        Project project = projectRepository.findOne(projectVM.getId());
         project.name(projectVM.getName())
             .descript1(projectVM.getDescript1())
             .descript2(projectVM.getDescript2())
@@ -78,11 +80,11 @@ public class ProjectService {
     /**
      *  Delete the  project by id.
      *
-     *  @param project the id of the entity
+     *  @param id the id of the entity
      */
-    public void delete(Project project) {
-        log.debug("Request to delete Project : {}", project);
-        projectRepository.delete(project);
+    public void delete(Long id) {
+        log.debug("Request to delete Project : {}", id);
+        projectRepository.delete(id);
     }
     //endregion
 
@@ -155,7 +157,15 @@ public class ProjectService {
         project.addTrlers(trler);
         projectRepository.save(project);
     }
-
+    /**
+     * 删除TRL技术人员
+     * @param project
+     * @param trler
+     */
+    public void removeTrler(Project project, User trler) {
+        project.removeTrlers(trler);
+        projectRepository.save(project);
+    }
     /**
      * 添加评审专家
      * @param project
@@ -165,39 +175,62 @@ public class ProjectService {
         project.addEvlers(evler);
         projectRepository.save(project);
     }
+    /**
+     * 删除评审专家
+     * @param project
+     * @param evler
+     */
+    public void removeEvler(Project project, User evler) {
+        project.removeEvlers(evler);
+        projectRepository.save(project);
+    }
     //endregion
 
     //region 技术树操作
     /**
-     * 添加根结点
+     * 添加技术结点
      * @param project
-     * @param technology
+     * @param technologyVM
      */
-    public void addRootTech(Project project, Technology technology) {
-        project.addTech(technology)
-            .rootTech(technology);
-        projectRepository.save(project);
-    }
-
-    /**
-     * 添加普通结点
-     * @param project
-     * @param parentTech
-     * @param technology
-     */
-    public void addNormalTech(Project project, Technology parentTech, Technology technology) {
+    public void addTech(Project project, Technology parentTech, TechnologyVM technologyVM) {
+        Technology technology = technologyVM.toTechnology(parentTech, userService.getUserWithAuthorities());
         project.addTech(technology);
-        technology.parentTech(parentTech);
+        if (parentTech != null)
+            project.rootTech(technology);
         projectRepository.save(project);
     }
-
+    /**
+     * 删除技术结点
+     * @param project
+     * @param technologyVM
+     */
+    public void removeTech(Project project, Technology parentTech, TechnologyVM technologyVM) {
+        Technology technology = technologyVM.toTechnology(parentTech, userService.getUserWithAuthorities());
+        project.removeTech(technology);
+        if (parentTech != null)
+            project.rootTech(null);
+        projectRepository.save(project);
+    }
     /**
      * 为结点添加子结点创建人
-     * @param technology
+     * @param project
+     * @param techId
      * @param subCreator
      */
-    public void addSubCreator(Technology technology, User subCreator) {
+    public void addSubCreator(Project project, Long techId, User subCreator) {
+        Technology technology = project.getTeches().stream().filter(item->item.getId() == techId).findFirst().orElse(null);
         technology.addSubCreator(subCreator);
+        technologyRepository.save(technology);
+    }
+    /**
+     * 为结点删除子结点创建人
+     * @param project
+     * @param techId
+     * @param subCreator
+     */
+    public void removeSubCreator(Project project, Long techId, User subCreator) {
+        Technology technology = project.getTeches().stream().filter(item->item.getId() == techId).findFirst().orElse(null);
+        technology.removeSubCreator(subCreator);
         technologyRepository.save(technology);
     }
     //endregion

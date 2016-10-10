@@ -1,5 +1,9 @@
 package com.caecc.trlprj.web.rest;
 
+import com.caecc.trlprj.domain.Project;
+import com.caecc.trlprj.repository.ProjectRepository;
+import com.caecc.trlprj.repository.TechnologyRepository;
+import com.caecc.trlprj.web.rest.vm.TechnologyVM;
 import com.codahale.metrics.annotation.Timed;
 import com.caecc.trlprj.domain.Technology;
 import com.caecc.trlprj.service.TechnologyService;
@@ -31,14 +35,17 @@ import java.util.Optional;
 public class TechnologyResource {
 
     private final Logger log = LoggerFactory.getLogger(TechnologyResource.class);
-        
+    @Inject
+    private ProjectRepository projectRepository;
+    @Inject
+    private TechnologyRepository technologyRepository;
     @Inject
     private TechnologyService technologyService;
 
     /**
      * POST  /technologies : Create a new technology.
      *
-     * @param technology the technology to create
+     * @param technologyVM the technology to create
      * @return the ResponseEntity with status 201 (Created) and with body the new technology, or with status 400 (Bad Request) if the technology has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
@@ -46,12 +53,14 @@ public class TechnologyResource {
         method = RequestMethod.POST,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<Technology> createTechnology(@Valid @RequestBody Technology technology) throws URISyntaxException {
-        log.debug("REST request to save Technology : {}", technology);
-        if (technology.getId() != null) {
+    public ResponseEntity<Technology> createTechnology(@Valid @RequestBody TechnologyVM technologyVM) throws URISyntaxException {
+        log.debug("REST request to save Technology : {}", technologyVM);
+        if (technologyVM.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("technology", "idexists", "A new technology cannot already have an ID")).body(null);
         }
-        Technology result = technologyService.save(technology);
+        Project project = projectRepository.findOne(technologyVM.getPrjId());
+        Technology parentTech = technologyRepository.findOne(technologyVM.getParentTechId());
+        Technology result = technologyService.createTech(project, parentTech, technologyVM);
         return ResponseEntity.created(new URI("/api/technologies/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert("technology", result.getId().toString()))
             .body(result);
@@ -60,7 +69,7 @@ public class TechnologyResource {
     /**
      * PUT  /technologies : Updates an existing technology.
      *
-     * @param technology the technology to update
+     * @param technologyVM the technology to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated technology,
      * or with status 400 (Bad Request) if the technology is not valid,
      * or with status 500 (Internal Server Error) if the technology couldnt be updated
@@ -70,14 +79,15 @@ public class TechnologyResource {
         method = RequestMethod.PUT,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<Technology> updateTechnology(@Valid @RequestBody Technology technology) throws URISyntaxException {
-        log.debug("REST request to update Technology : {}", technology);
-        if (technology.getId() == null) {
-            return createTechnology(technology);
+    public ResponseEntity<Technology> updateTechnology(@Valid @RequestBody TechnologyVM technologyVM) throws URISyntaxException {
+        log.debug("REST request to update Technology : {}", technologyVM);
+        if (technologyVM.getId() == null) {
+            return createTechnology(technologyVM);
         }
-        Technology result = technologyService.save(technology);
+        Technology technology = technologyRepository.findOne(technologyVM.getId());
+        Technology result = technologyService.updateTech(technology, technologyVM);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert("technology", technology.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert("technology", technologyVM.getId().toString()))
             .body(result);
     }
 

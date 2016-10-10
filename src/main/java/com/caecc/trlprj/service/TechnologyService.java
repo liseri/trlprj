@@ -2,6 +2,8 @@ package com.caecc.trlprj.service;
 
 import com.caecc.trlprj.domain.Project;
 import com.caecc.trlprj.domain.Technology;
+import com.caecc.trlprj.domain.User;
+import com.caecc.trlprj.repository.ProjectRepository;
 import com.caecc.trlprj.repository.TechnologyRepository;
 import com.caecc.trlprj.web.rest.vm.TechnologyVM;
 import org.slf4j.Logger;
@@ -27,7 +29,10 @@ public class TechnologyService {
     private TechnologyRepository technologyRepository;
 
     @Inject
-    private ProjectService projectService;
+    private ProjectRepository projectRepository;
+
+    @Inject
+    private UserService userService;
 
     //region 技术增改删
     /**
@@ -37,15 +42,11 @@ public class TechnologyService {
      * @return the persisted entity
      */
     public Technology createTech(Project project, Technology parentTech, TechnologyVM technologyVM) {
-        log.debug("Request to save Technology : {}", technologyVM);
-        Technology technology = new Technology()
-            .name(technologyVM.getName())
-            .descript(technologyVM.getDescript());
-        if (parentTech == null)
-            projectService.addRootTech(project, technology);
-        else projectService.addNormalTech(project, parentTech, technology);
-//        Technology result = technologyRepository.save(technology);
-        return technology;
+        log.debug("Request to createNormalTech Technology : {}", technologyVM);
+        Technology technology = technologyVM.toTechnology(parentTech, userService.getUserWithAuthorities());
+        technology.prj(project);
+        Technology result = technologyRepository.save(technology);
+        return result;
     }
     /**
      * 更新技术结点.
@@ -54,7 +55,7 @@ public class TechnologyService {
      * @return the persisted entity
      */
     public Technology updateTech(Technology oldTech, TechnologyVM technologyVM) {
-        log.debug("Request to save Technology : {}", technologyVM);
+        log.debug("Request to updateTech Technology : {}", technologyVM);
         oldTech.name(technologyVM.getName())
             .descript(technologyVM.getDescript());
         Technology result = technologyRepository.save(oldTech);
@@ -99,7 +100,27 @@ public class TechnologyService {
     }
     //endregion
 
-    //region 技术其它业务操作
+    //region 技术树操作
+    /**
+     * 为结点添加子结点创建人
+     * @param techId
+     * @param subCreator
+     */
+    public void addSubCreator(Long techId, User subCreator) {
+        Technology technology = technologyRepository.findOne(techId);
+        technology.addSubCreator(subCreator);
+        technologyRepository.save(technology);
+    }
+    /**
+     * 为结点删除子结点创建人
+     * @param techId
+     * @param subCreator
+     */
+    public void removeSubCreator(Long techId, User subCreator) {
+        Technology technology = technologyRepository.findOne(techId);
+        technology.removeSubCreator(subCreator);
+        technologyRepository.save(technology);
+    }
 
     //endregion
 

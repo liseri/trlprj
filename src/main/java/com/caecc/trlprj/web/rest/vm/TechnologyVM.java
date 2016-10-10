@@ -1,5 +1,9 @@
 package com.caecc.trlprj.web.rest.vm;
 
+import com.caecc.trlprj.domain.Project;
+import com.caecc.trlprj.domain.Technology;
+import com.caecc.trlprj.domain.User;
+
 import javax.validation.constraints.Size;
 
 /**
@@ -57,5 +61,15 @@ public class TechnologyVM {
 
     public void setParentTechId(Long parentTechId) {
         this.parentTechId = parentTechId;
+    }
+
+    public Technology toTechnology(Technology parentTech, User creator){
+        return new Technology()
+            .name(name)
+            .descript(descript)
+            .isKey(false)
+//            .prj(project)
+            .parentTech(parentTech)
+            .creator(creator);
     }
 }

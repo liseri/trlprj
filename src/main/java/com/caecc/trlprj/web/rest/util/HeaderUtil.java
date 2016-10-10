@@ -20,7 +20,9 @@ public final class HeaderUtil {
         headers.add("X-trlprjApp-params", param);
         return headers;
     }
-
+    public static HttpHeaders createEntityOperationAlert(String entityName, String operation, String param) {
+        return createAlert("trlprjApp." + entityName + "." + operation, param);
+    }
     public static HttpHeaders createEntityCreationAlert(String entityName, String param) {
         return createAlert("trlprjApp." + entityName + ".created", param);
     }
