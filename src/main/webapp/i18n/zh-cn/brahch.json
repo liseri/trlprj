@@ -1,0 +1,22 @@
+{
+    "trlprjApp": {
+        "brahch" : {
+            "home": {
+                "title": "Brahches",
+                "createLabel": "Create a new Brahch",
+                "createOrEditLabel": "Create or edit a Brahch",
+                "search": "Search for Brahch"
+            },
+            "created": "A new Brahch is created with identifier {{ param }}",
+            "updated": "A Brahch is updated with identifier {{ param }}",
+            "deleted": "A Brahch is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Brahch {{ id }}?"
+            },
+            "detail": {
+                "title": "Brahch"
+            },
+            "name": "Name"
+        }
+    }
+}
