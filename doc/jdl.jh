@@ -35,8 +35,8 @@ entity Project {
     descript2 String required maxlength(500),      //项目背景
     descript3 String required maxlength(500),      //项目目标
     descript4 String required maxlength(500),      //项目进展
-    startTime ZonedDateTime,                       //项目启动时间
-    completeTime ZonedDateTime                     //项目完成时间
+    startTime String maxlength(30),                //项目启动时间
+    completeTime String maxlength(30)               //项目完成时间
 }
 
 entity Technology {
@@ -46,14 +46,6 @@ entity Technology {
     isKey Boolean required,              //是否是关键技术
     tcl TCL,                             //TCL类别
     trl TRL                              //TRL级别
-}
-
-entity Note {
-    techId Long required,                 //所属技术
-    noteType NoteType required,           //类型
-    boolValue Boolean,                    //开关量
-    numberValue Integer,                  //数字量
-    noteText String maxlength(500)       //文字量
 }
 
 relationship ManyToOne {
@@ -66,7 +58,7 @@ relationship OneToOne {
 }
 
 relationship OneToMany {
-	Project{tech(name)} to Technology{prj(name)}
+	Project{tech(name)} to Technology{prj(name)},
     Technology{subTech} to Technology{parentTech(name)}
 }
 
@@ -74,9 +66,9 @@ relationship ManyToMany {
     Technology{subCreator(name)} to User,
     Project{trlers(name)} to User,
     Project{evlers(name)} to User
-
 }
-paginate Project,Note with pagination
+
+paginate Project with pagination
 paginate Technology with infinite-scroll
 
 service all with serviceClass
