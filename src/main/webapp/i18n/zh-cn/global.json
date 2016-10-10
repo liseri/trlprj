@@ -7,10 +7,12 @@
             "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
             "entities": {
                 "main": "数据",
-                "technology": "Technology",
-                "brahch": "Brahch",
-                "project": "Project",
+                "technology": "技术树管理",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
+            },
+            "project": {
+                "main": "TRL项目",
+                "prjmanagement": "项目管理"
             },
             "account": {
                 "main": "账号",
@@ -24,6 +26,7 @@
             "admin": {
                 "main": "管理",
                 "userManagement": "用户管理",
+                "brahch": "单位管理",
                 "tracker": "追踪使用者",
                 "metrics": "资源监控",
                 "health": "服务状态",
