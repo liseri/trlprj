@@ -55,10 +55,10 @@ public class Technology implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Technology> subTeches = new HashSet<>();
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private User creator;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JoinTable(name = "technology_sub_creator",
                joinColumns = @JoinColumn(name="technologies_id", referencedColumnName="ID"),
@@ -66,6 +66,7 @@ public class Technology implements Serializable {
     private Set<User> subCreators = new HashSet<>();
 
     @ManyToOne
+    @JsonIgnore
     private Project prj;
 
     @ManyToOne

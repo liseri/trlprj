@@ -65,26 +65,26 @@ public class Project implements Serializable {
     @Column(name = "complete_time", length = 30)
     private String completeTime;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(unique = true)
     private Technology rootTech;
 
-    @OneToMany(mappedBy = "prj")
+    @OneToMany(mappedBy = "prj",fetch = FetchType.EAGER)
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Technology> teches = new HashSet<>();
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private User creator;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JoinTable(name = "project_trlers",
                joinColumns = @JoinColumn(name="projects_id", referencedColumnName="ID"),
                inverseJoinColumns = @JoinColumn(name="trlers_id", referencedColumnName="ID"))
     private Set<User> trlers = new HashSet<>();
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JoinTable(name = "project_evlers",
                joinColumns = @JoinColumn(name="projects_id", referencedColumnName="ID"),

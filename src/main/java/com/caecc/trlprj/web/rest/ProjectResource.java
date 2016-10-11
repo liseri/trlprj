@@ -104,6 +104,7 @@ public class ProjectResource {
     @Timed
     public ResponseEntity<Void> deleteProject(@PathVariable Long id) {
         log.debug("REST request to delete Project : {}", id);
+
         projectService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("project", id.toString())).build();
     }
@@ -239,10 +240,28 @@ public class ProjectResource {
     @Timed
     public ResponseEntity<Void> removeRootTech(@PathVariable Long id) {
         Project project = projectService.findOne(id);
-        Technology rootTech = project.getRootTech();
-        technologyRepository.delete(rootTech);
-        project.rootTech(null);
+        projectService.removeTech(project, null, null);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityOperationAlert("project", "rmRootTeched", id.toString())).build();
+    }
+    @RequestMapping(value = "/projects/{id}/addtech",
+        method = RequestMethod.POST,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<Void> addTech(@PathVariable Long id, @Valid @RequestBody TechnologyVM technologyVM) {
+        Project project = projectService.findOne(id);
+        Technology parentTech = technologyRepository.findOne(technologyVM.getParentTechId());
+        projectService.addTech(project, parentTech, technologyVM);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityOperationAlert("project", "addTeched", id.toString())).build();
+    }
+    @RequestMapping(value = "/projects/{id}/rmtech/{techId}",
+        method = RequestMethod.POST,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<Void> removeTech(@PathVariable Long id, @PathVariable Long techId) {
+        Project project = projectService.findOne(id);
+        Technology technology = technologyRepository.findOne(techId);
+        projectService.removeTech(project, technology.getParentTech(), technology);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityOperationAlert("project", "rmTeched", id.toString())).build();
     }
     //endregion
 }

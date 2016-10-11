@@ -6,6 +6,7 @@ import com.caecc.trlprj.domain.User;
 import com.caecc.trlprj.domain.enumeration.PrjStatus;
 import com.caecc.trlprj.repository.ProjectRepository;
 import com.caecc.trlprj.repository.TechnologyRepository;
+import com.caecc.trlprj.repository.UserRepository;
 import com.caecc.trlprj.web.rest.vm.ProjectVM;
 import com.caecc.trlprj.web.rest.vm.TechnologyVM;
 import org.slf4j.Logger;
@@ -34,6 +35,9 @@ public class ProjectService {
 
     @Inject
     private TechnologyRepository technologyRepository;
+
+    @Inject
+    private UserRepository userRepository;
 
     @Inject
     private UserService userService;
@@ -84,6 +88,9 @@ public class ProjectService {
      */
     public void delete(Long id) {
         log.debug("Request to delete Project : {}", id);
+        Project project = projectRepository.findOne(id);
+        project.rootTech(null);
+        project.getTeches().stream().forEach(tech->technologyRepository.delete(tech));
         projectRepository.delete(id);
     }
     //endregion
@@ -125,6 +132,7 @@ public class ProjectService {
         if (project.getStatu() == PrjStatus.STARTED)
             return;
         project.statu(PrjStatus.STARTED).startTime(LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE));
+        projectRepository.save(project);
     }
     /**
      * 暂停
@@ -134,6 +142,7 @@ public class ProjectService {
         if (project.getStatu() == PrjStatus.PAUSED)
             return;
         project.statu(PrjStatus.PAUSED);
+        projectRepository.save(project);
     }
     /**
      * 完成
@@ -143,6 +152,7 @@ public class ProjectService {
         if (project.getStatu() == PrjStatus.COMPLETED)
             return;
         project.statu(PrjStatus.PAUSED).completeTime(LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE));
+        projectRepository.save(project);
     }
     //endregion
 
@@ -194,21 +204,29 @@ public class ProjectService {
      */
     public void addTech(Project project, Technology parentTech, TechnologyVM technologyVM) {
         Technology technology = technologyVM.toTechnology(parentTech, userService.getUserWithAuthorities());
+        technologyRepository.save(technology);
         project.addTech(technology);
-        if (parentTech != null)
+        if (parentTech == null)
             project.rootTech(technology);
+        else parentTech.addSubTech(technology);
         projectRepository.save(project);
     }
     /**
      * 删除技术结点
      * @param project
-     * @param technologyVM
+     * @param technology
      */
-    public void removeTech(Project project, Technology parentTech, TechnologyVM technologyVM) {
-        Technology technology = technologyVM.toTechnology(parentTech, userService.getUserWithAuthorities());
-        project.removeTech(technology);
-        if (parentTech != null)
+    public void removeTech(Project project, Technology parentTech, Technology technology) {
+        if (technology == null)
             project.rootTech(null);
+        else {
+            if (parentTech != null)
+                parentTech.removeSubTech(technology);
+            technologyRepository.delete(technology);
+            project.removeTech(technology);
+            if (parentTech == null)
+                project.rootTech(null);
+        }
         projectRepository.save(project);
     }
     /**
