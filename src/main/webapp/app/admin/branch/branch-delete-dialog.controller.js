@@ -3,23 +3,23 @@
 
     angular
         .module('trlprjApp')
-        .controller('BrahchDeleteController',BrahchDeleteController);
+        .controller('BranchDeleteController',BranchDeleteController);
 
-    BrahchDeleteController.$inject = ['$uibModalInstance', 'entity', 'Brahch'];
+    BranchDeleteController.$inject = ['$uibModalInstance', 'entity', 'Branch'];
 
-    function BrahchDeleteController($uibModalInstance, entity, Brahch) {
+    function BranchDeleteController($uibModalInstance, entity, Branch) {
         var vm = this;
 
-        vm.brahch = entity;
+        vm.branch = entity;
         vm.clear = clear;
         vm.confirmDelete = confirmDelete;
-        
+
         function clear () {
             $uibModalInstance.dismiss('cancel');
         }
 
         function confirmDelete (id) {
-            Brahch.delete({id: id},
+            Branch.delete({id: id},
                 function () {
                     $uibModalInstance.close(true);
                 });

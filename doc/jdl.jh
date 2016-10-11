@@ -24,7 +24,7 @@ enum NoteType {
     ETRL         //TRL分级—审核专家
 }
 
-entity Brahch {
+entity Branch {
 	name String required maxlength(50)            //单位名称
 }
 entity Project {

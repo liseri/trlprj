@@ -14,7 +14,7 @@
             },
             "success": "<strong>设置保存成功!</strong>",
             "validate": {
-                "firstname": {
+                "name": {
                     "required": "您的姓名是必填项.",
                     "minlength": "您的姓名长度至少要有1个字符",
                     "maxlength": "您的姓名长度不能超过50个字符"

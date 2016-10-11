@@ -17,6 +17,7 @@
         "login": "登录",
         "name": "姓名",
         "email": "邮箱",
+        "branch": "单位",
         "activated": "已激活",
         "deactivated": "失效",
         "profiles": "资料",

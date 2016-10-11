@@ -9,12 +9,12 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * A Brahch.
+ * A Branch.
  */
 @Entity
-@Table(name = "brahch")
+@Table(name = "branch")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class Brahch implements Serializable {
+public class Branch implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -27,19 +27,11 @@ public class Brahch implements Serializable {
     @Column(name = "name", length = 50, nullable = false)
     private String name;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
     }
 
-    public Brahch name(String name) {
+    public Branch name(String name) {
         this.name = name;
         return this;
     }
@@ -56,23 +48,30 @@ public class Brahch implements Serializable {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Brahch brahch = (Brahch) o;
-        if(brahch.id == null || id == null) {
+        Branch branch = (Branch) o;
+        if(branch.id == null || id == null) {
             return false;
         }
-        return Objects.equals(id, brahch.id);
+        return Objects.equals(id, branch.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id);
+        return Objects.hashCode(name);
     }
 
     @Override
     public String toString() {
-        return "Brahch{" +
-            "id=" + id +
-            ", name='" + name + "'" +
+        return "Branch{" +
+            "name='" + name + "'" +
             '}';
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

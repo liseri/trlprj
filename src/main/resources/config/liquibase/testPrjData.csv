@@ -1,2 +1,2 @@
 id;name;statu;descript_1;descript_2;descript_3;descript_4;start_time;complete_time;root_tech_id;creator_id
-1;测试项目101;CREATED;string;string;string;string;;;;3
+1;测试项目101;CREATED;string;string;string;string;NULL;NULL;NULL;3

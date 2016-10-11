@@ -24,35 +24,35 @@
             <column name="name" type="varchar(50)">
                 <constraints nullable="false" />
             </column>
-            
+
             <column name="statu" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
-            
+
             <column name="descript_1" type="varchar(500)">
                 <constraints nullable="false" />
             </column>
-            
+
             <column name="descript_2" type="varchar(500)">
                 <constraints nullable="false" />
             </column>
-            
+
             <column name="descript_3" type="varchar(500)">
                 <constraints nullable="false" />
             </column>
-            
+
             <column name="descript_4" type="varchar(500)">
                 <constraints nullable="false" />
             </column>
-            
+
             <column name="start_time" type="varchar(30)">
                 <constraints nullable="true" />
             </column>
-            
+
             <column name="complete_time" type="varchar(30)">
                 <constraints nullable="true" />
             </column>
-                        <column name="root_tech_id" type="bigint">
+            <column name="root_tech_id" type="bigint">
                 <constraints unique="true" nullable="true" />
             </column>
             <column name="creator_id" type="bigint">
@@ -61,7 +61,7 @@
 
             <!-- jhipster-needle-liquibase-add-column - Jhipster will add columns here, do not remove-->
         </createTable>
-        
+
         <createTable tableName="project_trlers">
             <column name="trlers_id" type="bigint">
                 <constraints nullable="false"/>
@@ -72,7 +72,7 @@
         </createTable>
 
         <addPrimaryKey columnNames="projects_id, trlers_id" tableName="project_trlers"/>
-        
+
         <createTable tableName="project_evlers">
             <column name="evlers_id" type="bigint">
                 <constraints nullable="false"/>
@@ -83,6 +83,10 @@
         </createTable>
 
         <addPrimaryKey columnNames="projects_id, evlers_id" tableName="project_evlers"/>
-        
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/testPrjData.csv"
+                  separator=";"
+                  tableName="project">
+        </loadData>
     </changeSet>
 </databaseChangeLog>

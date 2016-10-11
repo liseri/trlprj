@@ -1,13 +1,13 @@
 <div>
-    <h2 data-translate="trlprjApp.brahch.home.title">Brahches</h2>
+    <h2 data-translate="trlprjApp.branch.home.title">Branches</h2>
     <jhi-alert></jhi-alert>
     <div class="container-fluid">
         <div class="row">
             <div class="col-xs-4 no-padding-left">
-                <button class="btn btn-primary" ui-sref="brahch.new" >
+                <button class="btn btn-primary" ui-sref="branch.new" >
                     <span class="glyphicon glyphicon-plus"></span>
-                    <span  data-translate="trlprjApp.brahch.home.createLabel">
-                        Create new Brahch
+                    <span  data-translate="trlprjApp.branch.home.createLabel">
+                        Create new Branch
                     </span>
                 </button>
             </div>
@@ -19,30 +19,30 @@
             <thead>
                 <tr>
                     <th><span data-translate="global.field.id">ID</span></th>
-                    <th><span data-translate="trlprjApp.brahch.name">Name</span></th>
+                    <th><span data-translate="trlprjApp.branch.name">Name</span></th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="brahch in vm.brahches track by brahch.id">
-                    <td><a ui-sref="brahch-detail({id:brahch.id})">{{brahch.id}}</a></td>
-                    <td>{{brahch.name}}</td>
+                <tr ng-repeat="branch in vm.branches track by branch.id">
+                    <td><a ui-sref="branch-detail({id:branch.id})">{{branch.id}}</a></td>
+                    <td>{{branch.name}}</td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"
-                                    ui-sref="brahch-detail({id:brahch.id})"
+                                    ui-sref="branch-detail({id:branch.id})"
                                     class="btn btn-info btn-sm">
                                 <span class="glyphicon glyphicon-eye-open"></span>
                                 <span class="hidden-xs hidden-sm" data-translate="entity.action.view"></span>
                             </button>
                             <button type="submit"
-                                    ui-sref="brahch.edit({id:brahch.id})"
+                                    ui-sref="branch.edit({id:branch.id})"
                                     class="btn btn-primary btn-sm">
                                 <span class="glyphicon glyphicon-pencil"></span>
                                 <span class="hidden-xs hidden-sm" data-translate="entity.action.edit"></span>
                             </button>
                             <button type="submit"
-                                    ui-sref="brahch.delete({id:brahch.id})"
+                                    ui-sref="branch.delete({id:branch.id})"
                                     class="btn btn-danger btn-sm">
                                 <span class="glyphicon glyphicon-remove-circle"></span>
                                 <span class="hidden-xs hidden-sm" data-translate="entity.action.delete"></span>

@@ -12,9 +12,9 @@
             <form name="form" role="form" novalidate ng-submit="vm.save()" show-validation>
 
                 <div class="form-group">
-                    <label class="control-label" for="name" data-translate="settings.form.firstname">First Name</label>
+                    <label class="control-label" for="name" data-translate="settings.form.name">First Name</label>
                     <input type="text" class="form-control" id="name" name="name" placeholder="{{'settings.form.name.placeholder' | translate}}"
-                           ng-model="vm.settingsAccount.firstName" ng-minlength=1 ng-maxlength=50 required maxlength="50">
+                           ng-model="vm.settingsAccount.name" ng-minlength=1 ng-maxlength=50 required maxlength="50">
                     <div ng-show="form.name.$dirty && form.name.$invalid">
                         <p class="help-block"
                                ng-show="form.name.$error.required" data-translate="settings.messages.validate.name.required">
@@ -53,10 +53,10 @@
                         </p>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="langKey" data-translate="settings.form.language">Language</label>
-                    <select id="langKey" name="langKey" class="form-control" ng-model="vm.settingsAccount.langKey" ng-controller="JhiLanguageController as languageVm" ng-options="code as (code | findLanguageFromKey) for code in languageVm.languages"></select>
-                </div>
+                <!--<div class="form-group">-->
+                    <!--<label for="langKey" data-translate="settings.form.language">Language</label>-->
+                    <!--<select id="langKey" name="langKey" class="form-control" ng-model="vm.settingsAccount.langKey" ng-controller="JhiLanguageController as languageVm" ng-options="code as (code | findLanguageFromKey) for code in languageVm.languages"></select>-->
+                <!--</div>-->
 
                 <button type="submit" ng-disabled="form.$invalid" class="btn btn-primary" data-translate="settings.form.button">Save</button>
             </form>

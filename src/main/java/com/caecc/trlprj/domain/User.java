@@ -52,6 +52,10 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @Column(length = 100, unique = true)
     private String email;
 
+    @Size(max = 50)
+    @Column(name = "branch", length = 50)
+    private String branch;
+
     @NotNull
     @Column(nullable = false)
     private boolean activated = false;
@@ -120,6 +124,14 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getBranch() {
+        return branch;
+    }
+
+    public void setBranch(String branch) {
+        this.branch = branch;
     }
 
     public boolean getActivated() {
@@ -204,4 +216,6 @@ public class User extends AbstractAuditingEntity implements Serializable {
             ", activationKey='" + activationKey + '\'' +
             "}";
     }
+
+
 }

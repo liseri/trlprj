@@ -13,7 +13,7 @@
         }
     ],
     "changelogDate": "20161010134958",
-    "entityTableName": "brahch",
+    "entityTableName": "branch",
     "dto": "no",
     "pagination": "no",
     "service": "serviceClass",

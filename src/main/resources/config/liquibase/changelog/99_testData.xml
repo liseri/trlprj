@@ -18,9 +18,15 @@
     -->
     <changeSet id="20161011134959-1" author="jhipster">
         <loadData encoding="UTF-8"
+                  file="config/liquibase/testBranchData.csv"
+                  separator=";"
+                  tableName="branch">
+        </loadData>
+        <loadData encoding="UTF-8"
                   file="config/liquibase/testPrjData.csv"
                   separator=";"
                   tableName="project">
         </loadData>
+
     </changeSet>
 </databaseChangeLog>

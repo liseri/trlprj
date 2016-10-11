@@ -9,53 +9,53 @@
 
     function stateConfig($stateProvider) {
         $stateProvider
-        .state('brahch', {
+        .state('branch', {
             parent: 'entity',
-            url: '/brahch',
+            url: '/branch',
             data: {
                 authorities: ['ROLE_USER'],
-                pageTitle: 'trlprjApp.brahch.home.title'
+                pageTitle: 'trlprjApp.branch.home.title'
             },
             views: {
                 'content@': {
-                    templateUrl: 'app/admin/brahch/brahches.html',
-                    controller: 'BrahchController',
+                    templateUrl: 'app/admin/branch/branches.html',
+                    controller: 'BranchController',
                     controllerAs: 'vm'
                 }
             },
             resolve: {
                 translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
-                    $translatePartialLoader.addPart('brahch');
+                    $translatePartialLoader.addPart('branch');
                     $translatePartialLoader.addPart('global');
                     return $translate.refresh();
                 }]
             }
         })
-        .state('brahch-detail', {
+        .state('branch-detail', {
             parent: 'entity',
-            url: '/brahch/{id}',
+            url: '/branch/{id}',
             data: {
                 authorities: ['ROLE_USER'],
-                pageTitle: 'trlprjApp.brahch.detail.title'
+                pageTitle: 'trlprjApp.branch.detail.title'
             },
             views: {
                 'content@': {
-                    templateUrl: 'app/admin/brahch/brahch-detail.html',
-                    controller: 'BrahchDetailController',
+                    templateUrl: 'app/admin/branch/branch-detail.html',
+                    controller: 'BranchDetailController',
                     controllerAs: 'vm'
                 }
             },
             resolve: {
                 translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
-                    $translatePartialLoader.addPart('brahch');
+                    $translatePartialLoader.addPart('branch');
                     return $translate.refresh();
                 }],
-                entity: ['$stateParams', 'Brahch', function($stateParams, Brahch) {
-                    return Brahch.get({id : $stateParams.id}).$promise;
+                entity: ['$stateParams', 'Branch', function($stateParams, Branch) {
+                    return Branch.get({id : $stateParams.id}).$promise;
                 }],
                 previousState: ["$state", function ($state) {
                     var currentStateData = {
-                        name: $state.current.name || 'brahch',
+                        name: $state.current.name || 'branch',
                         params: $state.params,
                         url: $state.href($state.current.name, $state.params)
                     };
@@ -63,22 +63,22 @@
                 }]
             }
         })
-        .state('brahch-detail.edit', {
-            parent: 'brahch-detail',
+        .state('branch-detail.edit', {
+            parent: 'branch-detail',
             url: '/detail/edit',
             data: {
                 authorities: ['ROLE_USER']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
-                    templateUrl: 'app/admin/brahch/brahch-dialog.html',
-                    controller: 'BrahchDialogController',
+                    templateUrl: 'app/admin/branch/branch-dialog.html',
+                    controller: 'BranchDialogController',
                     controllerAs: 'vm',
                     backdrop: 'static',
                     size: 'lg',
                     resolve: {
-                        entity: ['Brahch', function(Brahch) {
-                            return Brahch.get({id : $stateParams.id}).$promise;
+                        entity: ['Branch', function(Branch) {
+                            return Branch.get({id : $stateParams.id}).$promise;
                         }]
                     }
                 }).result.then(function() {
@@ -88,16 +88,16 @@
                 });
             }]
         })
-        .state('brahch.new', {
-            parent: 'brahch',
+        .state('branch.new', {
+            parent: 'branch',
             url: '/new',
             data: {
                 authorities: ['ROLE_USER']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
-                    templateUrl: 'app/admin/brahch/brahch-dialog.html',
-                    controller: 'BrahchDialogController',
+                    templateUrl: 'app/admin/branch/branch-dialog.html',
+                    controller: 'BranchDialogController',
                     controllerAs: 'vm',
                     backdrop: 'static',
                     size: 'lg',
@@ -110,56 +110,56 @@
                         }
                     }
                 }).result.then(function() {
-                    $state.go('brahch', null, { reload: 'brahch' });
+                    $state.go('branch', null, { reload: 'branch' });
                 }, function() {
-                    $state.go('brahch');
+                    $state.go('branch');
                 });
             }]
         })
-        .state('brahch.edit', {
-            parent: 'brahch',
+        .state('branch.edit', {
+            parent: 'branch',
             url: '/{id}/edit',
             data: {
                 authorities: ['ROLE_USER']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
-                    templateUrl: 'app/admin/brahch/brahch-dialog.html',
-                    controller: 'BrahchDialogController',
+                    templateUrl: 'app/admin/branch/branch-dialog.html',
+                    controller: 'BranchDialogController',
                     controllerAs: 'vm',
                     backdrop: 'static',
                     size: 'lg',
                     resolve: {
-                        entity: ['Brahch', function(Brahch) {
-                            return Brahch.get({id : $stateParams.id}).$promise;
+                        entity: ['Branch', function(Branch) {
+                            return Branch.get({id : $stateParams.id}).$promise;
                         }]
                     }
                 }).result.then(function() {
-                    $state.go('brahch', null, { reload: 'brahch' });
+                    $state.go('branch', null, { reload: 'branch' });
                 }, function() {
                     $state.go('^');
                 });
             }]
         })
-        .state('brahch.delete', {
-            parent: 'brahch',
+        .state('branch.delete', {
+            parent: 'branch',
             url: '/{id}/delete',
             data: {
                 authorities: ['ROLE_USER']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
-                    templateUrl: 'app/admin/brahch/brahch-delete-dialog.html',
-                    controller: 'BrahchDeleteController',
+                    templateUrl: 'app/admin/branch/branch-delete-dialog.html',
+                    controller: 'BranchDeleteController',
                     controllerAs: 'vm',
                     size: 'md',
                     resolve: {
-                        entity: ['Brahch', function(Brahch) {
-                            return Brahch.get({id : $stateParams.id}).$promise;
+                        entity: ['Branch', function(Branch) {
+                            return Branch.get({id : $stateParams.id}).$promise;
                         }]
                     }
                 }).result.then(function() {
-                    $state.go('brahch', null, { reload: 'brahch' });
+                    $state.go('branch', null, { reload: 'branch' });
                 }, function() {
                     $state.go('^');
                 });

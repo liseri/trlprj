@@ -2,12 +2,12 @@
     'use strict';
     angular
         .module('trlprjApp')
-        .factory('Brahch', Brahch);
+        .factory('Branch', Branch);
 
-    Brahch.$inject = ['$resource'];
+    Branch.$inject = ['$resource'];
 
-    function Brahch ($resource) {
-        var resourceUrl =  'api/brahches/:id';
+    function Branch ($resource) {
+        var resourceUrl =  'api/branches/:id';
 
         return $resource(resourceUrl, {}, {
             'query': { method: 'GET', isArray: true},

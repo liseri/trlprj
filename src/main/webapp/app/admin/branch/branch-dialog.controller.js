@@ -3,14 +3,14 @@
 
     angular
         .module('trlprjApp')
-        .controller('BrahchDialogController', BrahchDialogController);
+        .controller('BranchDialogController', BranchDialogController);
 
-    BrahchDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Brahch'];
+    BranchDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Branch'];
 
-    function BrahchDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Brahch) {
+    function BranchDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Branch) {
         var vm = this;
 
-        vm.brahch = entity;
+        vm.branch = entity;
         vm.clear = clear;
         vm.save = save;
 
@@ -24,15 +24,15 @@
 
         function save () {
             vm.isSaving = true;
-            if (vm.brahch.id !== null) {
-                Brahch.update(vm.brahch, onSaveSuccess, onSaveError);
+            if (vm.branch.id !== null) {
+                Branch.update(vm.branch, onSaveSuccess, onSaveError);
             } else {
-                Brahch.save(vm.brahch, onSaveSuccess, onSaveError);
+                Branch.save(vm.branch, onSaveSuccess, onSaveError);
             }
         }
 
         function onSaveSuccess (result) {
-            $scope.$emit('trlprjApp:brahchUpdate', result);
+            $scope.$emit('trlprjApp:branchUpdate', result);
             $uibModalInstance.close(result);
             vm.isSaving = false;
         }
