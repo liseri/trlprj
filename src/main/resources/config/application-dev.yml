@@ -24,7 +24,7 @@ spring:
         serialization.indent_output: true
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:mysql://localhost:3306/trlprj?useUnicode=true&characterEncoding=utf8&useSSL=false
+        url: jdbc:mysql://192.168.1.111:3306/trlprj?useUnicode=true&characterEncoding=utf8&useSSL=false
         name:
         username: root
         password: slys12345
@@ -44,15 +44,10 @@ spring:
             hibernate.generate_statistics: true
             hibernate.cache.region.factory_class: org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
     mail:
-            host: smtp.126.com
-            port: 25
-            username: lishuai061@126.com
-            password: Abcd201412
-            tls: true
-            properties.mail.smtp:
-                auth: true
-                starttls.enable: true
-                ssl.trust: smtp.126.com
+            host:
+            port:
+            username:
+            password:
     messages:
         cache-seconds: 1
     thymeleaf:
@@ -80,7 +75,7 @@ jhipster:
                 # Token is valid 24 hours
                 tokenValidityInSeconds: 86400
     mail: # specific JHipster mail property, for standard properties see MailProperties
-        from: trlprj@localhost
+        from:
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
         jmx.enabled: true
         spark:
