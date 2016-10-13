@@ -1,4 +1,4 @@
-(function() {
+(function () {
     'use strict';
 
     angular
@@ -7,18 +7,22 @@
 
     ProjectController.$inject = ['$scope', '$state', 'Project', 'ParseLinks', 'AlertService', 'pagingParams', 'paginationConstants'];
 
-    function ProjectController ($scope, $state, Project, ParseLinks, AlertService, pagingParams, paginationConstants) {
+    function ProjectController($scope, $state, Project, ParseLinks, AlertService, pagingParams, paginationConstants) {
         var vm = this;
-        
+
         vm.loadPage = loadPage;
         vm.predicate = pagingParams.predicate;
         vm.reverse = pagingParams.ascending;
         vm.transition = transition;
         vm.itemsPerPage = paginationConstants.itemsPerPage;
+        vm.start = start;
+        vm.pause = pause;
+        vm.restart = restart;
+        vm.complete = complete;
 
         loadAll();
 
-        function loadAll () {
+        function loadAll() {
             Project.query({
                 page: pagingParams.page - 1,
                 size: vm.itemsPerPage,
@@ -31,6 +35,7 @@
                 }
                 return result;
             }
+
             function onSuccess(data, headers) {
                 vm.links = ParseLinks.parse(headers('link'));
                 vm.totalItems = headers('X-Total-Count');
@@ -38,22 +43,48 @@
                 vm.projects = data;
                 vm.page = pagingParams.page;
             }
+
             function onError(error) {
                 AlertService.error(error.data.message);
             }
         }
 
-        function loadPage (page) {
+        function loadPage(page) {
             vm.page = page;
             vm.transition();
         }
 
-        function transition () {
+        function transition() {
             $state.transitionTo($state.$current, {
                 page: vm.page,
                 sort: vm.predicate + ',' + (vm.reverse ? 'asc' : 'desc'),
                 search: vm.currentSearch
             });
+        }
+
+        function start(id) {
+            Project.start({id: id},
+                function () {
+                    loadAll();
+                });
+        }
+        function pause(id) {
+            Project.pause({id: id},
+                function () {
+                    loadAll();
+                });
+        }
+        function restart(id) {
+            Project.start({id: id},
+                function () {
+                    loadAll();
+                });
+        }
+        function complete(id) {
+            Project.complete({id: id},
+                function () {
+                    loadAll();
+                });
         }
     }
 })();

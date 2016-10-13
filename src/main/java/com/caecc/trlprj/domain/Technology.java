@@ -1,5 +1,6 @@
 package com.caecc.trlprj.domain;
 
+import com.caecc.trlprj.web.rest.vm.TechnologyVM;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -71,6 +72,11 @@ public class Technology implements Serializable {
 
     @ManyToOne
     private Technology parentTech;
+
+    public void updateFrom(TechnologyVM technologyVM) {
+        this.name(technologyVM.getName())
+            .descript(technologyVM.getDescript());
+    }
 
     public Long getId() {
         return id;

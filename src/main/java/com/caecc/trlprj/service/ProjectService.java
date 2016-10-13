@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.inject.Inject;
 import java.time.LocalDate;
@@ -151,7 +152,7 @@ public class ProjectService {
     public void complete(Project project) {
         if (project.getStatu() == PrjStatus.COMPLETED)
             return;
-        project.statu(PrjStatus.PAUSED).completeTime(LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE));
+        project.statu(PrjStatus.COMPLETED).completeTime(LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE));
         projectRepository.save(project);
     }
     //endregion
@@ -202,8 +203,12 @@ public class ProjectService {
      * @param project
      * @param technologyVM
      */
-    public void addTech(Project project, Technology parentTech, TechnologyVM technologyVM) {
-        Technology technology = technologyVM.toTechnology(parentTech, userService.getUserWithAuthorities());
+    public void addTech(Project project, TechnologyVM technologyVM) {
+        Technology parentTech = null;
+        Technology technology = null;
+        if (technologyVM.getParentTechId() != null && technologyVM.getParentTechId()>0)
+            parentTech = technologyRepository.findOne(technologyVM.getParentTechId());
+        technology = technologyVM.toTechnology(parentTech, userService.getUserWithAuthorities());
         technologyRepository.save(technology);
         project.addTech(technology);
         if (parentTech == null)
@@ -211,23 +216,33 @@ public class ProjectService {
         else parentTech.addSubTech(technology);
         projectRepository.save(project);
     }
+    public void updateTech(TechnologyVM technologyVM) {
+        Technology technology = technologyRepository.findOne(technologyVM.getId());
+        technology.updateFrom(technologyVM);
+        Long parentTechId = technologyVM.getParentTechId();
+        if (parentTechId != null && parentTechId>0 && technology.getParentTech().getId() != parentTechId)
+            technology.parentTech(technologyRepository.findOne(parentTechId));
+        technologyRepository.save(technology);
+    }
     /**
      * 删除技术结点
      * @param project
-     * @param technology
+     * @param techId
      */
-    public void removeTech(Project project, Technology parentTech, Technology technology) {
-        if (technology == null)
+    public void deleteTech(Project project, Long techId) {
+        Technology technology = null;
+        //如果是根结点
+        if (project.getRootTech().getId() == techId) {
             project.rootTech(null);
-        else {
-            if (parentTech != null)
-                parentTech.removeSubTech(technology);
-            technologyRepository.delete(technology);
-            project.removeTech(technology);
-            if (parentTech == null)
-                project.rootTech(null);
+            projectRepository.save(project);
         }
-        projectRepository.save(project);
+        //如果不是根结点
+        technology = technologyRepository.findOne(techId);
+        //更新其父结点子结点
+        technology.getParentTech().removeSubTech(technology);
+        //删除该根点及其子结点
+        technology.getSubTeches().forEach(subTech->technologyRepository.delete(subTech));
+        technologyRepository.delete(technology);
     }
     /**
      * 为结点添加子结点创建人

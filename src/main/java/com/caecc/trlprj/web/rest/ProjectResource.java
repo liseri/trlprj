@@ -152,27 +152,21 @@ public class ProjectResource {
     //endregion
 
     //region 项目状态操作
-    @RequestMapping(value = "/projects/{id}/start",
-        method = RequestMethod.POST,
-        produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/projects/{id}/start")
     @Timed
     public ResponseEntity<Void> startPrj(@PathVariable Long id) {
         Project project = projectService.findOne(id);
         projectService.start(project);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityOperationAlert("project", "started", id.toString())).build();
     }
-    @RequestMapping(value = "/projects/{id}/pause",
-        method = RequestMethod.POST,
-        produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/projects/{id}/pause")
     @Timed
     public ResponseEntity<Void> pausePrj(@PathVariable Long id) {
         Project project = projectService.findOne(id);
         projectService.pause(project);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityOperationAlert("project", "paused", id.toString())).build();
     }
-    @RequestMapping(value = "/projects/{id}/complete",
-        method = RequestMethod.POST,
-        produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/projects/{id}/complete")
     @Timed
     public ResponseEntity<Void> completePrj(@PathVariable Long id) {
         Project project = projectService.findOne(id);
@@ -182,9 +176,7 @@ public class ProjectResource {
     //endregion
 
     //region 项目相关人员添加操作
-    @RequestMapping(value = "/projects/{id}/addtrler/{trlerLogin}",
-        method = RequestMethod.POST,
-        produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/projects/{id}/trler/{trlerLogin}")
     @Timed
     public ResponseEntity<Void> addTrler(@PathVariable Long id, @PathVariable String trlerLogin) {
         Project project = projectService.findOne(id);
@@ -192,9 +184,7 @@ public class ProjectResource {
         projectService.addTrler(project, trler);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityOperationAlert("project", "addTrlered", id.toString())).build();
     }
-    @RequestMapping(value = "/projects/{id}/rmtrler/{trlerLogin}",
-        method = RequestMethod.POST,
-        produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(value = "/projects/{id}/trler/{trlerLogin}")
     @Timed
     public ResponseEntity<Void> removeTrler(@PathVariable Long id, @PathVariable String trlerLogin) {
         Project project = projectService.findOne(id);
@@ -202,9 +192,7 @@ public class ProjectResource {
         projectService.removeTrler(project, trler);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityOperationAlert("project", "rmTrlered", id.toString())).build();
     }
-    @RequestMapping(value = "/projects/{id}/addevler/{evlerLogin}",
-        method = RequestMethod.POST,
-        produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/projects/{id}/evler/{evlerLogin}")
     @Timed
     public ResponseEntity<Void> addEvler(@PathVariable Long id, @PathVariable String evlerLogin) {
         Project project = projectService.findOne(id);
@@ -212,9 +200,7 @@ public class ProjectResource {
         projectService.addEvler(project, trler);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityOperationAlert("project", "addEvlered", id.toString())).build();
     }
-    @RequestMapping(value = "/projects/{id}/rmevler/{evlerLogin}",
-        method = RequestMethod.POST,
-        produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(value = "/projects/{id}/evler/{evlerLogin}")
     @Timed
     public ResponseEntity<Void> removeEvler(@PathVariable Long id, @PathVariable String evlerLogin) {
         Project project = projectService.findOne(id);
@@ -225,43 +211,37 @@ public class ProjectResource {
     //endregion
 
     //region 技术树操作
-    @RequestMapping(value = "/projects/{id}/addroottech",
-        method = RequestMethod.POST,
-        produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/projects/{id}/tech/{techId}")
     @Timed
-    public ResponseEntity<Void> addRootTech(@PathVariable Long id, @Valid @RequestBody TechnologyVM technologyVM) {
-        Project project = projectService.findOne(id);
-        projectService.addTech(project, null, technologyVM);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityOperationAlert("project", "addRootTeched", id.toString())).build();
+    public ResponseEntity<Technology> getTech(@PathVariable Long id, @PathVariable Long techId) {
+        log.debug("REST request to get Technology : {}", id);
+        Technology technology = technologyRepository.findOne(id);
+        return Optional.ofNullable(technology)
+            .map(result -> new ResponseEntity<>(
+                result,
+                HttpStatus.OK))
+            .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
-    @RequestMapping(value = "/projects/{id}/rmroottech",
-        method = RequestMethod.POST,
-        produces = MediaType.APPLICATION_JSON_VALUE)
-    @Timed
-    public ResponseEntity<Void> removeRootTech(@PathVariable Long id) {
-        Project project = projectService.findOne(id);
-        projectService.removeTech(project, null, null);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityOperationAlert("project", "rmRootTeched", id.toString())).build();
-    }
-    @RequestMapping(value = "/projects/{id}/addtech",
-        method = RequestMethod.POST,
-        produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/projects/{id}/tech")
     @Timed
     public ResponseEntity<Void> addTech(@PathVariable Long id, @Valid @RequestBody TechnologyVM technologyVM) {
         Project project = projectService.findOne(id);
-        Technology parentTech = technologyRepository.findOne(technologyVM.getParentTechId());
-        projectService.addTech(project, parentTech, technologyVM);
+        projectService.addTech(project, technologyVM);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityOperationAlert("project", "addTeched", id.toString())).build();
     }
-    @RequestMapping(value = "/projects/{id}/rmtech/{techId}",
-        method = RequestMethod.POST,
-        produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/projects/{id}/tech")
     @Timed
-    public ResponseEntity<Void> removeTech(@PathVariable Long id, @PathVariable Long techId) {
+    public ResponseEntity<Void> updateTech(@PathVariable Long id, @Valid @RequestBody TechnologyVM technologyVM) {
         Project project = projectService.findOne(id);
-        Technology technology = technologyRepository.findOne(techId);
-        projectService.removeTech(project, technology.getParentTech(), technology);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityOperationAlert("project", "rmTeched", id.toString())).build();
+        projectService.updateTech(technologyVM);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityOperationAlert("project", "updatedTeched", id.toString())).build();
+    }
+    @DeleteMapping(value = "/projects/{id}/tech/{techId}")
+    @Timed
+    public ResponseEntity<Void> deleteTech(@PathVariable Long id, @PathVariable Long techId) {
+        Project project = projectService.findOne(id);
+        projectService.deleteTech(project, techId);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityOperationAlert("project", "deleteTeched", id.toString())).build();
     }
     //endregion
 }

@@ -20,15 +20,15 @@
                 <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
                     <th jh-sort-by="id"><span data-translate="global.field.id">ID</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="name"><span data-translate="trlprjApp.project.name">Name</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="statu"><span data-translate="trlprjApp.project.statu">Statu</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="descript1"><span data-translate="trlprjApp.project.descript1">Descript 1</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="descript2"><span data-translate="trlprjApp.project.descript2">Descript 2</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="descript3"><span data-translate="trlprjApp.project.descript3">Descript 3</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="descript4"><span data-translate="trlprjApp.project.descript4">Descript 4</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="startTime"><span data-translate="trlprjApp.project.startTime">Start Time</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="completeTime"><span data-translate="trlprjApp.project.completeTime">Complete Time</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="rootTech.id"><span data-translate="trlprjApp.project.rootTech">Root Tech</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="creator.name"><span data-translate="trlprjApp.project.creator">Creator</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th>状态及操作</th>
+                    <!--<th jh-sort-by="descript1"><span data-translate="trlprjApp.project.descript1">Descript 1</span> <span class="glyphicon glyphicon-sort"></span></th>-->
+                    <!--<th jh-sort-by="descript2"><span data-translate="trlprjApp.project.descript2">Descript 2</span> <span class="glyphicon glyphicon-sort"></span></th>-->
+                    <!--<th jh-sort-by="descript3"><span data-translate="trlprjApp.project.descript3">Descript 3</span> <span class="glyphicon glyphicon-sort"></span></th>-->
+                    <!--<th jh-sort-by="descript4"><span data-translate="trlprjApp.project.descript4">Descript 4</span> <span class="glyphicon glyphicon-sort"></span></th>-->
+                    <!--<th jh-sort-by="startTime"><span data-translate="trlprjApp.project.startTime">Start Time</span> <span class="glyphicon glyphicon-sort"></span></th>-->
+                    <!--<th jh-sort-by="completeTime"><span data-translate="trlprjApp.project.completeTime">Complete Time</span> <span class="glyphicon glyphicon-sort"></span></th>-->
+                    <th><span data-translate="trlprjApp.project.rootTech">Root Tech</span></th>
+                    <!--<th jh-sort-by="creator.name"><span data-translate="trlprjApp.project.creator">Creator</span> <span class="glyphicon glyphicon-sort"></span></th>-->
                     <th></th>
                 </tr>
             </thead>
@@ -36,19 +36,30 @@
                 <tr ng-repeat="project in vm.projects track by project.id">
                     <td><a ui-sref="project-detail({id:project.id})">{{project.id}}</a></td>
                     <td>{{project.name}}</td>
-                    <td data-translate="{{'trlprjApp.PrjStatus.' + project.statu}}">{{project.statu}}</td>
-                    <td>{{project.descript1}}</td>
-                    <td>{{project.descript2}}</td>
-                    <td>{{project.descript3}}</td>
-                    <td>{{project.descript4}}</td>
-                    <td>{{project.startTime}}</td>
-                    <td>{{project.completeTime}}</td>
                     <td>
-                        <a ui-sref="technology-detail({id:project.rootTech.id})">{{project.rootTech.id}}</a>
+                        <span class="label label-success" data-translate="{{'trlprjApp.PrjStatus.' + project.statu}}">{{project.statu}}</span>
+                        <span class="label label-warning" ng-click="vm.start(project.id)" ng-show="project.statu == 'CREATED'"
+                              style="cursor: pointer;">启动</span>
+                        <span class="label label-warning" ng-click="vm.pause(project.id)" ng-show="project.statu == 'STARTED'"
+                              style="cursor: pointer;">暂停</span>
+                        <span class="label label-warning" ng-click="vm.start(project.id)" ng-show="project.statu == 'PAUSED'"
+                              style="cursor: pointer;">恢复</span>
+                        <span class="label label-danger" ng-click="vm.complete(project.id)" ng-show="project.statu != 'COMPLETED'"
+                              style="cursor: pointer;">完成</span>
                     </td>
+                    <!--<td>{{project.descript1}}</td>-->
+                    <!--<td>{{project.descript2}}</td>-->
+                    <!--<td>{{project.descript3}}</td>-->
+                    <!--<td>{{project.descript4}}</td>-->
+                    <!--<td>{{project.startTime}}</td>-->
+                    <!--<td>{{project.completeTime}}</td>-->
                     <td>
-                        {{project.creator.name}}
+                        <span class="label label-success" ui-sref="project.techTree(project.id)"
+                              ng-show="project.rootTech != null" style="cursor: pointer;">技术树</span>
+                        <span class="label label-success" ui-sref="project.newTech(project.id)"
+                              ng-show="project.rootTech == null" style="cursor: pointer;">创建技术树</span>
                     </td>
+                    <!--<td>{{project.creator.name}}</td>-->
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"

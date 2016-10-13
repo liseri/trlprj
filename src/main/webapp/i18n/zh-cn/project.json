@@ -10,6 +10,9 @@
             "created": "新项目创建成功",
             "updated": "项目信息修改成功",
             "deleted": "项目已删除",
+            "started": "项目已启动",
+            "paused": "项目已暂停",
+            "completed": "项目已完成",
             "delete": {
                 "question": "确定要删除该项目?"
             },
@@ -18,6 +21,7 @@
             },
             "name": "名称",
             "statu": "状态",
+            "statuAction": "状态操作",
             "descript1": "描述1",
             "descript2": "描述2",
             "descript3": "描述3",
