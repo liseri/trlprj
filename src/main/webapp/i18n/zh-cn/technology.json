@@ -4,7 +4,7 @@
             "home": {
                 "title": "Technologies",
                 "createLabel": "Create a new Technology",
-                "createOrEditLabel": "Create or edit a Technology",
+                "createOrEditLabel": "添加或编辑技术",
                 "search": "Search for Technology"
             },
             "created": "A new Technology is created with identifier {{ param }}",
@@ -16,8 +16,8 @@
             "detail": {
                 "title": "Technology"
             },
-            "name": "Name",
-            "descript": "Descript",
+            "name": "名称",
+            "descript": "描述",
             "isKey": "Is Key",
             "tcl": "Tcl",
             "trl": "Trl",

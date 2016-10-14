@@ -8,11 +8,6 @@
     </div>
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
-        <div class="form-group" ng-show="vm.technology.id">
-            <label for="id" data-translate="global.field.id">ID</label>
-            <input type="text" class="form-control" id="id" name="id"
-                    ng-model="vm.technology.id" readonly />
-        </div>
         <div class="form-group">
             <label class="control-label" data-translate="trlprjApp.technology.name" for="field_name">Name</label>
             <input type="text" class="form-control" name="name" id="field_name"
@@ -41,64 +36,7 @@
                 </p>
             </div>
         </div>
-        <div class="form-group">
-            <label class="control-label" data-translate="trlprjApp.technology.isKey" for="field_isKey">Is Key</label>
-            <input type="checkbox" class="form-control" name="isKey" id="field_isKey"
-                    ng-model="vm.technology.isKey"
-                     />
-            <div ng-show="editForm.isKey.$invalid">
-                <p class="help-block"
-                    ng-show="editForm.isKey.$error.required" data-translate="entity.validation.required">
-                    This field is required.
-                </p>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label" data-translate="trlprjApp.technology.tcl" for="field_tcl">Tcl</label>
-            <select class="form-control" name="tcl" ng-model="vm.technology.tcl" id="field_tcl">
-                <option value="TCLA" data-translate="trlprjApp.TCL.TCLA">TCLA</option>
-                <option value="TCLB" data-translate="trlprjApp.TCL.TCLB">TCLB</option>
-                <option value="TCLC" data-translate="trlprjApp.TCL.TCLC">TCLC</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label class="control-label" data-translate="trlprjApp.technology.trl" for="field_trl">Trl</label>
-            <select class="form-control" name="trl" ng-model="vm.technology.trl" id="field_trl">
-                <option value="TRL1" data-translate="trlprjApp.TRL.TRL1">TRL1</option>
-                <option value="TRL2" data-translate="trlprjApp.TRL.TRL2">TRL2</option>
-                <option value="TRL3" data-translate="trlprjApp.TRL.TRL3">TRL3</option>
-                <option value="TRL4" data-translate="trlprjApp.TRL.TRL4">TRL4</option>
-                <option value="TRL5" data-translate="trlprjApp.TRL.TRL5">TRL5</option>
-                <option value="TRL6" data-translate="trlprjApp.TRL.TRL6">TRL6</option>
-                <option value="TRL7" data-translate="trlprjApp.TRL.TRL7">TRL7</option>
-                <option value="TRL8" data-translate="trlprjApp.TRL.TRL8">TRL8</option>
-                <option value="TRL9" data-translate="trlprjApp.TRL.TRL9">TRL9</option>
-            </select>
-        </div>
 
-        <div class="form-group">
-            <label data-translate="trlprjApp.technology.creator" for="field_creator">Creator</label>
-            <select class="form-control" id="field_creator" name="creator" ng-model="vm.technology.creator" ng-options="user as user.name for user in vm.users track by user.id">
-                <option value=""></option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label data-translate="trlprjApp.technology.subCreator" for="field_subCreator">Sub Creator</label>
-            <select class="form-control" id="field_subCreator" multiple name="subCreator" ng-model="vm.technology.subCreators" ng-options="user as user.name for user in vm.users track by user.id"></select>
-        </div>
-        <div class="form-group">
-            <label data-translate="trlprjApp.technology.prj" for="field_prj">Prj</label>
-            <select class="form-control" id="field_prj" name="prj" ng-model="vm.technology.prj" ng-options="project as project.name for project in vm.projects track by project.id">
-                <option value=""></option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label data-translate="trlprjApp.technology.parentTech" for="field_parentTech">Parent Tech</label>
-            <select class="form-control" id="field_parentTech" name="parentTech" ng-model="vm.technology.parentTech" ng-options="technology as technology.name for technology in vm.technologies track by technology.id">
-                <option value=""></option>
-            </select>
-        </div>
-    </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
             <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span data-translate="entity.action.cancel">Cancel</span>

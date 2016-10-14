@@ -77,10 +77,12 @@
         function restart(id) {
             Project.start({id: id},
                 function () {
-                    loadAll();
+                    loadAll();c
                 });
         }
         function complete(id) {
+            if (!onfirm("完成后项目将彻底关闭，你确定要“完成”吗？"))
+                return;
             Project.complete({id: id},
                 function () {
                     loadAll();
