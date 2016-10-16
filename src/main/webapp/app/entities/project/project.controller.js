@@ -5,9 +5,9 @@
         .module('trlprjApp')
         .controller('ProjectController', ProjectController);
 
-    ProjectController.$inject = ['$scope', '$state', 'Project', 'ParseLinks', 'AlertService', 'pagingParams', 'paginationConstants'];
+    ProjectController.$inject = ['$scope', '$state', '$uibModal', 'Project', 'ParseLinks', 'AlertService', 'pagingParams', 'paginationConstants'];
 
-    function ProjectController($scope, $state, Project, ParseLinks, AlertService, pagingParams, paginationConstants) {
+    function ProjectController($scope, $state, $uibModal, Project, ParseLinks, AlertService, pagingParams, paginationConstants) {
         var vm = this;
 
         vm.loadPage = loadPage;
@@ -19,6 +19,7 @@
         vm.pause = pause;
         vm.restart = restart;
         vm.complete = complete;
+        vm.openRootTechModal = openRootTechModal
 
         loadAll();
 
@@ -87,6 +88,28 @@
                 function () {
                     loadAll();
                 });
+        }
+
+        function openRootTechModal(project) {
+            var parentTechId = null;
+            if (rootTech && rootTech.parentTech)
+                parentTechId = rootTech.parentTech.id;
+            var rootTech = project.rootTech;
+            rootTech = {id:rootTech?rootTech.id:null,
+                            name:rootTech?rootTech.name:null,
+                            descript:rootTech?rootTech.descript:null,
+                            prjId:project.id,
+                            parentTechId:parentTechId};
+
+            var modalInstance = $uibModal.open({
+                templateUrl: 'app/entities/project/project-tech-dialog.html',
+                controller: 'ProjectTechDialogController',
+                controllerAs: 'vm',
+                backdrop: 'static',
+                resolve: {
+                    entity: rootTech
+                }
+            });
         }
     }
 })();

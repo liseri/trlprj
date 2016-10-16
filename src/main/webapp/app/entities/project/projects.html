@@ -56,7 +56,7 @@
                     <td>
                         <span class="label label-success" ui-sref="project.techTree(project.id)"
                               ng-show="project.rootTech != null" style="cursor: pointer;">技术树</span>
-                        <span class="label label-success" ui-sref="project.newTech(project.id)"
+                        <span class="label label-success" ng-click="vm.openRootTechModal(project)"
                               ng-show="project.rootTech == null" style="cursor: pointer;">创建技术树</span>
                     </td>
                     <!--<td>{{project.creator.name}}</td>-->

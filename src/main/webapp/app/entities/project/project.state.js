@@ -161,15 +161,11 @@
                         resolve: {
                             entity: function () {
                                 return {
-                                    name: null,
-                                    statu: null,
-                                    descript1: null,
-                                    descript2: null,
-                                    descript3: null,
-                                    descript4: null,
-                                    startTime: null,
-                                    completeTime: null,
-                                    id: null
+                                    id: $stateParams.id,
+                                    name: $stateParams.name,
+                                    descript: $stateParams.descript,
+                                    prjId: $stateParams.prjId,
+                                    parentTechId: $stateParams.parentTechId
                                 };
                             }
                         }

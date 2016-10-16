@@ -11,7 +11,7 @@
         <div class="form-group">
             <label class="control-label" data-translate="trlprjApp.technology.name" for="field_name">Name</label>
             <input type="text" class="form-control" name="name" id="field_name"
-                    ng-model="vm.technology.name"
+                    ng-model="vm.technologyVM.name"
                     required ng-maxlength="50" />
             <div ng-show="editForm.name.$invalid">
                 <p class="help-block"
@@ -27,7 +27,7 @@
         <div class="form-group">
             <label class="control-label" data-translate="trlprjApp.technology.descript" for="field_descript">Descript</label>
             <input type="text" class="form-control" name="descript" id="field_descript"
-                    ng-model="vm.technology.descript"
+                    ng-model="vm.technologyVM.descript"
                     ng-maxlength="500" />
             <div ng-show="editForm.descript.$invalid">
                 <p class="help-block"

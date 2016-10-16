@@ -10,10 +10,9 @@
     function ProjectTechDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, ProjectTech, User) {
         var vm = this;
 
-        vm.technology = entity;
+        vm.technologyVM = entity;
         vm.clear = clear;
         vm.save = save;
-        vm.technologies = null;
         vm.users = User.query();
 
         $timeout(function (){
@@ -26,10 +25,10 @@
 
         function save () {
             vm.isSaving = true;
-            if (vm.technology.id !== null) {
-                ProjectTech.update(vm.technology, onSaveSuccess, onSaveError);
+            if (vm.technologyVM.id) {
+                ProjectTech.update(vm.technologyVM, onSaveSuccess, onSaveError);
             } else {
-                ProjectTech.save(vm.technology, onSaveSuccess, onSaveError);
+                ProjectTech.save(vm.technologyVM, onSaveSuccess, onSaveError);
             }
         }
 
