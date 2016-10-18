@@ -13,16 +13,6 @@
         vm.project = entity;
         vm.clear = clear;
         vm.save = save;
-        vm.rootteches = Technology.query({filter: 'project-is-null'});
-        $q.all([vm.project.$promise, vm.rootteches.$promise]).then(function() {
-            if (!vm.project.rootTech || !vm.project.rootTech.id) {
-                return $q.reject();
-            }
-            return Technology.get({id : vm.project.rootTech.id}).$promise;
-        }).then(function(rootTech) {
-            vm.rootteches.push(rootTech);
-        });
-        vm.technologies = Technology.query();
         vm.users = User.query();
 
         $timeout(function (){

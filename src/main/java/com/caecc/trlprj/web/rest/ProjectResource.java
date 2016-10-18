@@ -224,17 +224,17 @@ public class ProjectResource {
     }
     @PostMapping(value = "/projects/{id}/tech")
     @Timed
-    public ResponseEntity<Void> addTech(@PathVariable Long id, @Valid @RequestBody TechnologyVM technologyVM) {
+    public ResponseEntity<Project> addTech(@PathVariable Long id, @Valid @RequestBody TechnologyVM technologyVM) {
         Project project = projectService.findOne(id);
         projectService.addTech(project, technologyVM);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityOperationAlert("project", "addTeched", id.toString())).build();
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityOperationAlert("project", "addTeched", id.toString())).body(project);
     }
     @PutMapping(value = "/projects/{id}/tech")
     @Timed
-    public ResponseEntity<Void> updateTech(@PathVariable Long id, @Valid @RequestBody TechnologyVM technologyVM) {
+    public ResponseEntity<Project> updateTech(@PathVariable Long id, @Valid @RequestBody TechnologyVM technologyVM) {
         Project project = projectService.findOne(id);
         projectService.updateTech(technologyVM);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityOperationAlert("project", "updatedTeched", id.toString())).build();
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityOperationAlert("project", "updatedTeched", id.toString())).body(project);
     }
     @DeleteMapping(value = "/projects/{id}/tech/{techId}")
     @Timed

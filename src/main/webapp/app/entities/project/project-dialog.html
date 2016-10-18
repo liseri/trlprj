@@ -29,21 +29,7 @@
                 </p>
             </div>
         </div>
-        <div class="form-group">
-            <label class="control-label" data-translate="trlprjApp.project.statu" for="field_statu">Statu</label>
-            <select class="form-control" name="statu" ng-model="vm.project.statu" id="field_statu" required>
-                <option value="CREATED" data-translate="trlprjApp.PrjStatus.CREATED">CREATED</option>
-                <option value="STARTED" data-translate="trlprjApp.PrjStatus.STARTED">STARTED</option>
-                <option value="PAUSED" data-translate="trlprjApp.PrjStatus.PAUSED">PAUSED</option>
-                <option value="COMPLETED" data-translate="trlprjApp.PrjStatus.COMPLETED">COMPLETED</option>
-            </select>
-            <div ng-show="editForm.statu.$invalid">
-                <p class="help-block"
-                    ng-show="editForm.statu.$error.required" data-translate="entity.validation.required">
-                    This field is required.
-                </p>
-            </div>
-        </div>
+
         <div class="form-group">
             <label class="control-label" data-translate="trlprjApp.project.descript1" for="field_descript1">Descript 1</label>
             <input type="text" class="form-control" name="descript1" id="field_descript1"
@@ -108,52 +94,52 @@
                 </p>
             </div>
         </div>
-        <div class="form-group">
-            <label class="control-label" data-translate="trlprjApp.project.startTime" for="field_startTime">Start Time</label>
-            <input type="text" class="form-control" name="startTime" id="field_startTime"
-                    ng-model="vm.project.startTime"
-                    ng-maxlength="30" />
-            <div ng-show="editForm.startTime.$invalid">
-                <p class="help-block"
-                    ng-show="editForm.startTime.$error.maxlength" data-translate="entity.validation.maxlength" translate-value-max="30">
-                    This field cannot be longer than 30 characters.
-                </p>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label" data-translate="trlprjApp.project.completeTime" for="field_completeTime">Complete Time</label>
-            <input type="text" class="form-control" name="completeTime" id="field_completeTime"
-                    ng-model="vm.project.completeTime"
-                    ng-maxlength="30" />
-            <div ng-show="editForm.completeTime.$invalid">
-                <p class="help-block"
-                    ng-show="editForm.completeTime.$error.maxlength" data-translate="entity.validation.maxlength" translate-value-max="30">
-                    This field cannot be longer than 30 characters.
-                </p>
-            </div>
-        </div>
+        <!--<div class="form-group">-->
+            <!--<label class="control-label" data-translate="trlprjApp.project.startTime" for="field_startTime">Start Time</label>-->
+            <!--<input type="text" class="form-control" name="startTime" id="field_startTime"-->
+                    <!--ng-model="vm.project.startTime"-->
+                    <!--ng-maxlength="30" />-->
+            <!--<div ng-show="editForm.startTime.$invalid">-->
+                <!--<p class="help-block"-->
+                    <!--ng-show="editForm.startTime.$error.maxlength" data-translate="entity.validation.maxlength" translate-value-max="30">-->
+                    <!--This field cannot be longer than 30 characters.-->
+                <!--</p>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="form-group">-->
+            <!--<label class="control-label" data-translate="trlprjApp.project.completeTime" for="field_completeTime">Complete Time</label>-->
+            <!--<input type="text" class="form-control" name="completeTime" id="field_completeTime"-->
+                    <!--ng-model="vm.project.completeTime"-->
+                    <!--ng-maxlength="30" />-->
+            <!--<div ng-show="editForm.completeTime.$invalid">-->
+                <!--<p class="help-block"-->
+                    <!--ng-show="editForm.completeTime.$error.maxlength" data-translate="entity.validation.maxlength" translate-value-max="30">-->
+                    <!--This field cannot be longer than 30 characters.-->
+                <!--</p>-->
+            <!--</div>-->
+        <!--</div>-->
 
-        <div class="form-group">
-            <label data-translate="trlprjApp.project.rootTech" for="field_rootTech">Root Tech</label>
-            <select class="form-control" id="field_rootTech" name="rootTech" ng-model="vm.project.rootTech" ng-options="technology as technology.id for technology in vm.rootteches | orderBy:'id' track by technology.id">
-                <option value=""></option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label data-translate="trlprjApp.project.creator" for="field_creator">Creator</label>
-            <select class="form-control" id="field_creator" name="creator" ng-model="vm.project.creator" ng-options="user as user.name for user in vm.users track by user.id">
-                <option value=""></option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label data-translate="trlprjApp.project.trlers" for="field_trlers">Trlers</label>
-            <select class="form-control" id="field_trlers" multiple name="trlers" ng-model="vm.project.trlers" ng-options="user as user.name for user in vm.users track by user.id"></select>
-        </div>
-        <div class="form-group">
-            <label data-translate="trlprjApp.project.evlers" for="field_evlers">Evlers</label>
-            <select class="form-control" id="field_evlers" multiple name="evlers" ng-model="vm.project.evlers" ng-options="user as user.name for user in vm.users track by user.id"></select>
-        </div>
-    </div>
+        <!--<div class="form-group">-->
+            <!--<label data-translate="trlprjApp.project.rootTech" for="field_rootTech">Root Tech</label>-->
+            <!--<select class="form-control" id="field_rootTech" name="rootTech" ng-model="vm.project.rootTech" ng-options="technology as technology.id for technology in vm.rootteches | orderBy:'id' track by technology.id">-->
+                <!--<option value=""></option>-->
+            <!--</select>-->
+        <!--</div>-->
+        <!--<div class="form-group">-->
+            <!--<label data-translate="trlprjApp.project.creator" for="field_creator">Creator</label>-->
+            <!--<select class="form-control" id="field_creator" name="creator" ng-model="vm.project.creator" ng-options="user as user.name for user in vm.users track by user.id">-->
+                <!--<option value=""></option>-->
+            <!--</select>-->
+        <!--</div>-->
+        <!--<div class="form-group">-->
+            <!--<label data-translate="trlprjApp.project.trlers" for="field_trlers">Trlers</label>-->
+            <!--<select class="form-control" id="field_trlers" multiple name="trlers" ng-model="vm.project.trlers" ng-options="user as user.name for user in vm.users track by user.id"></select>-->
+        <!--</div>-->
+        <!--<div class="form-group">-->
+            <!--<label data-translate="trlprjApp.project.evlers" for="field_evlers">Evlers</label>-->
+            <!--<select class="form-control" id="field_evlers" multiple name="evlers" ng-model="vm.project.evlers" ng-options="user as user.name for user in vm.users track by user.id"></select>-->
+        <!--</div>-->
+    <!--</div>-->
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
             <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span data-translate="entity.action.cancel">Cancel</span>

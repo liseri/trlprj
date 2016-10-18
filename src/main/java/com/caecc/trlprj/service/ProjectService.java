@@ -21,6 +21,7 @@ import javax.inject.Inject;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Service Implementation for managing Project.
@@ -203,7 +204,7 @@ public class ProjectService {
      * @param project
      * @param technologyVM
      */
-    public void addTech(Project project, TechnologyVM technologyVM) {
+    public Project addTech(Project project, TechnologyVM technologyVM) {
         Technology parentTech = null;
         Technology technology = null;
         if (technologyVM.getParentTechId() != null && technologyVM.getParentTechId()>0)
@@ -215,14 +216,16 @@ public class ProjectService {
             project.rootTech(technology);
         else parentTech.addSubTech(technology);
         projectRepository.save(project);
+        return project;
     }
-    public void updateTech(TechnologyVM technologyVM) {
+    public Project updateTech(TechnologyVM technologyVM) {
         Technology technology = technologyRepository.findOne(technologyVM.getId());
         technology.updateFrom(technologyVM);
         Long parentTechId = technologyVM.getParentTechId();
         if (parentTechId != null && parentTechId>0 && technology.getParentTech().getId() != parentTechId)
             technology.parentTech(technologyRepository.findOne(parentTechId));
         technologyRepository.save(technology);
+        return technology.getPrj();
     }
     /**
      * 删除技术结点
@@ -231,15 +234,17 @@ public class ProjectService {
      */
     public void deleteTech(Project project, Long techId) {
         Technology technology = null;
+        technology = technologyRepository.findOne(techId);
         //如果是根结点
-        if (project.getRootTech().getId() == techId) {
+        if (project.getRootTech() != null && project.getRootTech().getId() == techId) {
             project.rootTech(null);
+            project.removeTech(technology);
             projectRepository.save(project);
         }
         //如果不是根结点
-        technology = technologyRepository.findOne(techId);
         //更新其父结点子结点
-        technology.getParentTech().removeSubTech(technology);
+        if (technology.getParentTech() != null)
+            technology.getParentTech().removeSubTech(technology);
         //删除该根点及其子结点
         technology.getSubTeches().forEach(subTech->technologyRepository.delete(subTech));
         technologyRepository.delete(technology);

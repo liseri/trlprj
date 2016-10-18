@@ -46,6 +46,7 @@
                     }],
                     translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
                         $translatePartialLoader.addPart('project');
+                        $translatePartialLoader.addPart('technology');
                         $translatePartialLoader.addPart('prjStatus');
                         $translatePartialLoader.addPart('global');
                         return $translate.refresh();
@@ -127,13 +128,10 @@
                             entity: function () {
                                 return {
                                     name: null,
-                                    statu: null,
                                     descript1: null,
                                     descript2: null,
                                     descript3: null,
                                     descript4: null,
-                                    startTime: null,
-                                    completeTime: null,
                                     id: null
                                 };
                             }

@@ -29,6 +29,8 @@
                     <!--<th jh-sort-by="completeTime"><span data-translate="trlprjApp.project.completeTime">Complete Time</span> <span class="glyphicon glyphicon-sort"></span></th>-->
                     <th><span data-translate="trlprjApp.project.rootTech">Root Tech</span></th>
                     <!--<th jh-sort-by="creator.name"><span data-translate="trlprjApp.project.creator">Creator</span> <span class="glyphicon glyphicon-sort"></span></th>-->
+                    <th>TRL技术专家</th>
+                    <th>评审专家</th>
                     <th></th>
                 </tr>
             </thead>
@@ -53,11 +55,23 @@
                     <!--<td>{{project.descript4}}</td>-->
                     <!--<td>{{project.startTime}}</td>-->
                     <!--<td>{{project.completeTime}}</td>-->
+
                     <td>
                         <span class="label label-success" ui-sref="project.techTree(project.id)"
                               ng-show="project.rootTech != null" style="cursor: pointer;">技术树</span>
                         <span class="label label-success" ng-click="vm.openRootTechModal(project)"
                               ng-show="project.rootTech == null" style="cursor: pointer;">创建技术树</span>
+                    </td>
+                    <td>
+                        <span class="label label-success"
+                              ng-show="project.trlers">{{project.trlers.size}}人</span>
+                        <span class="label label-success" ng-click="vm.openRootTechModal(project)"
+                              ng-show="project.rootTech == null" style="cursor: pointer;">TRL技术专家管理</span>
+                    </td>
+                    <td>
+                        {{project.evlers.size}}人
+                        <span class="label label-success" ng-click="vm.openRootTechModal(project)"
+                              ng-show="project.rootTech == null" style="cursor: pointer;">评审专家管理</span>
                     </td>
                     <!--<td>{{project.creator.name}}</td>-->
                     <td class="text-right">

@@ -23,6 +23,11 @@
 
         loadAll();
 
+        var unsubscribe = $scope.$on('trlprjApp:rootTechUpdated', function(event, result) {
+            loadAll();
+        });
+        $scope.$on('$destroy', unsubscribe);
+
         function loadAll() {
             Project.query({
                 page: pagingParams.page - 1,
@@ -91,15 +96,6 @@
         }
 
         function openRootTechModal(project) {
-            var parentTechId = null;
-            if (rootTech && rootTech.parentTech)
-                parentTechId = rootTech.parentTech.id;
-            var rootTech = project.rootTech;
-            rootTech = {id:rootTech?rootTech.id:null,
-                            name:rootTech?rootTech.name:null,
-                            descript:rootTech?rootTech.descript:null,
-                            prjId:project.id,
-                            parentTechId:parentTechId};
 
             var modalInstance = $uibModal.open({
                 templateUrl: 'app/entities/project/project-tech-dialog.html',
@@ -107,7 +103,7 @@
                 controllerAs: 'vm',
                 backdrop: 'static',
                 resolve: {
-                    entity: rootTech
+                    entity: project
                 }
             });
         }
