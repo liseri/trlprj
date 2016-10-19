@@ -39,7 +39,7 @@
                     <td><a ui-sref="project-detail({id:project.id})">{{project.id}}</a></td>
                     <td>{{project.name}}</td>
                     <td>
-                        <span class="label label-success" data-translate="{{'trlprjApp.PrjStatus.' + project.statu}}">{{project.statu}}</span>
+                        <span data-translate="{{'trlprjApp.PrjStatus.' + project.statu}}">{{project.statu}}</span>
                         <span class="label label-warning" ng-click="vm.start(project.id)" ng-show="project.statu == 'CREATED'"
                               style="cursor: pointer;">启动</span>
                         <span class="label label-warning" ng-click="vm.pause(project.id)" ng-show="project.statu == 'STARTED'"
@@ -59,14 +59,14 @@
                     <td>
                         <span class="label label-success" ui-sref="project.techTree(project.id)"
                               ng-show="project.rootTech != null" style="cursor: pointer;">技术树</span>
-                        <span class="label label-success" ng-click="vm.openRootTechModal(project)"
+                        <span class="label label-warning" ng-click="vm.openRootTechModal(project)"
                               ng-show="project.rootTech == null" style="cursor: pointer;">创建技术树</span>
                     </td>
                     <td>
-                        <span class="label label-success"
-                              ng-show="project.trlers">{{project.trlers.size}}人</span>
-                        <span class="label label-success" ng-click="vm.openRootTechModal(project)"
-                              ng-show="project.rootTech == null" style="cursor: pointer;">TRL技术专家管理</span>
+                        <span ng-show="!project.trlers || project.trlers.length <=0">无</span>
+                        <span ng-show="project.trlers && project.trlers.length >0">{{project.trlers.length}}人</span>
+                        <span class="label label-success" ng-click="vm.openTrlerMgrModal(project)"
+                              style="cursor: pointer;">TRL技术专家管理</span>
                     </td>
                     <td>
                         {{project.evlers.size}}人

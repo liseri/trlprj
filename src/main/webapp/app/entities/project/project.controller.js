@@ -19,7 +19,9 @@
         vm.pause = pause;
         vm.restart = restart;
         vm.complete = complete;
-        vm.openRootTechModal = openRootTechModal
+        vm.openRootTechModal = openRootTechModal;
+        vm.openTrlerMgrModal = openTrlerMgrModal;
+        vm.openEvlerMgrModal = openEvlerMgrModal;
 
         loadAll();
 
@@ -96,6 +98,32 @@
         }
 
         function openRootTechModal(project) {
+
+            var modalInstance = $uibModal.open({
+                templateUrl: 'app/entities/project/project-tech-dialog.html',
+                controller: 'ProjectTechDialogController',
+                controllerAs: 'vm',
+                backdrop: 'static',
+                resolve: {
+                    entity: project
+                }
+            });
+        }
+
+        function openTrlerMgrModal(project) {
+
+            var modalInstance = $uibModal.open({
+                templateUrl: 'app/entities/project/project-trler-dialog.html',
+                controller: 'ProjectTrlerDialogController',
+                controllerAs: 'vm',
+                backdrop: 'static',
+                resolve: {
+                    entity: project
+                }
+            });
+        }
+
+        function openEvlerMgrModal(project) {
 
             var modalInstance = $uibModal.open({
                 templateUrl: 'app/entities/project/project-tech-dialog.html',

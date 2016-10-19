@@ -60,6 +60,46 @@
                     }
                     return data;
                 }
+            },
+            'addTrler': {
+                url: 'api/projects/:id/trler/:trlerLogin',
+                method: 'POST',
+                transformResponse: function (data) {
+                    if (data) {
+                        data = angular.fromJson(data);
+                    }
+                    return data;
+                }
+            },
+            'removeTrler': {
+                url: 'api/projects/:id/trler/:trlerLogin',
+                method: 'DELETE',
+                transformResponse: function (data) {
+                    if (data) {
+                        data = angular.fromJson(data);
+                    }
+                    return data;
+                }
+            },
+            'addEvler': {
+                url: 'api/projects/:id/evler/:evlerLogin',
+                method: 'POST',
+                transformResponse: function (data) {
+                    if (data) {
+                        data = angular.fromJson(data);
+                    }
+                    return data;
+                }
+            },
+            'removeEvler': {
+                url: 'api/projects/:id/evler/:evlerLogin',
+                method: 'DELETE',
+                transformResponse: function (data) {
+                    if (data) {
+                        data = angular.fromJson(data);
+                    }
+                    return data;
+                }
             }
         });
     }
