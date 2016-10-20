@@ -6,11 +6,15 @@
         <h4 class="modal-title" id="myTrlerMgrLabel">TRL技术人员管理</h4>
     </div>
     <div class="modal-body">
+        <jhi-alert></jhi-alert>
         <jhi-alert-error></jhi-alert-error>
         <div class="container-fluid">
             <div class="row">
-                <div class="col-xs-4 no-padding-left">
-                    <button class="btn btn-primary" ng-click="vm.addTrlerAction()" >
+                <div class="no-padding-left form-inline">
+                    <select class="form-control" id="field_creator" name="creator" ng-model="vm.selectedTrler" ng-options="user as user.name group by user.branch for user in vm.users">
+                        <option value="">选择TRL专业人员</option>
+                    </select>
+                    <button class="btn btn-primary" ng-click="vm.addTrler()" >
                         <span class="glyphicon glyphicon-plus"></span>
                         <span>新增</span>
                     </button>
@@ -49,11 +53,7 @@
 
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
-                <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span data-translate="entity.action.cancel">Cancel</span>
-            </button>
-            <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
-                <span class="glyphicon glyphicon-save"></span>&nbsp;<span
-                data-translate="entity.action.save">Save</span>
+                <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;关闭
             </button>
         </div>
 </form>

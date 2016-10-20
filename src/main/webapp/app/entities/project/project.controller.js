@@ -120,7 +120,11 @@
                 resolve: {
                     entity: project
                 }
-            });
+            }).result.then(function () {
+                $state.go('project', null, {reload: 'project'});
+            }, function () {
+                $state.go('^');
+            });;
         }
 
         function openEvlerMgrModal(project) {

@@ -1,6 +1,7 @@
 package com.caecc.trlprj.web.rest;
 
 import com.caecc.trlprj.config.Constants;
+import com.caecc.trlprj.domain.Authority;
 import com.codahale.metrics.annotation.Timed;
 import com.caecc.trlprj.domain.User;
 import com.caecc.trlprj.repository.UserRepository;
@@ -162,6 +163,46 @@ public class UserResource {
             .map(ManagedUserVM::new)
             .collect(Collectors.toList());
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/users");
+        return new ResponseEntity<>(managedUserVMs, headers, HttpStatus.OK);
+    }
+    @GetMapping(value = "/users/allTrlers")
+    @Timed
+    public ResponseEntity<List<ManagedUserVM>> getAllTrlers(Pageable pageable)
+        throws URISyntaxException {
+        Page<User> page = userRepository.findAllWithAuthorities(pageable);
+        List<ManagedUserVM> managedUserVMs = page.getContent().stream()
+            .filter(item->item.getAuthorities()!= null
+                && item.getAuthorities().contains(new Authority().name(AuthoritiesConstants.TRL)))
+            .map(ManagedUserVM::new)
+            .collect(Collectors.toList());
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/users/allTrlers");
+        return new ResponseEntity<>(managedUserVMs, headers, HttpStatus.OK);
+    }
+    @GetMapping(value = "/users/allEvlers")
+    @Timed
+    public ResponseEntity<List<ManagedUserVM>> getAllEvlers(Pageable pageable)
+        throws URISyntaxException {
+        Page<User> page = userRepository.findAllWithAuthorities(pageable);
+        List<ManagedUserVM> managedUserVMs = page.getContent().stream()
+            .filter(item->item.getAuthorities()!= null
+                && item.getAuthorities().contains(AuthoritiesConstants.EVL))
+            .map(ManagedUserVM::new)
+            .collect(Collectors.toList());
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/users/allEvlers");
+        return new ResponseEntity<>(managedUserVMs, headers, HttpStatus.OK);
+    }
+    @GetMapping(value = "/users/allGeneralUsers")
+    @Timed
+    public ResponseEntity<List<ManagedUserVM>> getAllGeneralUsers(Pageable pageable)
+        throws URISyntaxException {
+        Page<User> page = userRepository.findAllWithAuthorities(pageable);
+        List<ManagedUserVM> managedUserVMs = page.getContent().stream()
+            .filter(item->item.getAuthorities()!= null
+                && item.getAuthorities().size() == 1
+                && item.getAuthorities().contains(AuthoritiesConstants.USER)) //确定只查询USER角色的用户
+            .map(ManagedUserVM::new)
+            .collect(Collectors.toList());
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/users/allGeneralUsers");
         return new ResponseEntity<>(managedUserVMs, headers, HttpStatus.OK);
     }
 

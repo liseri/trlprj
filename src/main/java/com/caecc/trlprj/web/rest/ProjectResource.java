@@ -178,19 +178,19 @@ public class ProjectResource {
     //region 项目相关人员添加操作
     @PostMapping(value = "/projects/{id}/trler/{trlerLogin}")
     @Timed
-    public ResponseEntity<Void> addTrler(@PathVariable Long id, @PathVariable String trlerLogin) {
+    public ResponseEntity<User> addTrler(@PathVariable Long id, @PathVariable String trlerLogin) {
         Project project = projectService.findOne(id);
         User trler = userService.getUserWithAuthoritiesByLogin(trlerLogin).orElse(null);
         projectService.addTrler(project, trler);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityOperationAlert("project", "addTrlered", id.toString())).build();
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityOperationAlert("project", "addTrlered", project.getName())).body(trler);
     }
     @DeleteMapping(value = "/projects/{id}/trler/{trlerLogin}")
     @Timed
-    public ResponseEntity<Void> removeTrler(@PathVariable Long id, @PathVariable String trlerLogin) {
+    public ResponseEntity<User> removeTrler(@PathVariable Long id, @PathVariable String trlerLogin) {
         Project project = projectService.findOne(id);
         User trler = userService.getUserWithAuthoritiesByLogin(trlerLogin).orElse(null);
         projectService.removeTrler(project, trler);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityOperationAlert("project", "rmTrlered", id.toString())).build();
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityOperationAlert("project", "rmTrlered", project.getName())).body(trler);
     }
     @PostMapping(value = "/projects/{id}/evler/{evlerLogin}")
     @Timed

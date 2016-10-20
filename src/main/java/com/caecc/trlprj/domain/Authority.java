@@ -30,6 +30,11 @@ public class Authority implements Serializable {
         return name;
     }
 
+    public Authority name(String name) {
+        this.name = name;
+        return this;
+    }
+
     public void setName(String name) {
         this.name = name;
     }

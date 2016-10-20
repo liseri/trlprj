@@ -11,43 +11,35 @@
         var vm = this;
         vm.project = entity;
         vm.trlers = vm.project.trlers;
-        vm.users = User.query();
+        vm.users = User.queryAllTrlers();
         vm.clear = clear;
         vm.addTrler = addTrler;
         vm.removeTrler = removeTrler;
-        vm.users = User.query();
+        vm.selectedTrler = null;
 
         $timeout(function (){
             angular.element('.form-group:eq(1)>input').focus();
         });
 
         function clear () {
-            $uibModalInstance.dismiss('cancel');
+            $uibModalInstance.close();
         }
 
         function addTrler (trlerLogin) {
-            vm.isSaving = true;
-            Project.addTrler({id:vm.vm.project.id, trlerLogin:trlerLogin},onAddSuccess, onSaveError);
+            Project.addTrler({id:vm.project.id, trlerLogin:vm.selectedTrler.login},{},onAddSuccess, onSaveError);
         }
 
         function removeTrler (trlerLogin) {
-            vm.isSaving = true;
-            Project.removeTrler({id:vm.vm.project.id, trlerLogin:trlerLogin},onRemoveSuccess, onSaveError);
+            Project.removeTrler({id:vm.project.id, trlerLogin:trlerLogin},onRemoveSuccess, onSaveError);
         }
 
         function onAddSuccess (result) {
-            if (vm.project.trlers)
-                vm.project.trlers = [];
-            vm.project.trlers.add(result);
-            $uibModalInstance.close(result);
-            vm.isSaving = false;
+            vm.trlers.push(result);
+            // $uibModalInstance.close(result);
         }
         function onRemoveSuccess (result) {
-            if (vm.project.trlers)
-                vm.project.trlers = [];
-            vm.project.trlers.remove(result);
-            $uibModalInstance.close(result);
-            vm.isSaving = false;
+            vm.trlers.pop();
+            // $uibModalInstance.close(result);
         }
 
         function onSaveError () {
