@@ -100,7 +100,7 @@
         function openRootTechModal(project) {
 
             var modalInstance = $uibModal.open({
-                templateUrl: 'app/prj/project/project-tech-dialog.html',
+                templateUrl: 'app/prj/project/tech/project-tech-dialog.html',
                 controller: 'ProjectTechDialogController',
                 controllerAs: 'vm',
                 backdrop: 'static',

@@ -143,37 +143,6 @@
                     });
                 }]
             })
-            .state('project.newTech', {
-                parent: 'project',
-                url: '/{id}/newTech',
-                data: {
-                    authorities: ['ROLE_USER']
-                },
-                onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
-                    $uibModal.open({
-                        templateUrl: 'app/prj/project/project-tech-dialog.html',
-                        controller: 'ProjectTechDialogController',
-                        controllerAs: 'vm',
-                        backdrop: 'static',
-                        size: 'md',
-                        resolve: {
-                            entity: function () {
-                                return {
-                                    id: $stateParams.id,
-                                    name: $stateParams.name,
-                                    descript: $stateParams.descript,
-                                    prjId: $stateParams.prjId,
-                                    parentTechId: $stateParams.parentTechId
-                                };
-                            }
-                        }
-                    }).result.then(function () {
-                        $state.go('project', null, {reload: 'project'});
-                    }, function () {
-                        $state.go('project');
-                    });
-                }]
-            })
             .state('project.edit', {
                 parent: 'project',
                 url: '/{id}/edit',
