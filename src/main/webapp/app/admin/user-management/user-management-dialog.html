@@ -8,16 +8,12 @@
     </div>
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
-        <div class="form-group">
-            <label data-translate="global.field.id">ID</label>
-            <input type="text" class="form-control" name="id"
-                   ng-model="vm.user.id" readonly>
-        </div>
 
         <div class="form-group">
             <label class="control-label" data-translate="userManagement.login">Login</label>
             <input type="text" class="form-control" name="login"
-                   ng-model="vm.user.login" ng-required="vm.user.id == null" ng-minlength=1 ng-maxlength=50 ng-pattern="/^[_'.@A-Za-z0-9-]*$/">
+                   ng-model="vm.user.login" ng-required="vm.user.id == null" ng-minlength=1 ng-maxlength=50
+                   ng-pattern="/^[_'.@A-Za-z0-9-]*$/">
 
             <div ng-show="editForm.login.$invalid">
                 <p class="help-block"
@@ -27,19 +23,6 @@
 
                 <p class="help-block"
                    ng-show="editForm.login.$error.maxlength" data-translate="entity.validation.maxlength"
-                   translate-value-max="50">
-                    This field cannot be longer than 50 characters.
-                </p>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label" data-translate="userManagement.name">Name</label>
-            <input type="text" class="form-control" name="name"
-                   ng-model="vm.user.name" ng-maxlength="50">
-
-            <div ng-show="editForm.name.$invalid">
-                <p class="help-block"
-                   ng-show="editForm.name.$error.maxlength" data-translate="entity.validation.maxlength"
                    translate-value-max="50">
                     This field cannot be longer than 50 characters.
                 </p>
@@ -61,30 +44,53 @@
                    translate-value-max="100">
                     This field cannot be longer than 100 characters.
                 </p>
-				<p class="help-block"
+                <p class="help-block"
                    ng-show="editForm.email.$error.email" data-translate="global.messages.validate.email.invalid">
                     Your e-mail is invalid.
-                 </p>
+                </p>
+            </div>
+        </div>
+        <div class="form-group col-md-6 no-padding-left">
+            <label class="control-label" data-translate="userManagement.name">Name</label>
+            <input type="text" class="form-control" name="name"
+                   ng-model="vm.user.name" ng-maxlength="50">
+            <div ng-show="editForm.name.$invalid">
+                <p class="help-block"
+                   ng-show="editForm.name.$error.maxlength" data-translate="entity.validation.maxlength"
+                   translate-value-max="50">
+                    This field cannot be longer than 50 characters.
+                </p>
+            </div>
+        </div>
+        <div class="form-group col-md-6 no-padding-right">
+            <label class="control-label" data-translate="userManagement.branch">branch</label>
+            <select class="form-control" name="branch" ng-model="vm.user.branch"
+                ng-options="branch.name as branch.name for branch in vm.branchs">
+            </select>
+
+            <div ng-show="editForm.branch.$invalid">
+                <p class="help-block"
+                   ng-show="editForm.branch.$error.maxlength" data-translate="entity.validation.maxlength"
+                   translate-value-max="50">
+                    This field cannot be longer than 50 characters.
+                </p>
             </div>
         </div>
         <div class="form-group">
             <label for="activated">
-                <input ng-disabled="vm.user.id === null" type="checkbox" id="activated" name="activated" ng-model="vm.user.activated">
+                <input ng-disabled="vm.user.id === null" type="checkbox" id="activated" name="activated"
+                       ng-model="vm.user.activated">
                 <span data-translate="userManagement.activated">Activated</span>
             </label>
         </div>
 
         <div class="form-group">
-            <label data-translate="userManagement.langKey">Lang Key</label>
-            <select class="form-control" name="langKey" ng-model="vm.user.langKey"
-                    ng-options="language as language for language in vm.languages track by language">
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label data-translate="userManagement.profiles">Profiles</label>
-            <select class="form-control" multiple name="authority" ng-model="vm.user.authorities"
-                    ng-options="authority for authority in vm.authorities">
+            <label>角色(按Ctrl可多选)</label>
+            <select class="form-control" multiple name="authority" ng-model="vm.user.authorities">
+                <option value="ROLE_ADMIN">项目办人员</option>
+                <option value="ROLE_EVL">评审专家</option>
+                <option value="ROLE_TRL">TRL专业人员</option>
+                <option value="ROLE_USER">研发人员</option>
             </select>
         </div>
     </div>

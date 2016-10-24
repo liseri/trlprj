@@ -106,6 +106,7 @@ public class UserService {
         User user = new User();
         user.setLogin(managedUserVM.getLogin());
         user.setName(managedUserVM.getName());
+        user.setBranch(managedUserVM.getBranch());
         user.setEmail(managedUserVM.getEmail());
         if (managedUserVM.getLangKey() == null) {
             user.setLangKey("zh-cn"); // default language

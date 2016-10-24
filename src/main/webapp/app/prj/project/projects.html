@@ -69,9 +69,10 @@
                               style="cursor: pointer;">TRL技术专家管理</span>
                     </td>
                     <td>
-                        {{project.evlers.size}}人
-                        <span class="label label-success" ng-click="vm.openRootTechModal(project)"
-                              ng-show="project.rootTech == null" style="cursor: pointer;">评审专家管理</span>
+                        <span ng-show="!project.evlers || project.evlers.length <=0">无</span>
+                        <span ng-show="project.evlers && project.evlers.length >0">{{project.evlers.length}}人</span>
+                        <span class="label label-success" ng-click="vm.openEvlerMgrModal(project)"
+                              style="cursor: pointer;">评审专家管理</span>
                     </td>
                     <!--<td>{{project.creator.name}}</td>-->
                     <td class="text-right">

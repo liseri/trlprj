@@ -185,7 +185,7 @@ public class UserResource {
         Page<User> page = userRepository.findAllWithAuthorities(pageable);
         List<ManagedUserVM> managedUserVMs = page.getContent().stream()
             .filter(item->item.getAuthorities()!= null
-                && item.getAuthorities().contains(AuthoritiesConstants.EVL))
+                && item.getAuthorities().contains(new Authority().name(AuthoritiesConstants.EVL)))
             .map(ManagedUserVM::new)
             .collect(Collectors.toList());
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/users/allEvlers");
@@ -199,7 +199,7 @@ public class UserResource {
         List<ManagedUserVM> managedUserVMs = page.getContent().stream()
             .filter(item->item.getAuthorities()!= null
                 && item.getAuthorities().size() == 1
-                && item.getAuthorities().contains(AuthoritiesConstants.USER)) //确定只查询USER角色的用户
+                && item.getAuthorities().contains(new Authority().name(AuthoritiesConstants.USER))) //确定只查询USER角色的用户
             .map(ManagedUserVM::new)
             .collect(Collectors.toList());
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/users/allGeneralUsers");

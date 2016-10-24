@@ -15,6 +15,8 @@
             "completed": "项目已完成",
             "addTrlered": "项目添加TRL专业人员成功",
             "rmTrlered": "项目删除TRL专业人员成功",
+            "addEvlered": "项目添加评审专家成功",
+            "rmEvlered": "项目删除评审专家成功",
             "delete": {
                 "question": "确定要删除该项目?"
             },

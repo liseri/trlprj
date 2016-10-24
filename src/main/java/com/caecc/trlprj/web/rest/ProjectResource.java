@@ -194,19 +194,19 @@ public class ProjectResource {
     }
     @PostMapping(value = "/projects/{id}/evler/{evlerLogin}")
     @Timed
-    public ResponseEntity<Void> addEvler(@PathVariable Long id, @PathVariable String evlerLogin) {
+    public ResponseEntity<User> addEvler(@PathVariable Long id, @PathVariable String evlerLogin) {
         Project project = projectService.findOne(id);
         User trler = userService.getUserWithAuthoritiesByLogin(evlerLogin).orElse(null);
         projectService.addEvler(project, trler);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityOperationAlert("project", "addEvlered", id.toString())).build();
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityOperationAlert("project", "addEvlered", project.getName())).body(trler);
     }
     @DeleteMapping(value = "/projects/{id}/evler/{evlerLogin}")
     @Timed
-    public ResponseEntity<Void> removeEvler(@PathVariable Long id, @PathVariable String evlerLogin) {
+    public ResponseEntity<User> removeEvler(@PathVariable Long id, @PathVariable String evlerLogin) {
         Project project = projectService.findOne(id);
         User trler = userService.getUserWithAuthoritiesByLogin(evlerLogin).orElse(null);
         projectService.removeEvler(project, trler);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityOperationAlert("project", "rmEvlered", id.toString())).build();
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityOperationAlert("project", "rmEvlered", project.getName())).body(trler);
     }
     //endregion
 

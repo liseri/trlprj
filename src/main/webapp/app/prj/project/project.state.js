@@ -10,7 +10,7 @@
     function stateConfig($stateProvider) {
         $stateProvider
             .state('project', {
-                parent: 'entity',
+                parent: 'prj',
                 url: '/project?page&sort&search',
                 data: {
                     authorities: ['ROLE_USER'],
@@ -18,7 +18,7 @@
                 },
                 views: {
                     'content@': {
-                        templateUrl: 'app/entities/project/projects.html',
+                        templateUrl: 'app/prj/project/projects.html',
                         controller: 'ProjectController',
                         controllerAs: 'vm'
                     }
@@ -54,7 +54,7 @@
                 }
             })
             .state('project-detail', {
-                parent: 'entity',
+                parent: 'prj',
                 url: '/project/{id}',
                 data: {
                     authorities: ['ROLE_USER'],
@@ -62,7 +62,7 @@
                 },
                 views: {
                     'content@': {
-                        templateUrl: 'app/entities/project/project-detail.html',
+                        templateUrl: 'app/prj/project/project-detail.html',
                         controller: 'ProjectDetailController',
                         controllerAs: 'vm'
                     }
@@ -94,7 +94,7 @@
                 },
                 onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
                     $uibModal.open({
-                        templateUrl: 'app/entities/project/project-dialog.html',
+                        templateUrl: 'app/prj/project/project-dialog.html',
                         controller: 'ProjectDialogController',
                         controllerAs: 'vm',
                         backdrop: 'static',
@@ -119,7 +119,7 @@
                 },
                 onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
                     $uibModal.open({
-                        templateUrl: 'app/entities/project/project-dialog.html',
+                        templateUrl: 'app/prj/project/project-dialog.html',
                         controller: 'ProjectDialogController',
                         controllerAs: 'vm',
                         backdrop: 'static',
@@ -151,7 +151,7 @@
                 },
                 onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
                     $uibModal.open({
-                        templateUrl: 'app/entities/project/project-tech-dialog.html',
+                        templateUrl: 'app/prj/project/project-tech-dialog.html',
                         controller: 'ProjectTechDialogController',
                         controllerAs: 'vm',
                         backdrop: 'static',
@@ -182,7 +182,7 @@
                 },
                 onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
                     $uibModal.open({
-                        templateUrl: 'app/entities/project/project-dialog.html',
+                        templateUrl: 'app/prj/project/project-dialog.html',
                         controller: 'ProjectDialogController',
                         controllerAs: 'vm',
                         backdrop: 'static',
@@ -207,7 +207,7 @@
                 },
                 onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
                     $uibModal.open({
-                        templateUrl: 'app/entities/project/project-delete-dialog.html',
+                        templateUrl: 'app/prj/project/project-delete-dialog.html',
                         controller: 'ProjectDeleteController',
                         controllerAs: 'vm',
                         size: 'md',

@@ -5,9 +5,9 @@
         .module('trlprjApp')
         .controller('UserManagementDialogController',UserManagementDialogController);
 
-    UserManagementDialogController.$inject = ['$stateParams', '$uibModalInstance', 'entity', 'User', 'JhiLanguageService'];
+    UserManagementDialogController.$inject = ['$stateParams', '$uibModalInstance', 'entity', 'User', 'Branch', 'JhiLanguageService'];
 
-    function UserManagementDialogController ($stateParams, $uibModalInstance, entity, User, JhiLanguageService) {
+    function UserManagementDialogController ($stateParams, $uibModalInstance, entity, User, Branch, JhiLanguageService) {
         var vm = this;
 
         vm.authorities = ['ROLE_USER', 'ROLE_TRL', 'ROLE_EVL', 'ROLE_ADMIN'];
@@ -15,7 +15,7 @@
         vm.languages = null;
         vm.save = save;
         vm.user = entity;
-
+        vm.branchs = Branch.query();
 
         JhiLanguageService.getAll().then(function (languages) {
             vm.languages = languages;

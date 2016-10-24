@@ -10,7 +10,7 @@
     function stateConfig($stateProvider) {
         $stateProvider
         .state('branch', {
-            parent: 'entity',
+            parent: 'admin',
             url: '/branch',
             data: {
                 authorities: ['ROLE_USER'],
@@ -32,7 +32,7 @@
             }
         })
         .state('branch-detail', {
-            parent: 'entity',
+            parent: 'admin',
             url: '/branch/{id}',
             data: {
                 authorities: ['ROLE_USER'],

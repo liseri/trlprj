@@ -1,0 +1,59 @@
+<form name="editForm" role="form" novalidate ng-submit="vm.save()" show-validation>
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()">&times;</button>
+        <h4 class="modal-title" id="myEvlerMgrLabel">评审专家管理</h4>
+    </div>
+    <div class="modal-body">
+        <jhi-alert></jhi-alert>
+        <jhi-alert-error></jhi-alert-error>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="no-padding-left form-inline">
+                    <select class="form-control" id="field_creator" name="creator" ng-model="vm.selectedEvler" ng-options="user as user.name group by user.branch for user in vm.users">
+                        <option value="">选择评审专家</option>
+                    </select>
+                    <button class="btn btn-primary" ng-click="vm.addEvler()" >
+                        <span class="glyphicon glyphicon-plus"></span>
+                        <span>新增</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <br/>
+        <div class="table-responsive">
+            <table class="jh-table table table-striped">
+                <thead>
+                <tr>
+                    <th>账号</th>
+                    <th>姓名</th>
+                    <th>所在单位</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="evler in vm.evlers track by evler.id">
+                    <td>{{evler.login}}</td>
+                    <td>{{evler.name}}</td>
+                    <td>{{evler.branch}}</td>
+                    <td class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="button"
+                                    ng-click="vm.removeEvler(evler.login)"
+                                    class="btn btn-danger btn-sm">
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                <span class="hidden-xs hidden-sm" data-translate="entity.action.delete"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+                <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;关闭
+            </button>
+        </div>
+</form>
