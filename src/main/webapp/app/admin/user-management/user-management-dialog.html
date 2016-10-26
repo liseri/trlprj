@@ -86,11 +86,8 @@
 
         <div class="form-group">
             <label>角色(按Ctrl可多选)</label>
-            <select class="form-control" multiple name="authority" ng-model="vm.user.authorities">
-                <option value="ROLE_ADMIN">项目办人员</option>
-                <option value="ROLE_EVL">评审专家</option>
-                <option value="ROLE_TRL">TRL专业人员</option>
-                <option value="ROLE_USER">研发人员</option>
+            <select class="form-control" multiple name="authority" ng-model="vm.user.authorities"
+                ng-options="authority as 'trlprjApp.authority.'+ authority | translate for authority in vm.authorities">
             </select>
         </div>
     </div>

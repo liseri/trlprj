@@ -36,7 +36,7 @@
                 </td>
                 <td>
                     <div ng-repeat="authority in user.authorities">
-                        <span class="label label-info">{{ authority }}</span>
+                        <span class="label label-info" data-translate="{{'trlprjApp.authority.'+authority}}">{{ authority }}</span>
                     </div>
                 </td>
                 <td>{{user.createdDate | date:'dd/MM/yy HH:mm'}}</td>

@@ -1,0 +1,82 @@
+<div class="container-fluid">
+    <div class="col-md-4">
+        <h2 data-translate="trlprjApp.technology.home.title">Technologies</h2>
+        <jhi-alert></jhi-alert>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xs-4 no-padding-left">
+                    <button class="btn btn-primary" ui-sref="technology.new" >
+                        <span class="glyphicon glyphicon-plus"></span>
+                        <span  data-translate="trlprjApp.technology.home.createLabel">
+                        Create new Technology
+                    </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <br/>
+        <div class="table-responsive">
+            <table class="jh-table table table-striped">
+                <thead>
+                <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.reset()">
+                    <th jh-sort-by="id"><span data-translate="global.field.id">ID</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="name"><span data-translate="trlprjApp.technology.name">Name</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="descript"><span data-translate="trlprjApp.technology.descript">Descript</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="isKey"><span data-translate="trlprjApp.technology.isKey">Is Key</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="tcl"><span data-translate="trlprjApp.technology.tcl">Tcl</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="trl"><span data-translate="trlprjApp.technology.trl">Trl</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="creator.name"><span data-translate="trlprjApp.technology.creator">Creator</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="prj.name"><span data-translate="trlprjApp.technology.prj">Prj</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="parentTech.name"><span data-translate="trlprjApp.technology.parentTech">Parent Tech</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody infinite-scroll="vm.loadPage(vm.page + 1)" infinite-scroll-disabled="vm.page >= vm.links['last']">
+                <tr ng-repeat="technology in vm.technologies track by technology.id">
+                    <td><a ui-sref="technology-detail({id:technology.id})">{{technology.id}}</a></td>
+                    <td>{{technology.name}}</td>
+                    <td>{{technology.descript}}</td>
+                    <td>{{technology.isKey}}</td>
+                    <td data-translate="{{'trlprjApp.TCL.' + technology.tcl}}">{{technology.tcl}}</td>
+                    <td data-translate="{{'trlprjApp.TRL.' + technology.trl}}">{{technology.trl}}</td>
+                    <td>
+                        {{technology.creator.name}}
+                    </td>
+                    <td>
+                        <a ui-sref="project-detail({id:technology.prj.id})">{{technology.prj.name}}</a>
+                    </td>
+                    <td>
+                        <a ui-sref="technology-detail({id:technology.parentTech.id})">{{technology.parentTech.name}}</a>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    ui-sref="technology-detail({id:technology.id})"
+                                    class="btn btn-info btn-sm">
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                                <span class="hidden-xs hidden-sm" data-translate="entity.action.view"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="technology.edit({id:technology.id})"
+                                    class="btn btn-primary btn-sm">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                <span class="hidden-xs hidden-sm" data-translate="entity.action.edit"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="technology.delete({id:technology.id})"
+                                    class="btn btn-danger btn-sm">
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                <span class="hidden-xs hidden-sm" data-translate="entity.action.delete"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <h1>你好</h1>
+    </div>
+</div>
+
