@@ -9,7 +9,10 @@
 
     function TechnologyController ($scope, $state, Technology, ParseLinks, AlertService) {
         var vm = this;
-        
+        vm.isPrjAction = true;
+        vm.isTechAction = false;
+        vm.isKeyAction = false;
+
         vm.technologies = [];
         vm.loadPage = loadPage;
         vm.page = 0;
