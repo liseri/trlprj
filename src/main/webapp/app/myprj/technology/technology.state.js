@@ -10,15 +10,15 @@
     function stateConfig($stateProvider) {
         $stateProvider
         .state('technology', {
-            parent: 'entity',
+            parent: 'myprj',
             url: '/technology',
             data: {
                 authorities: ['ROLE_USER'],
                 pageTitle: 'trlprjApp.technology.home.title'
             },
             views: {
-                'content@': {
-                    templateUrl: 'app/entities/technology/technologies.html',
+                'prjContent@': {
+                    templateUrl: 'app/myprj/technology/technologies.html',
                     controller: 'TechnologyController',
                     controllerAs: 'vm'
                 }
@@ -34,7 +34,7 @@
             }
         })
         .state('technology-detail', {
-            parent: 'entity',
+            parent: 'myprj',
             url: '/technology/{id}',
             data: {
                 authorities: ['ROLE_USER'],
@@ -42,7 +42,7 @@
             },
             views: {
                 'content@': {
-                    templateUrl: 'app/entities/technology/technology-detail.html',
+                    templateUrl: 'app/myprj/technology/technology-detail.html',
                     controller: 'TechnologyDetailController',
                     controllerAs: 'vm'
                 }
@@ -75,7 +75,7 @@
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
-                    templateUrl: 'app/entities/technology/technology-dialog.html',
+                    templateUrl: 'app/myprj/technology/technology-dialog.html',
                     controller: 'TechnologyDialogController',
                     controllerAs: 'vm',
                     backdrop: 'static',
@@ -100,7 +100,7 @@
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
-                    templateUrl: 'app/entities/technology/technology-dialog.html',
+                    templateUrl: 'app/myprj/technology/technology-dialog.html',
                     controller: 'TechnologyDialogController',
                     controllerAs: 'vm',
                     backdrop: 'static',
@@ -132,7 +132,7 @@
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
-                    templateUrl: 'app/entities/technology/technology-dialog.html',
+                    templateUrl: 'app/myprj/technology/technology-dialog.html',
                     controller: 'TechnologyDialogController',
                     controllerAs: 'vm',
                     backdrop: 'static',
@@ -157,7 +157,7 @@
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
-                    templateUrl: 'app/entities/technology/technology-delete-dialog.html',
+                    templateUrl: 'app/myprj/technology/technology-delete-dialog.html',
                     controller: 'TechnologyDeleteController',
                     controllerAs: 'vm',
                     size: 'md',

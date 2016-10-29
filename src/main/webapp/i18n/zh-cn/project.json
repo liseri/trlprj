@@ -7,6 +7,9 @@
                 "createOrEditLabel": "新建或编辑项目",
                 "search": "查询"
             },
+            "myprj": {
+                "title": "我的项目"
+            },
             "created": "新项目创建成功",
             "updated": "项目信息修改成功",
             "deleted": "项目已删除",
