@@ -33,6 +33,26 @@
                     return $translate.refresh();
                 }]
             }
+        }).state('prj', {
+            parent: 'myprj',
+            url: '/prj',
+            views: {
+                'prjContent@myprj': {
+                    templateUrl: 'app/myprj/prj/myprj-prj.html',
+                    controller: 'MyprjPrjController',
+                    controllerAs: 'vm'
+                }
+            }
+        }).state('techtree', {
+            parent: 'prj',
+            url: '/{id}/techtree',
+            views: {
+                'techContent@myprj': {
+                    templateUrl: 'app/myprj/techtree/myprj-techtree.html',
+                    controller: 'MyprjTechTreeController',
+                    controllerAs: 'vm'
+                }
+            }
         });
     }
 })();

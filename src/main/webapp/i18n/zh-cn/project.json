@@ -10,6 +10,9 @@
             "myprj": {
                 "title": "我的项目"
             },
+            "techtree": {
+                "title": "技术树"
+            },
             "created": "新项目创建成功",
             "updated": "项目信息修改成功",
             "deleted": "项目已删除",
