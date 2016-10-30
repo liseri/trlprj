@@ -8,7 +8,7 @@
     stateConfig.$inject = ['$stateProvider'];
 
     function stateConfig ($stateProvider) {
-        $stateProvider.state('prj', {
+        $stateProvider.state('prjmgr', {
             abstract: true,
             parent: 'app'
         });

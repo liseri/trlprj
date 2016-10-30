@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="content/css/main.css">
     <!-- endbuild -->
 </head>
-<body ng-app="trlprjApp" ng-strict-di>
+<body ng-app="trlprjApp" ng-strict-di ng-cloak>
 <!--[if lt IE 9]>
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
     your browser</a> to improve your experience.</p>
@@ -29,7 +29,7 @@
 <div class="wrap flex flex-v">
 
     <div class="header" ui-view="navbar"></div>
-    <div class="main flex-1" ui-view="content">
+    <div class="main flex-1" ui-view="content" ng-cloak>
         <!-- Angular views -->
     </div>
     <div class="footer">
@@ -100,14 +100,20 @@
 <script src="app/home/home.state.js"></script>
 <script src="app/home/home.controller.js"></script>
 
+<script src="app/myprj/myprj.state.js"></script>
+<script src="app/myprj/myprj.controller.js"></script>
+
+<script src="app/myprj/prj/myprj-prj.state.js"></script>
+<script src="app/myprj/prj/myprj-prj.service.js"></script>
+<script src="app/myprj/prj/myprj-prj.controller.js"></script>
+
 <script src="app/myprj/technology/technology-dialog.controller.js"></script>
 <script src="app/myprj/technology/technology-detail.controller.js"></script>
 <script src="app/myprj/technology/technology-delete-dialog.controller.js"></script>
 <script src="app/myprj/technology/technology.state.js"></script>
 <script src="app/myprj/technology/technology.service.js"></script>
 <script src="app/myprj/technology/technology.controller.js"></script>
-<script src="app/myprj/myprj.state.js"></script>
-<script src="app/myprj/myprj.controller.js"></script>
+
 <script src="app/prj/prj.state.js"></script>
 <script src="app/prj/project/project-dialog.controller.js"></script>
 <script src="app/prj/project/trler/project-trler-dialog.controller.js"></script>

@@ -11,7 +11,7 @@
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "project": {
-                "main": "TRL项目",
+                "main": "项目管理",
                 "prjmanagement": "项目管理"
             },
             "account": {

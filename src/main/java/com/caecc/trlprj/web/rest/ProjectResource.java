@@ -244,4 +244,19 @@ public class ProjectResource {
         return ResponseEntity.ok().headers(HeaderUtil.createEntityOperationAlert("project", "deleteTeched", id.toString())).build();
     }
     //endregion
+
+    //region 可用项目查询
+
+    /**
+     * 获得用户的可用项目
+     * @return
+     */
+    @GetMapping(value = "/myprj")
+    @Timed
+    public ResponseEntity<List<ProjectVM>> getAvaliblePrj() {
+        List<ProjectVM> prjs = projectService.getAvaliblePrj();
+        return ResponseEntity.ok(prjs);
+    }
+
+    //endregion
 }

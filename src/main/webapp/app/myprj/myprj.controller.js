@@ -45,7 +45,12 @@
             vm.isPrjAction = true;
             vm.isTechAction = false;
             vm.isKeyAction = false;
-            $state.go('technology');
+            try{
+                $state.go('prj');
+            }catch (e) {
+                console.error(e);
+            }
+
         }
 
         function openTech() {

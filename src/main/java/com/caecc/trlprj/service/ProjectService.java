@@ -1,5 +1,6 @@
 package com.caecc.trlprj.service;
 
+import com.caecc.trlprj.domain.Authority;
 import com.caecc.trlprj.domain.Project;
 import com.caecc.trlprj.domain.Technology;
 import com.caecc.trlprj.domain.User;
@@ -7,6 +8,7 @@ import com.caecc.trlprj.domain.enumeration.PrjStatus;
 import com.caecc.trlprj.repository.ProjectRepository;
 import com.caecc.trlprj.repository.TechnologyRepository;
 import com.caecc.trlprj.repository.UserRepository;
+import com.caecc.trlprj.security.AuthoritiesConstants;
 import com.caecc.trlprj.web.rest.vm.ProjectVM;
 import com.caecc.trlprj.web.rest.vm.TechnologyVM;
 import org.slf4j.Logger;
@@ -15,13 +17,18 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import javax.inject.Inject;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 /**
  * Service Implementation for managing Project.
@@ -273,4 +280,73 @@ public class ProjectService {
     }
     //endregion
 
+    //region 可用项目查询
+
+    /**
+     * 获得用户的可用项目
+     * 1. 管理员不走这个接口
+     * 2. 有四种：项目办管理员，TRL专业人员，评审专家，普通研发人员
+     * 3. 暂时假设这四种人员角色不会重叠
+     * @return
+     */
+    public List<ProjectVM> getAvaliblePrj() {
+        User user = userService.getUserWithAuthorities();
+        if (user.getAuthorities().contains(new Authority().name(AuthoritiesConstants.ADMIN)))
+            return getAvaliblePrjOfAdmin(user);
+        if (user.getAuthorities().contains(new Authority().name(AuthoritiesConstants.TRL)))
+            return getAvaliblePrjOfTrler(user);
+        else if (user.getAuthorities().contains(new Authority().name(AuthoritiesConstants.EVL)))
+            return getAvaliblePrjOfEvler(user);
+        else return getAvaliblePrjOfUser(user);
+    }
+    /**
+     * 获取项目办管理人员可用项目
+     * @param admin
+     * @return
+     */
+    private List<ProjectVM> getAvaliblePrjOfAdmin(User admin) {
+        return projectRepository.findAllWithEagerRelationships().stream()
+            .filter(prj->prj.getCreator().getLogin() == admin.getLogin())
+            .map(prj->new ProjectVM().from(prj))
+            .collect(Collectors.toList());
+    }
+
+    /**
+     * 获取TRL专业人员可用项目
+     * @param trler
+     * @return
+     */
+    private List<ProjectVM> getAvaliblePrjOfTrler(User trler) {
+        return projectRepository.findAllWithEagerRelationships().stream()
+            .filter(prj->prj.getStatu() == PrjStatus.STARTED && prj.getEvlers().contains(trler))
+            .map(new ProjectVM()::from)
+            .collect(Collectors.toList());
+    }
+
+    /**
+     * 获取评审专家可用项目
+     * @param evler
+     * @return
+     */
+    private List<ProjectVM> getAvaliblePrjOfEvler(User evler) {
+        return projectRepository.findAllWithEagerRelationships().stream()
+            .filter(prj->prj.getStatu() == PrjStatus.STARTED && prj.getEvlers().contains(evler))
+            .map(new ProjectVM()::from)
+            .collect(Collectors.toList());
+    }
+
+    /**
+     * 获取普通研发人员可用项目
+     * @param user
+     * @return
+     */
+    private List<ProjectVM> getAvaliblePrjOfUser(User user) {
+        List<ProjectVM> prjs = Collections.emptyList();
+        technologyRepository.findAllWithEagerRelationships().stream()
+            .filter(tech->tech.getPrj().getStatu() == PrjStatus.STARTED && (tech.getCreator().getLogin() == user.getLogin() || tech.getSubCreators().contains(user)))
+            .forEach(tech->prjs.add(new ProjectVM().from(tech.getPrj())));
+        return prjs;
+    }
+
+    //endregion
 }

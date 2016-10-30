@@ -25,6 +25,7 @@
             resolve: {
                 translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
                     $translatePartialLoader.addPart('project');
+                    $translatePartialLoader.addPart('prjStatus');
                     $translatePartialLoader.addPart('technology');
                     $translatePartialLoader.addPart('tCL');
                     $translatePartialLoader.addPart('tRL');

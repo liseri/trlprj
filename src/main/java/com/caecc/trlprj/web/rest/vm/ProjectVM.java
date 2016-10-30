@@ -1,5 +1,6 @@
 package com.caecc.trlprj.web.rest.vm;
 
+import com.caecc.trlprj.domain.Project;
 import com.caecc.trlprj.domain.enumeration.PrjStatus;
 
 import javax.persistence.*;
@@ -15,6 +16,8 @@ public class ProjectVM {
 
     @Size(max = 50)
     private String name;
+
+    private PrjStatus statu;
 
     @Size(max = 500)
     private String descript1;
@@ -42,6 +45,14 @@ public class ProjectVM {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public PrjStatus getStatu() {
+        return statu;
+    }
+
+    public void setStatu(PrjStatus statu) {
+        this.statu = statu;
     }
 
     public String getDescript1() {
@@ -75,4 +86,17 @@ public class ProjectVM {
     public void setDescript4(String descript4) {
         this.descript4 = descript4;
     }
+
+    public ProjectVM from(Project prj) {
+        this.id = prj.getId();
+        this.name = prj.getName();
+        this.statu = prj.getStatu();
+        this.descript1 = prj.getDescript1();
+        this.descript2 = prj.getDescript2();
+        this.descript3 = prj.getDescript3();
+        this.descript4 = prj.getDescript4();
+        return this;
+    }
+
+
 }

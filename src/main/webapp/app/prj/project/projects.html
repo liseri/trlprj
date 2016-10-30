@@ -1,4 +1,4 @@
-<div>
+<div class="container">
     <h2 data-translate="trlprjApp.project.home.title">Projects</h2>
     <jhi-alert></jhi-alert>
     <div class="container-fluid">
@@ -31,6 +31,7 @@
                     <!--<th jh-sort-by="creator.name"><span data-translate="trlprjApp.project.creator">Creator</span> <span class="glyphicon glyphicon-sort"></span></th>-->
                     <th>TRL技术专家</th>
                     <th>评审专家</th>
+                    <th>创建人</th>
                     <th></th>
                 </tr>
             </thead>
@@ -74,7 +75,7 @@
                         <span class="label label-success" ng-click="vm.openEvlerMgrModal(project)"
                               style="cursor: pointer;">评审专家管理</span>
                     </td>
-                    <!--<td>{{project.creator.name}}</td>-->
+                    <td>{{project.creator.name}}({{project.creator.branch}})</td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"

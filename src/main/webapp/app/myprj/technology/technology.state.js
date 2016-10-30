@@ -17,7 +17,7 @@
                 pageTitle: 'trlprjApp.technology.home.title'
             },
             views: {
-                'prjContent@': {
+                'prjContent@myprj': {
                     templateUrl: 'app/myprj/technology/technologies.html',
                     controller: 'TechnologyController',
                     controllerAs: 'vm'
@@ -41,7 +41,7 @@
                 pageTitle: 'trlprjApp.technology.detail.title'
             },
             views: {
-                'content@': {
+                'prjContent@myprj': {
                     templateUrl: 'app/myprj/technology/technology-detail.html',
                     controller: 'TechnologyDetailController',
                     controllerAs: 'vm'

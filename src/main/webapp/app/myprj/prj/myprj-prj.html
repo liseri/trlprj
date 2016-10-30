@@ -1,0 +1,51 @@
+<div class="container-fluid">
+    <h2 data-translate="trlprjApp.project.myprj.title">Projects</h2>
+    <jhi-alert></jhi-alert>
+    <div class="table-responsive">
+        <table class="jh-table table table-striped table-hover">
+            <thead>
+            <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
+                <th jh-sort-by="name"><span data-translate="trlprjApp.project.name">Name</span> <span
+                    class="glyphicon glyphicon-sort"></span></th>
+                <th jh-sort-by="statu">状态<span class="glyphicon glyphicon-sort"></span></th>
+                <th><span data-translate="trlprjApp.project.descript1">Descript 1</span></th>
+                <th><span data-translate="trlprjApp.project.descript2">Descript 1</span></th>
+                <th><span data-translate="trlprjApp.project.descript3">Descript 1</span></th>
+                <th><span data-translate="trlprjApp.project.descript4">Descript 1</span></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="project in vm.prjs">
+                <td nowrap><strong>{{project.name}}</strong></td>
+                <td nowrap>
+                    <span class="label label-success" ng-show="project.statu == 'CREATED'">已创建</span>
+                    <span class="label label-warning"  ng-show="project.statu == 'STARTED'">已启动</span>
+                    <span class="label label-warning"  ng-show="project.statu == 'PAUSED'">已暂停</span>
+                    <span class="label label-danger"  ng-show="project.statu == 'COMPLETED'">已完成</span>
+                </td>
+                <!--{{project.descript1}}   <span data-translate="trlprjApp.project.descript1">Descript 1</span>-->
+                <td>
+                    {{project.descript1}}
+                </td>
+                <td>
+                    {{project.descript2}}
+                </td>
+                <td>
+                    {{project.descript3}}
+                </td>
+                <td>
+                    {{project.descript4}}
+                </td>
+                <td>
+                    <button type="button" class="btn btn btn-info" ui-sref="project.techTree(project.id)">
+                        技术树
+                        <span class="glyphicon glyphicon-chevron-right"></span>
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
