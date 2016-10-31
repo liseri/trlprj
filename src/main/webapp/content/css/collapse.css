@@ -13,7 +13,7 @@
 html,body{height: 100%;}
 .wrap{width: 100%;height: 100%;}
 .header{height:auto;}
-.footer{height:auto;}
+.footer{height:auto; text-align: center}
 .main{overflow:auto;-webkit-overflow-scrolling: touch;}
 /* ============================================================
    flex：定义布局为盒模型

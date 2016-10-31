@@ -32,7 +32,7 @@
     </div>
     <div class="row">
         <div class="col-sm-6">
-            <div ui-tree id="tree-root">
+            <div ui-tree id="tree-root" data-max-depth="4" data-drag-enabled="false">
                 <ol ui-tree-nodes ng-model="vm.data">
                     <li ng-repeat="node in vm.data" ui-tree-node ng-include="'nodes_renderer.html'"></li>
                 </ol>

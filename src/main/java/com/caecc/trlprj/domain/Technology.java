@@ -31,6 +31,9 @@ public class Technology implements Serializable {
     private Long id;
 
     @NotNull
+    private Long treeId;
+
+    @NotNull
     @Size(max = 50)
     @Column(name = "name", length = 50, nullable = false)
     private String name;
@@ -84,6 +87,19 @@ public class Technology implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getTreeId() {
+        return treeId;
+    }
+
+    public Technology treeId(Long treeId) {
+        this.treeId = treeId;
+        return this;
+    }
+
+    public void setTreeId(Long treeId) {
+        this.treeId = treeId;
     }
 
     public String getName() {
@@ -269,4 +285,5 @@ public class Technology implements Serializable {
             ", trl='" + trl + "'" +
             '}';
     }
+
 }
