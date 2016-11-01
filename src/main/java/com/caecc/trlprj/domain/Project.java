@@ -70,6 +70,7 @@ public class Project implements Serializable {
     private Technology rootTech;
 
     @OneToMany(mappedBy = "prj",fetch = FetchType.EAGER)
+    @OrderBy(value = "orderId asc")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Technology> teches = new HashSet<>();

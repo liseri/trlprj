@@ -8,9 +8,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Objects;
+import java.util.*;
 
 import com.caecc.trlprj.domain.enumeration.TCL;
 
@@ -31,7 +29,9 @@ public class Technology implements Serializable {
     private Long id;
 
     @NotNull
-    private Long treeId;
+    @Size(max = 50)
+    @Column(name = "order_id", length = 50, nullable = false)
+    private String orderId;
 
     @NotNull
     @Size(max = 50)
@@ -55,9 +55,10 @@ public class Technology implements Serializable {
     private TRL trl;
 
     @OneToMany(mappedBy = "parentTech")
+    @OrderBy(value = "orderId asc")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Technology> subTeches = new HashSet<>();
+    private List<Technology> subTeches = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.EAGER)
     private User creator;
@@ -89,17 +90,18 @@ public class Technology implements Serializable {
         this.id = id;
     }
 
-    public Long getTreeId() {
-        return treeId;
+
+    public String getOrderId() {
+        return orderId;
     }
 
-    public Technology treeId(Long treeId) {
-        this.treeId = treeId;
+    public Technology orderId(String orderId) {
+        this.orderId = orderId;
         return this;
     }
 
-    public void setTreeId(Long treeId) {
-        this.treeId = treeId;
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
     }
 
     public String getName() {
@@ -167,11 +169,11 @@ public class Technology implements Serializable {
         this.trl = trl;
     }
 
-    public Set<Technology> getSubTeches() {
+    public List<Technology> getSubTeches() {
         return subTeches;
     }
 
-    public Technology subTeches(Set<Technology> technologies) {
+    public Technology subTeches(List<Technology> technologies) {
         this.subTeches = technologies;
         return this;
     }
@@ -188,7 +190,7 @@ public class Technology implements Serializable {
         return this;
     }
 
-    public void setSubTeches(Set<Technology> technologies) {
+    public void setSubTeches(List<Technology> technologies) {
         this.subTeches = technologies;
     }
 

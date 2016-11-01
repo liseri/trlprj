@@ -14,9 +14,15 @@
         vm.data =
             [
                 {
-                    'id': 1,
+                    'id': '1',
                     'title': 'node1',
-                    'nodes': []
+                    'nodes': [
+                        {
+                            'id': '1.1',
+                            'title': 'node1.1',
+                            'nodes': []
+                        }
+                    ]
                 }
             ];
         vm.expandAll = expandAll;

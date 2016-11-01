@@ -217,5 +217,9 @@ public class User extends AbstractAuditingEntity implements Serializable {
             "}";
     }
 
+    public String getFullName() {
+        return name + "(" + branch + ")";
+    }
+
 
 }

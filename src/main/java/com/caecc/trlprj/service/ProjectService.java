@@ -10,24 +10,20 @@ import com.caecc.trlprj.repository.TechnologyRepository;
 import com.caecc.trlprj.repository.UserRepository;
 import com.caecc.trlprj.security.AuthoritiesConstants;
 import com.caecc.trlprj.web.rest.vm.ProjectVM;
+import com.caecc.trlprj.web.rest.vm.Technology2VM;
 import com.caecc.trlprj.web.rest.vm.TechnologyVM;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 /**
@@ -52,6 +48,7 @@ public class ProjectService {
     private UserService userService;
 
     //region 项目增改删
+
     /**
      * 创建新项目.
      *
@@ -71,6 +68,7 @@ public class ProjectService {
         Project result = projectRepository.save(project);
         return result;
     }
+
     /**
      * 修改项目信息.
      *
@@ -90,26 +88,28 @@ public class ProjectService {
         Project result = projectRepository.save(project);
         return result;
     }
+
     /**
-     *  Delete the  project by id.
+     * Delete the  project by id.
      *
-     *  @param id the id of the entity
+     * @param id the id of the entity
      */
     public void delete(Long id) {
         log.debug("Request to delete Project : {}", id);
         Project project = projectRepository.findOne(id);
         project.rootTech(null);
-        project.getTeches().stream().forEach(tech->technologyRepository.delete(tech));
+        project.getTeches().stream().forEach(tech -> technologyRepository.delete(tech));
         projectRepository.delete(id);
     }
     //endregion
 
     //region  项目查询
+
     /**
-     *  Get all the projects.
+     * Get all the projects.
      *
-     *  @param pageable the pagination information
-     *  @return the list of entities
+     * @param pageable the pagination information
+     * @return the list of entities
      */
     @Transactional(readOnly = true)
     public Page<Project> findAll(Pageable pageable) {
@@ -119,10 +119,10 @@ public class ProjectService {
     }
 
     /**
-     *  Get one project by id.
+     * Get one project by id.
      *
-     *  @param id the id of the entity
-     *  @return the entity
+     * @param id the id of the entity
+     * @return the entity
      */
     @Transactional(readOnly = true)
     public Project findOne(Long id) {
@@ -133,8 +133,10 @@ public class ProjectService {
     //endregion
 
     //region 项目状态操作
+
     /**
      * 启动
+     *
      * @param project
      */
     public void start(Project project) {
@@ -143,8 +145,10 @@ public class ProjectService {
         project.statu(PrjStatus.STARTED).startTime(LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE));
         projectRepository.save(project);
     }
+
     /**
      * 暂停
+     *
      * @param project
      */
     public void pause(Project project) {
@@ -153,8 +157,10 @@ public class ProjectService {
         project.statu(PrjStatus.PAUSED);
         projectRepository.save(project);
     }
+
     /**
      * 完成
+     *
      * @param project
      */
     public void complete(Project project) {
@@ -169,6 +175,7 @@ public class ProjectService {
 
     /**
      * 添加TRL技术人员
+     *
      * @param project
      * @param trler
      */
@@ -176,8 +183,10 @@ public class ProjectService {
         project.addTrlers(trler);
         projectRepository.save(project);
     }
+
     /**
      * 删除TRL技术人员
+     *
      * @param project
      * @param trler
      */
@@ -185,8 +194,10 @@ public class ProjectService {
         project.removeTrlers(trler);
         projectRepository.save(project);
     }
+
     /**
      * 添加评审专家
+     *
      * @param project
      * @param evler
      */
@@ -194,8 +205,10 @@ public class ProjectService {
         project.addEvlers(evler);
         projectRepository.save(project);
     }
+
     /**
      * 删除评审专家
+     *
      * @param project
      * @param evler
      */
@@ -206,18 +219,111 @@ public class ProjectService {
     //endregion
 
     //region 技术树操作
+    public List<Technology2VM> getAvalibleTech(Project project) {
+        Technology rootTech = project.getRootTech();
+        if (rootTech == null)
+            return null;
+        User user = userService.getUserWithAuthorities();
+        if (user.getAuthorities().contains(new Authority().name(AuthoritiesConstants.ADMIN)))
+            return getAvalibleTechOfAdmin(project, user);
+        if (user.getAuthorities().contains(new Authority().name(AuthoritiesConstants.TRL)))
+            return getAvalibleTechOfTrler(project, user);
+        else if (user.getAuthorities().contains(new Authority().name(AuthoritiesConstants.EVL)))
+            return getAvalibleTechOfEvler(project, user);
+        else return getAvalibleTechOfUser(project, user);
+    }
+    /**
+     * 获取项目办管理人员可用技术
+     *
+     * @param admin
+     * @return
+     */
+    private Technology2VM getAvalibleTechOfAdmin(Technology2VM technology2VM, Technology tech, User admin) {
+        if (tech.getCreator().getLogin().equals(admin.getLogin())) {
+            if (technology2VM == null)
+                technology2VM = Technology2VM.fromTechForCreatorOrParentCreator(tech, true, true);
+            
+        }
+
+
+        return projectRepository.findAllWithEagerRelationships().stream()
+            .filter(prj -> prj.getCreator().getLogin() == admin.getLogin())
+            .map(prj -> new ProjectVM().from(prj))
+            .collect(Collectors.toList());
+    }
+
+    /**
+     * 获取TRL专业人员可用技术
+     *
+     * @param trler
+     * @return
+     */
+    private List<Technology2VM> getAvalibleTechOfTrler(Project project, User trler) {
+        return projectRepository.findAllWithEagerRelationships().stream()
+            .filter(prj -> prj.getStatu() == PrjStatus.STARTED && prj.getEvlers().contains(trler))
+            .map(new ProjectVM()::from)
+            .collect(Collectors.toList());
+    }
+
+    /**
+     * 获取评审专家可用技术
+     *
+     * @param evler
+     * @return
+     */
+    private List<Technology2VM> getAvalibleTechOfEvler(Project project, User evler) {
+        return projectRepository.findAllWithEagerRelationships().stream()
+            .filter(prj -> prj.getStatu() == PrjStatus.STARTED && prj.getEvlers().contains(evler))
+            .map(new ProjectVM()::from)
+            .collect(Collectors.toList());
+    }
+
+    /**
+     * 获取普通研发人员可用技术
+     *
+     * @param user
+     * @return
+     */
+    private List<Technology2VM> getAvalibleTechOfUser(Project project, User user) {
+        List<ProjectVM> prjs = Collections.emptyList();
+        technologyRepository.findAllWithEagerRelationships().stream()
+            .filter(tech -> tech.getPrj().getStatu() == PrjStatus.STARTED && (tech.getCreator().getLogin() == user.getLogin() || tech.getSubCreators().contains(user)))
+            .forEach(tech -> prjs.add(new ProjectVM().from(tech.getPrj())));
+        return prjs;
+    }
     /**
      * 添加技术结点
+     *
      * @param project
      * @param technologyVM
      */
     public Project addTech(Project project, TechnologyVM technologyVM) {
         Technology parentTech = null;
         Technology technology = null;
-        if (technologyVM.getParentTechId() != null && technologyVM.getParentTechId()>0)
+        //取父结点
+        if (technologyVM.getParentTechId() != null && technologyVM.getParentTechId() > 0)
             parentTech = technologyRepository.findOne(technologyVM.getParentTechId());
+        //取本结点
         technology = technologyVM.toTechnology(parentTech, userService.getUserWithAuthorities());
+        //维护本结点的树排序信息
+        //如果是根结点就添加根结点
+        if (parentTech == null)
+            technology.setOrderId("1");
+        else {
+            //检测该结点是否有子结点
+            //如果没有则创建第一个子结点
+            if (parentTech.getSubTeches() == null || parentTech.getSubTeches().size() <= 0)
+                technology.setOrderId(parentTech.getOrderId() + ".1");
+                //如果不是第一个子结点
+            else {
+                //父结点的最后一个子结点的排序序号
+                String lastOrderId = parentTech.getSubTeches().get(parentTech.getSubTeches().size()-1).getOrderId();
+                technology.setOrderId(getNextOrderId(lastOrderId));
+            }
+        }
+        //保存本结点
         technologyRepository.save(technology);
+        //维护项目等其它信息
         project.addTech(technology);
         if (parentTech == null)
             project.rootTech(technology);
@@ -225,17 +331,31 @@ public class ProjectService {
         projectRepository.save(project);
         return project;
     }
+
+    private String getNextOrderId(String lastOrderId) {
+        String[] orderArray = lastOrderId.split("\\.");
+        orderArray[orderArray.length - 1] = "" + (Integer.parseInt(orderArray[orderArray.length - 1]) + 1);
+        return String.join(".", orderArray);
+    }
+
+    /**
+     * 修改技术结点信息
+     * @param technologyVM
+     * @return
+     */
     public Project updateTech(TechnologyVM technologyVM) {
         Technology technology = technologyRepository.findOne(technologyVM.getId());
         technology.updateFrom(technologyVM);
         Long parentTechId = technologyVM.getParentTechId();
-        if (parentTechId != null && parentTechId>0 && technology.getParentTech().getId() != parentTechId)
+        if (parentTechId != null && parentTechId > 0 && technology.getParentTech().getId() != parentTechId)
             technology.parentTech(technologyRepository.findOne(parentTechId));
         technologyRepository.save(technology);
         return technology.getPrj();
     }
+
     /**
      * 删除技术结点
+     *
      * @param project
      * @param techId
      */
@@ -253,28 +373,32 @@ public class ProjectService {
         if (technology.getParentTech() != null)
             technology.getParentTech().removeSubTech(technology);
         //删除该根点及其子结点
-        technology.getSubTeches().forEach(subTech->technologyRepository.delete(subTech));
+        technology.getSubTeches().forEach(subTech -> technologyRepository.delete(subTech));
         technologyRepository.delete(technology);
     }
+
     /**
      * 为结点添加子结点创建人
+     *
      * @param project
      * @param techId
      * @param subCreator
      */
     public void addSubCreator(Project project, Long techId, User subCreator) {
-        Technology technology = project.getTeches().stream().filter(item->item.getId() == techId).findFirst().orElse(null);
+        Technology technology = project.getTeches().stream().filter(item -> item.getId() == techId).findFirst().orElse(null);
         technology.addSubCreator(subCreator);
         technologyRepository.save(technology);
     }
+
     /**
      * 为结点删除子结点创建人
+     *
      * @param project
      * @param techId
      * @param subCreator
      */
     public void removeSubCreator(Project project, Long techId, User subCreator) {
-        Technology technology = project.getTeches().stream().filter(item->item.getId() == techId).findFirst().orElse(null);
+        Technology technology = project.getTeches().stream().filter(item -> item.getId() == techId).findFirst().orElse(null);
         technology.removeSubCreator(subCreator);
         technologyRepository.save(technology);
     }
@@ -287,6 +411,7 @@ public class ProjectService {
      * 1. 管理员不走这个接口
      * 2. 有四种：项目办管理员，TRL专业人员，评审专家，普通研发人员
      * 3. 暂时假设这四种人员角色不会重叠
+     *
      * @return
      */
     public List<ProjectVM> getAvaliblePrj() {
@@ -299,52 +424,57 @@ public class ProjectService {
             return getAvaliblePrjOfEvler(user);
         else return getAvaliblePrjOfUser(user);
     }
+
     /**
      * 获取项目办管理人员可用项目
+     *
      * @param admin
      * @return
      */
     private List<ProjectVM> getAvaliblePrjOfAdmin(User admin) {
         return projectRepository.findAllWithEagerRelationships().stream()
-            .filter(prj->prj.getCreator().getLogin() == admin.getLogin())
-            .map(prj->new ProjectVM().from(prj))
+            .filter(prj -> prj.getCreator().getLogin() == admin.getLogin())
+            .map(prj -> new ProjectVM().from(prj))
             .collect(Collectors.toList());
     }
 
     /**
      * 获取TRL专业人员可用项目
+     *
      * @param trler
      * @return
      */
     private List<ProjectVM> getAvaliblePrjOfTrler(User trler) {
         return projectRepository.findAllWithEagerRelationships().stream()
-            .filter(prj->prj.getStatu() == PrjStatus.STARTED && prj.getEvlers().contains(trler))
+            .filter(prj -> prj.getStatu() == PrjStatus.STARTED && prj.getEvlers().contains(trler))
             .map(new ProjectVM()::from)
             .collect(Collectors.toList());
     }
 
     /**
      * 获取评审专家可用项目
+     *
      * @param evler
      * @return
      */
     private List<ProjectVM> getAvaliblePrjOfEvler(User evler) {
         return projectRepository.findAllWithEagerRelationships().stream()
-            .filter(prj->prj.getStatu() == PrjStatus.STARTED && prj.getEvlers().contains(evler))
+            .filter(prj -> prj.getStatu() == PrjStatus.STARTED && prj.getEvlers().contains(evler))
             .map(new ProjectVM()::from)
             .collect(Collectors.toList());
     }
 
     /**
      * 获取普通研发人员可用项目
+     *
      * @param user
      * @return
      */
     private List<ProjectVM> getAvaliblePrjOfUser(User user) {
         List<ProjectVM> prjs = Collections.emptyList();
         technologyRepository.findAllWithEagerRelationships().stream()
-            .filter(tech->tech.getPrj().getStatu() == PrjStatus.STARTED && (tech.getCreator().getLogin() == user.getLogin() || tech.getSubCreators().contains(user)))
-            .forEach(tech->prjs.add(new ProjectVM().from(tech.getPrj())));
+            .filter(tech -> tech.getPrj().getStatu() == PrjStatus.STARTED && (tech.getCreator().getLogin() == user.getLogin() || tech.getSubCreators().contains(user)))
+            .forEach(tech -> prjs.add(new ProjectVM().from(tech.getPrj())));
         return prjs;
     }
 

@@ -19,6 +19,8 @@ public class TechnologyVM {
     @Size(max = 500)
     private String descript;
 
+    private boolean isKey;
+
     private Long prjId;
 
     private Long parentTechId;
@@ -47,6 +49,14 @@ public class TechnologyVM {
         this.descript = descript;
     }
 
+    public boolean isKey() {
+        return isKey;
+    }
+
+    public void setKey(boolean key) {
+        isKey = key;
+    }
+
     public Long getPrjId() {
         return prjId;
     }
@@ -72,4 +82,5 @@ public class TechnologyVM {
             .parentTech(parentTech)
             .creator(creator);
     }
+
 }
