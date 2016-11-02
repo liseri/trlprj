@@ -10,21 +10,10 @@
     function MyprjTechTreeController($scope, $state, TechTree) {
         var vm = this;
         vm.project = $scope.$parent.vm.currentPrj;
-        // vm.techs = TechTree.query();
-        vm.data =
-            [
-                {
-                    'id': '1',
-                    'title': 'node1',
-                    'nodes': [
-                        {
-                            'id': '1.1',
-                            'title': 'node1.1',
-                            'nodes': []
-                        }
-                    ]
-                }
-            ];
+        vm.techs = null;
+        TechTree.get({prjId: vm.project.id}, function (resp) {
+            vm.techs = [resp];
+        });
         vm.expandAll = expandAll;
         vm.collapseAll = collapseAll;
 

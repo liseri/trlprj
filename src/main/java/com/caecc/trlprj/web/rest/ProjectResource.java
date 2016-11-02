@@ -5,6 +5,7 @@ import com.caecc.trlprj.domain.User;
 import com.caecc.trlprj.repository.TechnologyRepository;
 import com.caecc.trlprj.service.UserService;
 import com.caecc.trlprj.web.rest.vm.ProjectVM;
+import com.caecc.trlprj.web.rest.vm.Technology2VM;
 import com.caecc.trlprj.web.rest.vm.TechnologyVM;
 import com.codahale.metrics.annotation.Timed;
 import com.caecc.trlprj.domain.Project;
@@ -222,6 +223,7 @@ public class ProjectResource {
                 HttpStatus.OK))
             .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
+
     @PostMapping(value = "/projects/{id}/tech")
     @Timed
     public ResponseEntity<Project> addTech(@PathVariable Long id, @Valid @RequestBody TechnologyVM technologyVM) {
@@ -245,7 +247,7 @@ public class ProjectResource {
     }
     //endregion
 
-    //region 可用项目查询
+    //region 我的项目
 
     /**
      * 获得用户的可用项目
@@ -253,10 +255,16 @@ public class ProjectResource {
      */
     @GetMapping(value = "/myprj")
     @Timed
-    public ResponseEntity<List<ProjectVM>> getAvaliblePrj() {
+    public ResponseEntity<List<ProjectVM>> getMyPrj() {
         List<ProjectVM> prjs = projectService.getAvaliblePrj();
         return ResponseEntity.ok(prjs);
     }
-
+    @GetMapping(value = "/myprj/{id}/techtree")
+    @Timed
+    public ResponseEntity<Technology2VM> getMyTechTree(@PathVariable Long id) {
+        Project project = projectService.findOne(id);
+        Technology2VM technology2VM = projectService.getAvalibleTech(project);
+        return ResponseEntity.ok().body(technology2VM);
+    }
     //endregion
 }

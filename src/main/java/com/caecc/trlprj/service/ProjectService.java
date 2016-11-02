@@ -98,7 +98,8 @@ public class ProjectService {
         log.debug("Request to delete Project : {}", id);
         Project project = projectRepository.findOne(id);
         project.rootTech(null);
-        project.getTeches().stream().forEach(tech -> technologyRepository.delete(tech));
+//        project.getTeches().stream().forEach(tech -> technologyRepository.delete(tech));
+        technologyRepository.findByProjectId(id).stream().forEach(tech -> technologyRepository.delete(tech));
         projectRepository.delete(id);
     }
     //endregion
@@ -219,78 +220,62 @@ public class ProjectService {
     //endregion
 
     //region 技术树操作
-    public List<Technology2VM> getAvalibleTech(Project project) {
+
+    /**
+     * 获取可用技术
+     * @param project
+     * @return
+     */
+    public Technology2VM getAvalibleTech(Project project) {
         Technology rootTech = project.getRootTech();
         if (rootTech == null)
             return null;
+        //设置技术树根结点
+        Technology2VM technology2VM = new Technology2VM();
         User user = userService.getUserWithAuthorities();
-        if (user.getAuthorities().contains(new Authority().name(AuthoritiesConstants.ADMIN)))
-            return getAvalibleTechOfAdmin(project, user);
-        if (user.getAuthorities().contains(new Authority().name(AuthoritiesConstants.TRL)))
-            return getAvalibleTechOfTrler(project, user);
-        else if (user.getAuthorities().contains(new Authority().name(AuthoritiesConstants.EVL)))
-            return getAvalibleTechOfEvler(project, user);
-        else return getAvalibleTechOfUser(project, user);
-    }
-    /**
-     * 获取项目办管理人员可用技术
-     *
-     * @param admin
-     * @return
-     */
-    private Technology2VM getAvalibleTechOfAdmin(Technology2VM technology2VM, Technology tech, User admin) {
-        if (tech.getCreator().getLogin().equals(admin.getLogin())) {
-            if (technology2VM == null)
-                technology2VM = Technology2VM.fromTechForCreatorOrParentCreator(tech, true, true);
-            
-        }
-
-
-        return projectRepository.findAllWithEagerRelationships().stream()
-            .filter(prj -> prj.getCreator().getLogin() == admin.getLogin())
-            .map(prj -> new ProjectVM().from(prj))
-            .collect(Collectors.toList());
+        getTech2VM(technology2VM, rootTech, user, rootTech.getCreator().getLogin().equals(user.getLogin()));
+        return technology2VM.getSubTechs().get(0);
     }
 
     /**
-     * 获取TRL专业人员可用技术
-     *
-     * @param trler
-     * @return
-     */
-    private List<Technology2VM> getAvalibleTechOfTrler(Project project, User trler) {
-        return projectRepository.findAllWithEagerRelationships().stream()
-            .filter(prj -> prj.getStatu() == PrjStatus.STARTED && prj.getEvlers().contains(trler))
-            .map(new ProjectVM()::from)
-            .collect(Collectors.toList());
-    }
-
-    /**
-     * 获取评审专家可用技术
-     *
-     * @param evler
-     * @return
-     */
-    private List<Technology2VM> getAvalibleTechOfEvler(Project project, User evler) {
-        return projectRepository.findAllWithEagerRelationships().stream()
-            .filter(prj -> prj.getStatu() == PrjStatus.STARTED && prj.getEvlers().contains(evler))
-            .map(new ProjectVM()::from)
-            .collect(Collectors.toList());
-    }
-
-    /**
-     * 获取普通研发人员可用技术
-     *
+     * 获取可用技术
+     * @param technology2VM
+     * @param tech
      * @param user
-     * @return
+     * @param userAsParentCreator
      */
-    private List<Technology2VM> getAvalibleTechOfUser(Project project, User user) {
-        List<ProjectVM> prjs = Collections.emptyList();
-        technologyRepository.findAllWithEagerRelationships().stream()
-            .filter(tech -> tech.getPrj().getStatu() == PrjStatus.STARTED && (tech.getCreator().getLogin() == user.getLogin() || tech.getSubCreators().contains(user)))
-            .forEach(tech -> prjs.add(new ProjectVM().from(tech.getPrj())));
-        return prjs;
+    private void getTech2VM(Technology2VM technology2VM, Technology tech, User user, boolean userAsParentCreator) {
+        Technology2VM currentTech2VM = dealTech(technology2VM, tech, user, userAsParentCreator);
+        tech.getSubTeches().stream().forEach(subTech-> {
+            getTech2VM(currentTech2VM, subTech, user, tech.getCreator().getLogin().equals(user.getLogin()));
+        });
+
     }
+    private Technology2VM dealTech(Technology2VM technology2VM, Technology tech, User user, boolean userAsParentCreator) {
+        boolean asCreator = tech.getCreator().getLogin().equals(user.getLogin());
+        boolean asSubCreator = false;
+        Technology2VM nextTech2VM = null;
+        if (user.getAuthorities().contains(new Authority().name(AuthoritiesConstants.ADMIN))) {
+            nextTech2VM = Technology2VM.fromTechForCreatorOrParentCreator(tech, asCreator, true);
+        }
+        if (user.getAuthorities().contains(new Authority().name(AuthoritiesConstants.TRL))
+            || user.getAuthorities().contains(new Authority().name(AuthoritiesConstants.EVL))) {
+            nextTech2VM = Technology2VM.fromTechForBigViewer(tech);
+        }
+        //普通研发人员
+        else {
+            //是结点拥有者或创建者
+            if (userAsParentCreator == true || asCreator == true)
+                nextTech2VM = Technology2VM.fromTechForCreatorOrParentCreator(tech, asCreator, userAsParentCreator);
+            //非结点创建者和拥有者，则具有最普通的查看权限
+            else nextTech2VM = Technology2VM.fromTechForBigViewer(tech);
+
+        }
+        technology2VM.getSubTechs().add(nextTech2VM);
+        return nextTech2VM;
+
+    }
+
     /**
      * 添加技术结点
      *
@@ -324,7 +309,7 @@ public class ProjectService {
         //保存本结点
         technologyRepository.save(technology);
         //维护项目等其它信息
-        project.addTech(technology);
+//        project.addTech(technology);
         if (parentTech == null)
             project.rootTech(technology);
         else parentTech.addSubTech(technology);
@@ -365,7 +350,7 @@ public class ProjectService {
         //如果是根结点
         if (project.getRootTech() != null && project.getRootTech().getId() == techId) {
             project.rootTech(null);
-            project.removeTech(technology);
+//            project.removeTech(technology);
             projectRepository.save(project);
         }
         //如果不是根结点
@@ -385,7 +370,8 @@ public class ProjectService {
      * @param subCreator
      */
     public void addSubCreator(Project project, Long techId, User subCreator) {
-        Technology technology = project.getTeches().stream().filter(item -> item.getId() == techId).findFirst().orElse(null);
+//        Technology technology = project.getTeches().stream().filter(item -> item.getId() == techId).findFirst().orElse(null);
+        Technology technology = technologyRepository.findOne(techId);
         technology.addSubCreator(subCreator);
         technologyRepository.save(technology);
     }
@@ -398,7 +384,8 @@ public class ProjectService {
      * @param subCreator
      */
     public void removeSubCreator(Project project, Long techId, User subCreator) {
-        Technology technology = project.getTeches().stream().filter(item -> item.getId() == techId).findFirst().orElse(null);
+//        Technology technology = project.getTeches().stream().filter(item -> item.getId() == techId).findFirst().orElse(null);
+        Technology technology = technologyRepository.findOne(techId);
         technology.removeSubCreator(subCreator);
         technologyRepository.save(technology);
     }

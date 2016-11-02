@@ -15,7 +15,7 @@ management:
     context-path: /management
     health:
         mail:
-            enabled: false # When using the MailService, configure an SMTP server and set this to true
+            enabled: true # When using the MailService, configure an SMTP server and set this to true
 spring:
     application:
         name: trlprj
@@ -61,7 +61,7 @@ jhipster:
         #allow-credentials: true
         #max-age: 1800
     mail:
-        from: trlprj@localhost
+        from: lishuai061@126.com
     swagger:
         title: trlprj API
         description: trlprj API documentation

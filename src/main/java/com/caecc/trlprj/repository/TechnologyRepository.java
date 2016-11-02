@@ -13,6 +13,9 @@ import java.util.List;
 @SuppressWarnings("unused")
 public interface TechnologyRepository extends JpaRepository<Technology,Long> {
 
+    @Query("select technology from Technology technology where technology.prj.id =:prjId")
+    List<Technology> findByProjectId(@Param("prjId") Long prjId);
+
     @Query("select technology from Technology technology where technology.creator.login = ?#{principal.username}")
     List<Technology> findByCreatorIsCurrentUser();
 

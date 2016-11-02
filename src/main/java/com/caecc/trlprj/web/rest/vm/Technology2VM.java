@@ -9,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -84,6 +85,8 @@ public class Technology2VM extends TechnologyVM {
     }
 
     public List<Technology2VM> getSubTechs() {
+        if (subTechs == null)
+            subTechs = new ArrayList<>();
         return subTechs;
     }
 
@@ -140,14 +143,6 @@ public class Technology2VM extends TechnologyVM {
      */
     public static Technology2VM fromTechForCreatorOrParentCreator(Technology tech, boolean asCreator, boolean asParentCreator) {
         Technology2VM technology2VM = Technology2VM.fromTechForBigViewer(tech);
-        technology2VM.setId(tech.getId());
-        technology2VM.setName(tech.getName());
-        technology2VM.setDescript(tech.getDescript());
-        technology2VM.setKey(tech.isIsKey());
-        technology2VM.setPrjId(tech.getPrj().getId());
-        technology2VM.setParentTechId(tech.getParentTech()==null?null:tech.getParentTech().getId());
-        technology2VM.setTcl(tech.getTcl());
-        technology2VM.setTrl(tech.getTrl());
         technology2VM.setCreator(tech.getCreator().getFullName());
         technology2VM.setSubCreator(tech.getSubCreators().stream()
             .map(user->user.getFullName())

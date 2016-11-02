@@ -31,8 +31,8 @@ spring:
         hikari:
             data-source-properties:
                 cachePrepStmts: true
-                prepStmtCacheSize: 250
-                prepStmtCacheSqlLimit: 2048
+                prepStmtCacheSize: 1024
+                prepStmtCacheSqlLimit: 4096
                 useServerPrepStmts: true
     jpa:
         database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
@@ -44,10 +44,15 @@ spring:
             hibernate.generate_statistics: true
             hibernate.cache.region.factory_class: org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
     mail:
-            host:
-            port:
-            username:
-            password:
+            host: smtp.126.com
+            port: 25
+            username: lishuai061@126.com
+            password: Abcd201412
+            tls: true
+            properties.mail.smtp:
+                auth: true
+                starttls.enable: true
+                ssl.trust: smtp.126.com
     messages:
         cache-seconds: 1
     thymeleaf:
@@ -67,7 +72,7 @@ jhipster:
     cache: # Hibernate 2nd level cache, used by CacheConfiguration
         timeToLiveSeconds: 3600
         ehcache:
-            maxBytesLocalHeap: 16M
+            maxBytesLocalHeap: 256M
     security:
         authentication:
             jwt:
@@ -75,7 +80,7 @@ jhipster:
                 # Token is valid 24 hours
                 tokenValidityInSeconds: 86400
     mail: # specific JHipster mail property, for standard properties see MailProperties
-        from:
+        from: lishuai061@126.com
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
         jmx.enabled: true
         spark:

@@ -7,10 +7,10 @@
     TechTree.$inject = ['$resource'];
 
     function TechTree ($resource) {
-        var resourceUrl =  'api/myprj/:id/techtree';
+        var resourceUrl =  'api/myprj/:prjId/techtree';
 
         return $resource(resourceUrl, {}, {
-            'query': { method: 'GET', isArray: true},
+            // 'query': { method: 'GET', isArray: true},
             'get': {
                 method: 'GET',
                 transformResponse: function (data) {

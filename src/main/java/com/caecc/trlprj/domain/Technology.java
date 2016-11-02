@@ -54,7 +54,7 @@ public class Technology implements Serializable {
     @Column(name = "trl")
     private TRL trl;
 
-    @OneToMany(mappedBy = "parentTech")
+    @OneToMany(mappedBy = "parentTech", fetch = FetchType.EAGER)
     @OrderBy(value = "orderId asc")
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)

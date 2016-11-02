@@ -69,11 +69,11 @@ public class Project implements Serializable {
     @JoinColumn(unique = true)
     private Technology rootTech;
 
-    @OneToMany(mappedBy = "prj",fetch = FetchType.EAGER)
-    @OrderBy(value = "orderId asc")
-    @JsonIgnore
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Technology> teches = new HashSet<>();
+//    @OneToMany(mappedBy = "prj")
+//    @OrderBy(value = "orderId asc")
+//    @JsonIgnore
+//    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+//    private Set<Technology> teches = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.EAGER)
     private User creator;
@@ -217,30 +217,30 @@ public class Project implements Serializable {
         this.rootTech = technology;
     }
 
-    public Set<Technology> getTeches() {
-        return teches;
-    }
-
-    public Project teches(Set<Technology> technologies) {
-        this.teches = technologies;
-        return this;
-    }
-
-    public Project addTech(Technology technology) {
-        teches.add(technology);
-        technology.setPrj(this);
-        return this;
-    }
-
-    public Project removeTech(Technology technology) {
-        teches.remove(technology);
-        technology.setPrj(null);
-        return this;
-    }
-
-    public void setTeches(Set<Technology> technologies) {
-        this.teches = technologies;
-    }
+//    public Set<Technology> getTeches() {
+//        return teches;
+//    }
+//
+//    public Project teches(Set<Technology> technologies) {
+//        this.teches = technologies;
+//        return this;
+//    }
+//
+//    public Project addTech(Technology technology) {
+//        teches.add(technology);
+//        technology.setPrj(this);
+//        return this;
+//    }
+//
+//    public Project removeTech(Technology technology) {
+//        teches.remove(technology);
+//        technology.setPrj(null);
+//        return this;
+//    }
+//
+//    public void setTeches(Set<Technology> technologies) {
+//        this.teches = technologies;
+//    }
 
     public User getCreator() {
         return creator;
