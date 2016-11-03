@@ -7,7 +7,7 @@
 
     stateConfig.$inject = ['$stateProvider'];
 
-    function stateConfig ($stateProvider) {
+    function stateConfig($stateProvider) {
         $stateProvider.state('myprj', {
             parent: 'app',
             url: '/myprj',
@@ -36,6 +36,9 @@
         }).state('prj', {
             parent: 'myprj',
             url: '/prj',
+            data: {
+                authorities: ['ROLE_USER','ROLE_TRL','ROLE_EVL','ROLE_ADMIN'],
+            },
             views: {
                 'prjContent@myprj': {
                     templateUrl: 'app/myprj/prj/myprj-prj.html',
@@ -46,6 +49,9 @@
         }).state('techtree', {
             parent: 'prj',
             url: '/{id}/techtree',
+            data: {
+                authorities: ['ROLE_USER','ROLE_TRL','ROLE_EVL','ROLE_ADMIN'],
+            },
             views: {
                 'techContent@myprj': {
                     templateUrl: 'app/myprj/techtree/myprj-techtree.html',

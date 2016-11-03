@@ -1,29 +1,39 @@
 <!-- Nested node template -->
 <script type="text/ng-template" id="nodes_renderer.html">
     <div ui-tree-handle class="tree-node tree-node-content">
-        <a class="btn btn-success btn-xs" ng-if="tech.subTechs && tech.subTechs.length > 0" data-nodrag
+        <a class="btn btn-primary btn-xs" ng-if="tech.subTechs && tech.subTechs.length > 0" data-nodrag
            ng-click="toggle(this)"><span
             class="glyphicon"
             ng-class="{
           'glyphicon-chevron-right': collapsed,
           'glyphicon-chevron-down': !collapsed
         }"></span></a>
-        {{tech.name}}
-        <!--删除本节点-->
-        <a ng-show="tech.asCreator" class="pull-right btn btn-danger btn-xs" data-nodrag ng-click="remove(this)">
-            <span class="glyphicon glyphicon-remove"></span></a>
-        <span ng-show="!tech.asCreator" class="pull-right btn btn-danger btn-xs" data-nodrag>
-            <span class="glyphicon glyphicon-remove"></span></span>
-        <!--增加子节点-->
-        <a ng-show="tech.asCreator" class="pull-right btn btn-primary btn-xs" data-nodrag ng-click="newSubItem(this)" style="margin-right: 8px;">
-            <span class="glyphicon glyphicon-plus"></span></a>
-        <span ng-show="!tech.asCreator" class="pull-right btn btn-primary btn-xs" data-nodrag style="margin-right: 8px;">
-            <span class="glyphicon glyphicon-plus"></span></span>
+        <span data-nodrag uib-tooltip="{{tech.name}}">{{tech.name}}</span>
+        <div ng-show="tech.asCreator" class="pull-right" data-nodrag>
+            <!--删除本节点-->
+            <a ng-disabled="!tech.asCreator" class="pull-right btn btn-danger btn-xs" data-nodrag
+               ng-click="!tech.asCreator || remove(this)">
+                <span class="glyphicon glyphicon-remove"></span></a>
+            <!--编辑本节点-->
+            <a ng-disabled="!tech.asCreator" class="pull-right btn btn-primary btn-xs" data-nodrag
+               ng-click="!tech.asCreator || newSubItem(this)" style="margin-right: 8px;">
+                <span class="glyphicon glyphicon-pencil"></span></a>
+            <!--增加子节点-->
+            <a ng-disabled="!tech.asCreator" class="pull-right btn btn-primary btn-xs" data-nodrag
+               ng-click="!tech.asCreator || newSubItem(this)" style="margin-right: 8px;">
+                <span class="glyphicon glyphicon-plus"></span></a>
+        </div>
+        <span class="data-nodrag" style="margin-left: 4px;margin-right: 4px;">|</span>
+
+        <span class="data-nodrag" style="margin-left: 4px;margin-right: 4px;">|</span>
         <!--TCL TRL 信息-->
-        <div ng-show="tech.asCreator || tech.asParentCreator" class="pull-right" data-nodrag style="margin-right: 8px;">
-            <!--垂直分隔线-->
-            <hr class="pull-right" style="border:1px dashed #F00;width:1px;height:auto" />
-            <span>{{tech.tcl}},{{tech.trl}}</span>
+        <div ng-show="tech.asCreator || tech.asParentCreator" class="pull-right" data-nodrag>
+            <a class="btn btn-primary btn-xs" ng-click="vm.changeKey(tech)">关键<span
+                class="badge">{{tech.key?'是':'否'}}</span></a>
+            <label class="label label-success" style="cursor: default">TCL<span
+                class="badge">{{tech.tcl?telch.tcl:'无'}}</span></label>
+            <label class="label label-success" style="cursor: default">TRL<span
+                class="badge">{{tech.trl?telch.trl:'无'}}</span></label>
         </div>
 
     </div>
@@ -39,12 +49,12 @@
 
     <div class="row">
         <div class="col-sm-12">
-            <button type="button" class="btn btn-success btn-sm" ng-click="vm.expandAll()">全部展开</button>
-            <button type="button" class="btn btn-success btn-sm"  ng-click="vm.collapseAll()">全部收回</button>
+            <button type="button" class="btn btn-primary btn-sm" ng-click="vm.expandAll()">全部展开</button>
+            <button type="button" class="btn btn-primary btn-sm" ng-click="vm.collapseAll()">全部收回</button>
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-8">
             <div ui-tree id="tree-root" data-max-depth="4" data-drag-enabled="false">
                 <ol ui-tree-nodes ng-model="vm.techs">
                     <li ng-repeat="tech in vm.techs" ui-tree-node ng-include="'nodes_renderer.html'"></li>
@@ -52,7 +62,7 @@
             </div>
         </div>
 
-        <div class="col-sm-6">
+        <div class="col-sm-4">
             <div class="info">
                 {{info}}
             </div>
