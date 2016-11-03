@@ -9,10 +9,23 @@
           'glyphicon-chevron-down': !collapsed
         }"></span></a>
         {{tech.name}}
-        <a class="pull-right btn btn-danger btn-xs" data-nodrag ng-click="remove(this)">
+        <!--删除本节点-->
+        <a ng-show="tech.asCreator" class="pull-right btn btn-danger btn-xs" data-nodrag ng-click="remove(this)">
             <span class="glyphicon glyphicon-remove"></span></a>
-        <a class="pull-right btn btn-primary btn-xs" data-nodrag ng-click="newSubItem(this)" style="margin-right: 8px;">
+        <span ng-show="!tech.asCreator" class="pull-right btn btn-danger btn-xs" data-nodrag>
+            <span class="glyphicon glyphicon-remove"></span></span>
+        <!--增加子节点-->
+        <a ng-show="tech.asCreator" class="pull-right btn btn-primary btn-xs" data-nodrag ng-click="newSubItem(this)" style="margin-right: 8px;">
             <span class="glyphicon glyphicon-plus"></span></a>
+        <span ng-show="!tech.asCreator" class="pull-right btn btn-primary btn-xs" data-nodrag style="margin-right: 8px;">
+            <span class="glyphicon glyphicon-plus"></span></span>
+        <!--TCL TRL 信息-->
+        <div ng-show="tech.asCreator || tech.asParentCreator" class="pull-right" data-nodrag style="margin-right: 8px;">
+            <!--垂直分隔线-->
+            <hr class="pull-right" style="border:1px dashed #F00;width:1px;height:auto" />
+            <span>{{tech.tcl}},{{tech.trl}}</span>
+        </div>
+
     </div>
     <ol ui-tree-nodes="" ng-model="tech.subTechs" ng-class="{hidden: collapsed}">
         <li ng-repeat="tech in tech.subTechs" ui-tree-node ng-include="'nodes_renderer.html'">

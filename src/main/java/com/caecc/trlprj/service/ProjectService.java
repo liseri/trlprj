@@ -223,6 +223,7 @@ public class ProjectService {
 
     /**
      * 获取可用技术
+     *
      * @param project
      * @return
      */
@@ -233,32 +234,58 @@ public class ProjectService {
         //设置技术树根结点
         Technology2VM technology2VM = new Technology2VM();
         User user = userService.getUserWithAuthorities();
-        getTech2VM(technology2VM, rootTech, user, rootTech.getCreator().getLogin().equals(user.getLogin()));
+        if (user.getAuthorities().contains(new Authority().name(AuthoritiesConstants.USER))) {
+            //获得研发人员创建或是子节点创建人的节点
+            List<String> orderIdOfGeneralUser = technologyRepository.findByProjectId(project.getId())
+                .stream()
+                .filter(tech->tech.getCreator().getLogin().equalsIgnoreCase(user.getLogin())
+                    || tech.getSubCreators().contains(user))
+                .map(tech->tech.getOrderId())
+                .collect(Collectors.toList());
+            getTech2VM(technology2VM, rootTech, user, rootTech.getCreator().getLogin().equals(user.getLogin()), orderIdOfGeneralUser);
+        }
+        else {
+            getTech2VM(technology2VM, rootTech, user, rootTech.getCreator().getLogin().equals(user.getLogin()), null);
+        }
         return technology2VM.getSubTechs().get(0);
     }
 
     /**
      * 获取可用技术
+     *
      * @param technology2VM
      * @param tech
      * @param user
      * @param userAsParentCreator
      */
-    private void getTech2VM(Technology2VM technology2VM, Technology tech, User user, boolean userAsParentCreator) {
+    private void getTech2VM(Technology2VM technology2VM, Technology tech, User user, boolean userAsParentCreator, List<String> orderIdOfGeneralUser) {
         Technology2VM currentTech2VM = dealTech(technology2VM, tech, user, userAsParentCreator);
-        tech.getSubTeches().stream().forEach(subTech-> {
-            getTech2VM(currentTech2VM, subTech, user, tech.getCreator().getLogin().equals(user.getLogin()));
-        });
+        if (orderIdOfGeneralUser == null) {
+            tech.getSubTeches().stream().forEach(subTech -> {
+                getTech2VM(currentTech2VM, subTech, user, tech.getCreator().getLogin().equals(user.getLogin()), orderIdOfGeneralUser);
+            });
+        } else { //todo 假如orderIdOfGeneraluser.size == 0 会不会起效果
+            tech.getSubTeches()
+                .stream()
+                .filter(subTech -> {
+                    //这个技术是普通研发人员可见的分支之一
+                    return orderIdOfGeneralUser.stream().filter(orderId -> orderId.startsWith(subTech.getOrderId())).findFirst().isPresent();
+                })
+                .forEach(subTech -> {
+                    getTech2VM(currentTech2VM, subTech, user, tech.getCreator().getLogin().equals(user.getLogin()), orderIdOfGeneralUser);
+                });
+        }
 
     }
+
     private Technology2VM dealTech(Technology2VM technology2VM, Technology tech, User user, boolean userAsParentCreator) {
         boolean asCreator = tech.getCreator().getLogin().equals(user.getLogin());
         boolean asSubCreator = false;
         Technology2VM nextTech2VM = null;
+        //如果是管理员
         if (user.getAuthorities().contains(new Authority().name(AuthoritiesConstants.ADMIN))) {
             nextTech2VM = Technology2VM.fromTechForCreatorOrParentCreator(tech, asCreator, true);
-        }
-        if (user.getAuthorities().contains(new Authority().name(AuthoritiesConstants.TRL))
+        } else if (user.getAuthorities().contains(new Authority().name(AuthoritiesConstants.TRL))
             || user.getAuthorities().contains(new Authority().name(AuthoritiesConstants.EVL))) {
             nextTech2VM = Technology2VM.fromTechForBigViewer(tech);
         }
@@ -267,8 +294,8 @@ public class ProjectService {
             //是结点拥有者或创建者
             if (userAsParentCreator == true || asCreator == true)
                 nextTech2VM = Technology2VM.fromTechForCreatorOrParentCreator(tech, asCreator, userAsParentCreator);
-            //非结点创建者和拥有者，则具有最普通的查看权限
-            else nextTech2VM = Technology2VM.fromTechForBigViewer(tech);
+                //非结点创建者和拥有者，则具有最普通的查看权限
+            else nextTech2VM = Technology2VM.fromTechForGeneralViewer(tech, tech.getSubCreators().contains(user));
 
         }
         technology2VM.getSubTechs().add(nextTech2VM);
@@ -302,7 +329,7 @@ public class ProjectService {
                 //如果不是第一个子结点
             else {
                 //父结点的最后一个子结点的排序序号
-                String lastOrderId = parentTech.getSubTeches().get(parentTech.getSubTeches().size()-1).getOrderId();
+                String lastOrderId = parentTech.getSubTeches().get(parentTech.getSubTeches().size() - 1).getOrderId();
                 technology.setOrderId(getNextOrderId(lastOrderId));
             }
         }
@@ -325,6 +352,7 @@ public class ProjectService {
 
     /**
      * 修改技术结点信息
+     *
      * @param technologyVM
      * @return
      */
