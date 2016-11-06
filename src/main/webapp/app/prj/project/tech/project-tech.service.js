@@ -7,7 +7,7 @@
     ProjectTech.$inject = ['$resource'];
 
     function ProjectTech ($resource) {
-        var resourceUrl =  'api/projects/:id/tech/:techId';
+        var resourceUrl =  'api/myprj/:id/tech/:techId';
 
         return $resource(resourceUrl, {}, {
             'query': { method: 'GET', isArray: true},
@@ -20,7 +20,22 @@
                     return data;
                 }
             },
-            'update': { method:'PUT' }
+            'update': { method:'PUT' },
+            'changeKey': {
+                url: 'api/myprj/:id/tech/:techId/key/:isKey',
+                method: 'POST'
+            },
+            'addSubcreator': {
+                url: 'api/myprj/:id/tech/:techId/subcreator/:userLogin',
+                method: 'POST',
+                isArray: true
+            },
+            'removeSubcreator': {
+                url: 'api/myprj/:id/tech/:techId/subcreator/:userFullName',
+                method: 'DELETE',
+                isArray: true
+            }
+
         });
     }
 

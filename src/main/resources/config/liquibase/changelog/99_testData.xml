@@ -22,11 +22,11 @@
                   separator=";"
                   tableName="branch">
         </loadData>
-        <loadData encoding="UTF-8"
-                  file="config/liquibase/testPrjData.csv"
-                  separator=";"
-                  tableName="project">
-        </loadData>
+        <!--<loadData encoding="UTF-8"-->
+                  <!--file="config/liquibase/testPrjData.csv"-->
+                  <!--separator=";"-->
+                  <!--tableName="project">-->
+        <!--</loadData>-->
 
     </changeSet>
 </databaseChangeLog>

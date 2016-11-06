@@ -5,9 +5,9 @@
         .module('trlprjApp')
         .controller('ProjectDialogController', ProjectDialogController);
 
-    ProjectDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', '$q', 'entity', 'Project', 'Technology', 'User'];
+    ProjectDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', '$q', 'entity', 'Project', 'User'];
 
-    function ProjectDialogController ($timeout, $scope, $stateParams, $uibModalInstance, $q, entity, Project, Technology, User) {
+    function ProjectDialogController ($timeout, $scope, $stateParams, $uibModalInstance, $q, entity, Project, User) {
         var vm = this;
 
         vm.project = entity;

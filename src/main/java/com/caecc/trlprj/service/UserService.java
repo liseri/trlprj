@@ -183,7 +183,13 @@ public class UserService {
             return u;
         });
     }
-
+    @Transactional(readOnly = true)
+    public Optional<User> getUserWithAuthoritiesByNameAndBranch(String name, String branch) {
+        return userRepository.findOneByNameAndBranch(name, branch).map(u -> {
+            u.getAuthorities().size();
+            return u;
+        });
+    }
     @Transactional(readOnly = true)
     public User getUserWithAuthorities(Long id) {
         User user = userRepository.findOne(id);

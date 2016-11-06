@@ -20,7 +20,7 @@ import com.caecc.trlprj.domain.enumeration.TRL;
 @Entity
 @Table(name = "technology")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class Technology implements Serializable {
+public class Technology extends AbstractAuditingEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -64,6 +64,7 @@ public class Technology implements Serializable {
     private User creator;
 
     @ManyToMany(fetch = FetchType.EAGER)
+    @OrderBy(value = "branch asc")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JoinTable(name = "technology_sub_creator",
                joinColumns = @JoinColumn(name="technologies_id", referencedColumnName="ID"),
@@ -76,6 +77,11 @@ public class Technology implements Serializable {
 
     @ManyToOne
     private Technology parentTech;
+
+    @OneToMany(mappedBy = "tech")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<KeyTech> keyValues = new HashSet<>();
 
     public void updateFrom(TechnologyVM technologyVM) {
         this.name(technologyVM.getName())
@@ -194,6 +200,21 @@ public class Technology implements Serializable {
         this.subTeches = technologies;
     }
 
+    public Set<KeyTech> getKeyValues() {
+        return keyValues;
+    }
+    public Technology addKeyTech(KeyTech keyTech) {
+        getKeyValues().add(keyTech);
+        return this;
+    }
+    public Technology removeKeyTech(KeyTech keyTech) {
+        getKeyValues().remove(keyTech);
+        return this;
+    }
+    public void setKeyValues(Set<KeyTech> keyValues) {
+        this.keyValues = keyValues;
+    }
+
     public User getCreator() {
         return creator;
     }
@@ -287,5 +308,6 @@ public class Technology implements Serializable {
             ", trl='" + trl + "'" +
             '}';
     }
+
 
 }

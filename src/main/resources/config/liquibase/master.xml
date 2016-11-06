@@ -11,7 +11,10 @@
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="classpath:config/liquibase/changelog/20161010134900_added_entity_constraints_Technology.xml" relativeToChangelogFile="false"/>
     <include file="classpath:config/liquibase/changelog/20161010134959_added_entity_constraints_Project.xml" relativeToChangelogFile="false"/>
+
     <!--<include file="classpath:config/liquibase/changelog/99_testData.xml" relativeToChangelogFile="false"/>-->
+    <include file="classpath:config/liquibase/changelog/20161010134960_added_entity_KeyTech.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20161010134961_added_entity_KeyNote.xml" relativeToChangelogFile="false"/>
 
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>

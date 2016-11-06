@@ -137,11 +137,14 @@ public class Technology2VM extends TechnologyVM {
 
     /**
      * 节点创建者或节点拥有者(父节点创建者)
+     * 不可能既是创建者又是父节点创建者：
+     *      如果父节点和子节点是同一个人创建，那这个人是子节点的创建者而不是拥有者；
+     *      如果父是这个人创建，而子节点不是，那么这个人是这个子节点的拥有者而不是创建者
      * 创建者同时也是子结点创建人
      * @param tech
      * @return
      */
-    public static Technology2VM fromTechForCreatorOrParentCreator(Technology tech, boolean asCreator, boolean asParentCreator) {
+    public static Technology2VM fromTechForCreatorOrParentCreator(Technology tech, boolean asCreator, boolean asParentCreator, boolean asSubCreator) {
         Technology2VM technology2VM = Technology2VM.fromTechForBigViewer(tech);
         technology2VM.setCreator(tech.getCreator().getFullName());
         technology2VM.setSubCreator(tech.getSubCreators().stream()
@@ -150,7 +153,7 @@ public class Technology2VM extends TechnologyVM {
             .toArray(new String[0]));
         technology2VM.setAsCreator(asCreator);
         technology2VM.setAsParentCreator(asParentCreator);
-        technology2VM.setAsSubCreator(asCreator);
+        technology2VM.setAsSubCreator(asSubCreator);
 
         return technology2VM;
     }

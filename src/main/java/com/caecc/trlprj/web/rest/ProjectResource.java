@@ -29,6 +29,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * REST controller for managing Project.
@@ -212,7 +213,7 @@ public class ProjectResource {
     //endregion
 
     //region 技术树操作
-    @GetMapping(value = "/projects/{id}/tech/{techId}")
+    @GetMapping(value = "/myprj/{id}/tech/{techId}")
     @Timed
     public ResponseEntity<Technology> getTech(@PathVariable Long id, @PathVariable Long techId) {
         log.debug("REST request to get Technology : {}", id);
@@ -224,26 +225,71 @@ public class ProjectResource {
             .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @PostMapping(value = "/projects/{id}/tech")
+    @PostMapping(value = "/myprj/{id}/tech")
     @Timed
-    public ResponseEntity<Project> addTech(@PathVariable Long id, @Valid @RequestBody TechnologyVM technologyVM) {
+    public ResponseEntity<Technology2VM> addTech(@PathVariable Long id, @Valid @RequestBody TechnologyVM technologyVM) {
         Project project = projectService.findOne(id);
-        projectService.addTech(project, technologyVM);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityOperationAlert("project", "addTeched", id.toString())).body(project);
+        Technology technology = projectService.addTech(project, technologyVM);
+        Technology2VM technology2VM = Technology2VM.fromTechForCreatorOrParentCreator(technology, true, false, true);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityOperationAlert("project", "addTeched", id.toString())).body(technology2VM);
     }
-    @PutMapping(value = "/projects/{id}/tech")
+    @PutMapping(value = "/myprj/{id}/tech")
     @Timed
-    public ResponseEntity<Project> updateTech(@PathVariable Long id, @Valid @RequestBody TechnologyVM technologyVM) {
+    public ResponseEntity<Technology2VM> updateTech(@PathVariable Long id, @Valid @RequestBody TechnologyVM technologyVM) {
         Project project = projectService.findOne(id);
-        projectService.updateTech(technologyVM);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityOperationAlert("project", "updatedTeched", id.toString())).body(project);
+        Technology technology = projectService.updateTech(technologyVM);
+        Technology2VM technology2VM = Technology2VM.fromTechForCreatorOrParentCreator(technology, true, false, true);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityOperationAlert("project", "updatedTeched", id.toString())).body(technology2VM);
     }
-    @DeleteMapping(value = "/projects/{id}/tech/{techId}")
+    @DeleteMapping(value = "/myprj/{id}/tech/{techId}")
     @Timed
     public ResponseEntity<Void> deleteTech(@PathVariable Long id, @PathVariable Long techId) {
         Project project = projectService.findOne(id);
         projectService.deleteTech(project, techId);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityOperationAlert("project", "deleteTeched", id.toString())).build();
+    }
+    @PostMapping(value = "/myprj/{id}/tech/{techId}/key/{isKey}")
+    @Timed
+    public ResponseEntity<Technology2VM> changeKey(@PathVariable Long id, @PathVariable Long techId, @PathVariable Boolean isKey) {
+        Project project = projectService.findOne(id);
+        Technology technology = technologyRepository.findOne(techId);
+        technology = projectService.setKey(technology, isKey);
+        Technology2VM technology2VM = Technology2VM.fromTechForCreatorOrParentCreator(technology, true, false, true);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityOperationAlert("project", isKey?"settedKey":"settedNotKey", id.toString())).body(technology2VM);
+    }
+    @PostMapping(value = "/myprj/{id}/tech/{techId}/subcreator/{userLogin}")
+    @Timed
+    public ResponseEntity<List<String>> addSubcreator(@PathVariable Long id, @PathVariable Long techId, @PathVariable String userLogin) {
+        Project project = projectService.findOne(id);
+        Technology technology = technologyRepository.findOne(techId);
+        User user = userService.getUserWithAuthoritiesByLogin(userLogin).get();
+        //不能添加自己为子结点创建人
+        if (user.getLogin().equals(userService.getUserWithAuthorities().getLogin()))
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("project", "subCreatorcannotme", "不能添加自己为子结点创建人")).body(null);
+        projectService.addSubCreator(project, techId, user);
+        technology = technologyRepository.findOne(techId);
+        List<String> subcreators = technology.getSubCreators()
+            .stream()
+            .map(creator->creator.getFullName())
+            .collect(Collectors.toList());
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityOperationAlert("project", "addedSubcreator", techId.toString())).body(subcreators);
+    }
+    @DeleteMapping(value = "/myprj/{id}/tech/{techId}/subcreator/{userFullName}")
+    @Timed
+    public ResponseEntity<List<String>> removeSubcreator(@PathVariable Long id, @PathVariable Long techId, @PathVariable String userFullName) {
+        Project project = projectService.findOne(id);
+        Technology technology = technologyRepository.findOne(techId);
+        String[] userInfos = userFullName.split(User.FULL_NAME_SPLITER);
+        String userName = userInfos.length>0?userInfos[0]:"";
+        String branch = userInfos.length>1?userInfos[1]:"";
+        User user = userService.getUserWithAuthoritiesByNameAndBranch(userName, branch).get();
+        projectService.removeSubCreator(project, techId, user);
+        technology = technologyRepository.findOne(techId);
+        List<String> subcreators = technology.getSubCreators()
+            .stream()
+            .map(creator->creator.getFullName())
+            .collect(Collectors.toList());
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityOperationAlert("project", "removedSubcreator", techId.toString())).body(subcreators);
     }
     //endregion
 
@@ -259,6 +305,12 @@ public class ProjectResource {
         List<ProjectVM> prjs = projectService.getAvaliblePrj();
         return ResponseEntity.ok(prjs);
     }
+
+    /**
+     * 获得用户可用的技术树
+     * @param id
+     * @return
+     */
     @GetMapping(value = "/myprj/{id}/techtree")
     @Timed
     public ResponseEntity<Technology2VM> getMyTechTree(@PathVariable Long id) {

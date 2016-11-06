@@ -24,6 +24,10 @@
             "addEvlered": "项目添加评审专家成功",
             "rmEvlered": "项目删除评审专家成功",
             "addTeched": "项目技术树根结点成功",
+            "addedSubcreator": "子结点创建人分配成功",
+            "removedSubcreator": "子结点创建人删除成功",
+            "settedKey": "设为关键技术成功",
+            "settedNotKey": "设为非关键技术成功",
             "delete": {
                 "question": "确定要删除该项目?"
             },

@@ -59,6 +59,19 @@
                     controllerAs: 'vm'
                 }
             }
+        }).state('techtcl', {
+            parent: 'techtree',
+            url: '/{id}/tech/{techId}/tcl',
+            data: {
+                authorities: ['ROLE_USER','ROLE_TRL','ROLE_EVL','ROLE_ADMIN'],
+            },
+            views: {
+                'keyContent@myprj': {
+                    templateUrl: 'app/myprj/tcl/myprj-techtcl.html',
+                    controller: 'MyprjTechTclController',
+                    controllerAs: 'vm'
+                }
+            }
         });
     }
 })();

@@ -20,12 +20,13 @@
         vm.restart = restart;
         vm.complete = complete;
         vm.openRootTechModal = openRootTechModal;
+        vm.jumpToTechTree = jumpToTechTree;
         vm.openTrlerMgrModal = openTrlerMgrModal;
         vm.openEvlerMgrModal = openEvlerMgrModal;
 
         loadAll();
 
-        var unsubscribe = $scope.$on('trlprjApp:rootTechUpdated', function(event, result) {
+        var unsubscribe = $scope.$on('trlprjApp:rootTechUpdated', function (event, result) {
             loadAll();
         });
         $scope.$on('$destroy', unsubscribe);
@@ -76,18 +77,21 @@
                     loadAll();
                 });
         }
+
         function pause(id) {
             Project.pause({id: id},
                 function () {
                     loadAll();
                 });
         }
+
         function restart(id) {
             Project.start({id: id},
                 function () {
                     loadAll();
                 });
         }
+
         function complete(id) {
             if (!onfirm("完成后项目将彻底关闭，你确定要“完成”吗？"))
                 return;
@@ -105,13 +109,36 @@
                 controllerAs: 'vm',
                 backdrop: 'static',
                 resolve: {
-                    entity: project
+                    // entity: {
+                    //     id: project.rootTech ? project.rootTech.id : null,
+                    //     name: project.rootTech ? project.rootTech.name : null,
+                    //     descript: project.rootTech ? project.rootTech.descript : null,
+                    //     prjId: project.id,
+                    //     parentTechId: null
+                    // }
+                    entity: {
+                        isRootTech: true,
+                        data1: project,
+                        data2: {
+                                id: project.rootTech ? project.rootTech.id : null,
+                                name: project.rootTech ? project.rootTech.name : null,
+                                descript: project.rootTech ? project.rootTech.descript : null,
+                                prjId: project.id,
+                                parentTechId: null
+                        }
+                    }
                 }
             });
         }
 
-        function openTrlerMgrModal(project) {
+        function jumpToTechTree(project) {
+            $state.go('prj');
+            // $state.go('techtree', {id:project.id});
+            // $scope.$parent.vm.currentPrj = project;
+            // $scope.$parent.vm.techClick();
+        }
 
+        function openTrlerMgrModal(project) {
             var modalInstance = $uibModal.open({
                 templateUrl: 'app/prj/project/trler/project-trler-dialog.html',
                 controller: 'ProjectTrlerDialogController',
@@ -124,7 +151,8 @@
                 $state.go('project', null, {reload: 'project'});
             }, function () {
                 $state.go('^');
-            });;
+            });
+            ;
         }
 
         function openEvlerMgrModal(project) {
@@ -142,7 +170,8 @@
                 $state.go('project', null, {reload: 'project'});
             }, function () {
                 $state.go('^');
-            });;
+            });
+            ;
         }
     }
 })();

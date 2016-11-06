@@ -5,22 +5,33 @@
         .module('trlprjApp')
         .controller('MyprjTechTreeController', MyprjTechTreeController);
 
-    MyprjTechTreeController.$inject = ['$scope', '$state', 'TechTree'];
+    MyprjTechTreeController.$inject = ['$scope', '$state', '$uibModal', '$stateParams', 'TechTree', 'ProjectTech'];
 
-    function MyprjTechTreeController($scope, $state, TechTree) {
+    function MyprjTechTreeController($scope, $state, $uibModal, $stateParams, TechTree, ProjectTech) {
         var vm = this;
+        vm.prjId = $stateParams.id;
         vm.project = $scope.$parent.vm.currentPrj;
         vm.techs = null;
-        TechTree.get({prjId: vm.project.id}, function (resp) {
-            vm.techs = [resp];
-        });
+
         vm.expandAll = expandAll;
         vm.collapseAll = collapseAll;
+        vm.openTechModal = openTechModal;
+        vm.openSubcreatorModal = openSubcreatorModal;
+        vm.removeTech = removeTech;
+        vm.changeKey = changeKey;
+        vm.jumpToKey = jumpToKey;
 
-        $scope.remove = function (scope) {
-            scope.remove();
-        };
+        TechTree.get({prjId: vm.prjId}, function (resp) {
+            vm.techs = [resp];
+        });
 
+        function expandAll() {
+            $scope.$broadcast('angular-ui-tree:expand-all');
+        }
+
+        function collapseAll() {
+            $scope.$broadcast('angular-ui-tree:collapse-all');
+        }
         $scope.toggle = function (scope) {
             scope.toggle();
         };
@@ -30,21 +41,60 @@
             $scope.data.splice(0, 0, a);
         };
 
-        $scope.newSubItem = function (scope) {
-            var nodeData = scope.$modelValue;
-            nodeData.nodes.push({
-                id: nodeData.id * 10 + nodeData.nodes.length,
-                title: nodeData.title + '.' + (nodeData.nodes.length + 1),
-                nodes: []
+
+        function openTechModal(isAdd, tech, scope) {
+
+            var modalInstance = $uibModal.open({
+                templateUrl: 'app/prj/project/tech/project-tech-dialog.html',
+                controller: 'ProjectTechDialogController',
+                controllerAs: 'vm',
+                backdrop: 'static',
+                resolve: {
+                    entity: {
+                        isRootTech: false,
+                        data1: scope.$modelValue,
+                        data2: {
+                            id: isAdd ? null: tech.id,
+                            name: isAdd ? null: tech.name,
+                            descript: isAdd ? null: tech.descript,
+                            prjId: tech.prjId,
+                            parentTechId: isAdd? tech.id: tech.parentTechId
+                        }
+                    }
+                }
             });
-        };
-
-        function expandAll() {
-            $scope.$broadcast('angular-ui-tree:expand-all');
         }
 
-        function collapseAll() {
-            $scope.$broadcast('angular-ui-tree:collapse-all');
+        function openSubcreatorModal(tech, scope) {
+
+            var modalInstance = $uibModal.open({
+                templateUrl: 'app/myprj/techtree/subcreator/tech-subcreator-dialog.html',
+                controller: 'TechSubcreatorDialogController',
+                controllerAs: 'vm',
+                backdrop: 'static',
+                resolve: {
+                    entity: {tech:tech, node:scope.$modelValue}
+                }
+            });
         }
+
+        function removeTech(tech, scope) {
+            ProjectTech.delete({id: tech.prjId, techId: tech.id}, function () {
+                scope.remove();
+            });
+        }
+
+        function changeKey(tech, key, scope) {
+            ProjectTech.changeKey({id: tech.prjId, techId: tech.id, isKey: key},{}, function () {
+                scope.$modelValue.key = key;
+            });
+        }
+
+        function jumpToKey(tech, scope) {
+            $state.go('techtcl', {id:tech.prjId, techId: tech.id, node: scope});
+            $scope.$parent.vm.currentTech = tech;
+            $scope.$parent.vm.keyClick();
+        }
+
     }
 })();

@@ -123,7 +123,8 @@
         "Size": "域 {{fieldName}} 不满足最大/最小值限制!",
         "userexists": "该用户名已存在!",
         "emailexists": "该邮箱已被使用!",
-        "idexists": "新建的 {{entityName}} 的ID已经存在"
+        "idexists": "新建的 {{entityName}} 的ID已经存在",
+        "subCreatorcannotme": "不能添加自己为子结点创建人"
     },
     "footer": "京ICP备XXXXXX号 版权所有©2016 CAECC"
 }

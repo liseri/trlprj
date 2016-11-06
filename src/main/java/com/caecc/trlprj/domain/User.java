@@ -24,7 +24,7 @@ import java.time.ZonedDateTime;
 @Table(name = "jhi_user")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class User extends AbstractAuditingEntity implements Serializable {
-
+    public static final String FULL_NAME_SPLITER = " — ";
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -218,7 +218,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
     }
 
     public String getFullName() {
-        return name + "(" + branch + ")";
+        return String.join(User.FULL_NAME_SPLITER, name, branch);
     }
 
 

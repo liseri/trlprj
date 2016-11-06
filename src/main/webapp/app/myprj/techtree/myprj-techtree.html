@@ -1,6 +1,22 @@
 <!-- Nested node template -->
+<script type="text/ng-template" id="techInfo_renderer.html">
+    <div class="panel panel-info" style="cursor: text">
+        <div class="panel-heading">
+            {{tech.name}}
+        </div>
+        <div class="panel-body">
+            <small ng-show="tech.creator">创建人({{tech.creator}})</small>
+            <div>
+                描述：{{tech.descript}}
+            </div>
+        </div>
+    </div>
+</script>
 <script type="text/ng-template" id="nodes_renderer.html">
-    <div ui-tree-handle class="tree-node tree-node-content">
+    <div ui-tree-handle class="tree-node tree-node-content"
+         ng-style="{
+                'border-color': (tech.key)?'red':'inherit'
+            }">
         <a class="btn btn-primary btn-xs" ng-if="tech.subTechs && tech.subTechs.length > 0" data-nodrag
            ng-click="toggle(this)"><span
             class="glyphicon"
@@ -8,34 +24,101 @@
           'glyphicon-chevron-right': collapsed,
           'glyphicon-chevron-down': !collapsed
         }"></span></a>
-        <span data-nodrag uib-tooltip="{{tech.name}}">{{tech.name}}</span>
-        <div ng-show="tech.asCreator" class="pull-right" data-nodrag>
-            <!--删除本节点-->
-            <a ng-disabled="!tech.asCreator" class="pull-right btn btn-danger btn-xs" data-nodrag
-               ng-click="!tech.asCreator || remove(this)">
-                <span class="glyphicon glyphicon-remove"></span></a>
-            <!--编辑本节点-->
-            <a ng-disabled="!tech.asCreator" class="pull-right btn btn-primary btn-xs" data-nodrag
-               ng-click="!tech.asCreator || newSubItem(this)" style="margin-right: 8px;">
-                <span class="glyphicon glyphicon-pencil"></span></a>
+        <!--项目名称-->
+        <span data-nodrag style="cursor: default"
+              uib-popover-template="'techInfo_renderer.html'"
+              popover-placement="right"
+                uib-tooltip="{{tech.name.length<8?tech.name:tech.name.substring(0,8)+'...'}}, 点击查看详细信息">
+            {{tech.name.length<20?tech.name:tech.name.substring(0,20)+'...'}}
+        </span>
+        <!--项目创建者的项目办人员对根结点任何时候都能分配子结点创建人-->
+        <div ng-show="tech.asCreator && tech.parentTechId == null" has-authority="ROLE_ADMIN"
+             class="pull-right" data-nodrag>
+            <!--<span class="data-nodrag" style="margin-left: 8px;margin-right: 8px;">|</span>-->
+            <!--分配子结点创建人-->
+            <a class="btn btn-primary btn-xs" data-nodrag
+               uib-tooltip="分配子结点创建人" ng-click="vm.openSubcreatorModal(tech, this)"
+               style="margin-right: 8px;">
+                <span class="glyphicon glyphicon-user"></span>
+                <span class="badge">{{tech.subCreator.length>0?tech.subCreator.length+'人':'无'}}</span>
+            </a>
+        </div>
+        <!--研发人员如果是结点创建人，则拥有对本结点的操作权限 -->
+        <div class="pull-right" data-nodrag
+             ng-show="tech.asCreator || tech.asSubCreator" has-authority="ROLE_USER">
+            <!--关键性操作-->
+            <a class="btn btn-primary btn-xs"
+               ng-show="tech.asCreator" ng-click="vm.changeKey(tech, !tech.key, this)">
+                关键<span class="badge">{{tech.key?'是':'否'}}</span>
+                <span ng-show="tech.key" class="badge">{{tech.tcl?telch.tcl:'TCL无'}}</span>
+                <span ng-show="tech.key" class="badge">{{tech.trl?telch.trl:'TRL无'}}</span>
+            </a>
+            <!--关键技术管理-->
+            <a class="btn btn-primary btn-xs"
+               ng-show="tech.asCreator && tech.key" ng-click="vm.jumpToKey(tech, this)">
+                关键技术<span class="glyphicon glyphicon-chevron-right"></span>
+            </a>
+            <!--&lt;!&ndash;关键技术的TCL操作&ndash;&gt;-->
+            <!--<a class="btn btn-primary btn-xs"-->
+            <!--ng-show="tech.asCreator && tech.key" ng-click="vm.jumpToTcl(tech, this)">-->
+            <!--TCL<span class="badge">{{tech.tcl?telch.tcl:'无'}}</span>-->
+            <!--<span class="glyphicon glyphicon-chevron-right"></span>-->
+            <!--</a>-->
+            <!--&lt;!&ndash;关键技术的TRL操作&ndash;&gt;-->
+            <!--<a class="btn btn-primary btn-xs"-->
+            <!--ng-show="tech.asCreator && tech.key" ng-click="vm.jumpToTrl(tech, this)">-->
+            <!--TRL<span class="badge">{{tech.trl?telch.trl:'无'}}</span></label>-->
+            <!--<span class="glyphicon glyphicon-chevron-right"></span>-->
+            <!--</a>-->
+            <span class="data-nodrag" style="margin-left: 8px;margin-right: 8px;">|</span>
+            <!--分配子结点创建人-->
+            <a class="btn btn-primary btn-xs" data-nodrag uib-tooltip="分配子结点创建人" style="margin-right: 8px;"
+               ng-show="tech.asCreator" ng-click="vm.openSubcreatorModal(tech, this)">
+                <span class="glyphicon glyphicon-user"></span>
+                <span class="badge">{{tech.subCreator.length>0?tech.subCreator.length+'人':'无'}}</span>
+            </a>
             <!--增加子节点-->
-            <a ng-disabled="!tech.asCreator" class="pull-right btn btn-primary btn-xs" data-nodrag
-               ng-click="!tech.asCreator || newSubItem(this)" style="margin-right: 8px;">
-                <span class="glyphicon glyphicon-plus"></span></a>
+            <a class="btn btn-primary btn-xs" data-nodrag uib-tooltip="添加子节点" style="margin-right: 8px;"
+               ng-show="tech.asCreator || tech.asSubCreator"
+               ng-click="vm.openTechModal(true, tech, this)">
+                <span class="glyphicon glyphicon-plus"></span>
+            </a>
+            <!--编辑本节点-->
+            <a class="btn btn-primary btn-xs" data-nodrag uib-tooltip="编辑本节点" style="margin-right: 8px;"
+               ng-show="tech.asCreator" ng-click="vm.openTechModal(false, tech, this)">
+                <span class="glyphicon glyphicon-pencil"></span>
+            </a>
+            <!--删除本节点-->
+            <a class="btn btn-danger btn-xs" data-nodrag uib-tooltip="删除本节点" style="margin-right: 8px;"
+               ng-show="tech.asCreator" ng-click="vm.removeTech(tech, this)">
+                <span class="glyphicon glyphicon-remove"></span>
+            </a>
         </div>
-        <span class="data-nodrag" style="margin-left: 4px;margin-right: 4px;">|</span>
-
-        <span class="data-nodrag" style="margin-left: 4px;margin-right: 4px;">|</span>
         <!--TCL TRL 信息-->
-        <div ng-show="tech.asCreator || tech.asParentCreator" class="pull-right" data-nodrag>
-            <a class="btn btn-primary btn-xs" ng-click="vm.changeKey(tech)">关键<span
-                class="badge">{{tech.key?'是':'否'}}</span></a>
-            <label class="label label-success" style="cursor: default">TCL<span
-                class="badge">{{tech.tcl?telch.tcl:'无'}}</span></label>
-            <label class="label label-success" style="cursor: default">TRL<span
-                class="badge">{{tech.trl?telch.trl:'无'}}</span></label>
+        <!--研发人员如果是拥有者， 能够查看和查看详细TCL TRL信息-->
+        <div class="pull-right" data-nodrag
+             ng-show="tech.asParentCreator" has-any-authority="ROLE_USER">
+            <label class="label label-info" style="cursor: default">
+                关键<span class="badge">{{tech.key?'是':'否'}}</span>
+                <span ng-show="tech.key" class="badge">{{tech.tcl?telch.tcl:'TCL无'}}</span>
+                <span ng-show="tech.key" class="badge">{{tech.trl?telch.trl:'TRL无'}}</span>
+            </label>
         </div>
-
+        <!--TCL TRL 信息-->
+        <!--非研发人员， 能够查看和进入详细TCL TRL信息-->
+        <div class="pull-right" data-nodrag
+             ng-show="tech.parentTechId!=null" has-any-authority="ROLE_ADMIN,ROLE_TRL,ROLE_EVL">
+            <label class="btn btn-info btn-xs" style="cursor: default">
+                关键<span class="badge">{{tech.key?'是':'否'}}</span>
+                <span ng-show="tech.key" class="badge">{{tech.tcl?telch.tcl:'TCL无'}}</span>
+                <span ng-show="tech.key" class="badge">{{tech.trl?telch.trl:'TRL无'}}</span>
+            </label>
+            <!--关键技术管理-->
+            <a class="btn btn-primary btn-xs"
+               ng-show="tech.asCreator && tech.key" ng-click="vm.jumpToKey(tech, this)">
+                关键技术<span class="glyphicon glyphicon-chevron-right"></span>
+            </a>
+        </div>
     </div>
     <ol ui-tree-nodes="" ng-model="tech.subTechs" ng-class="{hidden: collapsed}">
         <li ng-repeat="tech in tech.subTechs" ui-tree-node ng-include="'nodes_renderer.html'">
@@ -45,7 +128,6 @@
 
 <div class="container-fluid">
     <h2>技术树(项目：{{vm.project.name}})</h2>
-    <jhi-alert></jhi-alert>
 
     <div class="row">
         <div class="col-sm-12">
@@ -63,6 +145,7 @@
         </div>
 
         <div class="col-sm-4">
+            <jhi-alert></jhi-alert>
             <div class="info">
                 {{info}}
             </div>

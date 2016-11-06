@@ -10,6 +10,7 @@
     function MyprjController ($scope, $state) {
         var vm = this;
         vm.currentPrj = null;
+        vm.currentTech = null;
         vm.isPrjAction = false;
         vm.isTechAction = false;
         vm.isKeyAction = false;
