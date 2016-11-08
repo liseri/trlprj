@@ -22,12 +22,20 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
 
+            <column name="tech_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+
             <column name="key_type" type="varchar(32)">
                 <constraints nullable="false" />
             </column>
 
             <column name="user_login" type="varchar(50)">
                 <constraints nullable="false"/>
+            </column>
+
+            <column name="value" type="int">
+                <constraints nullable="true" />
             </column>
 
             <column name="value1" type="int">
@@ -39,10 +47,6 @@
             </column>
 
             <column name="value3" type="int">
-                <constraints nullable="true" />
-            </column>
-
-            <column name="tech_id" type="bigint">
                 <constraints nullable="true" />
             </column>
 

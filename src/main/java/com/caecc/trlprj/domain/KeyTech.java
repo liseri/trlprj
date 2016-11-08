@@ -30,12 +30,6 @@ public class KeyTech extends AbstractAuditingEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotNull
-    @Pattern(regexp = Constants.LOGIN_REGEX)
-    @Size(min = 1, max = 50)
-    @Column(name = "user_login", length = 50, nullable = false)
-    private String userLogin;
-
     @ManyToOne
     private Technology tech;
 
@@ -43,6 +37,14 @@ public class KeyTech extends AbstractAuditingEntity implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "key_type")
     private KeyTechValueType keyValueType;
+
+    @NotNull
+    @Pattern(regexp = Constants.LOGIN_REGEX)
+    @Size(min = 1, max = 50)
+    @Column(name = "user_login", length = 50, nullable = false)
+    private String userLogin;
+
+    private int value;
 
     private int value1;
 
@@ -135,5 +137,13 @@ public class KeyTech extends AbstractAuditingEntity implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public void setValue(int value) {
+        this.value = value;
     }
 }
