@@ -46,36 +46,33 @@ public class KeyTechService {
     @Inject
     private UserService userService;
 
-    /**
-     * 创建新项目.
-     *
-     * @param keyTechVM the entity to save
-     * @return the persisted entity
-     */
-    public KeyTechVM saveKeyTechOfCreator(Technology technology, KeyTechVM keyTechVM) {
+
+    public KeyTechVM saveKeyTechOfCreator(Technology technology, String user, KeyTechVM keyTechVM) {
         log.debug("Request to saveKeyTechOfCreator : {}", keyTechVM);
         return null;
     }
 
-
-    @Transactional(readOnly = true)
-    public KeyTechVM getKeyTechOfCreator(Technology technology, KeyTechValueType keyValueType) {
-        log.debug("Request to get getKeyTclOfCreator : {}", technology.getId());
+    /**
+     * TRL专业人员请求数据
+     * @param technology
+     * @param keyValueType
+     * @return
+     */
+    public KeyTechVM getKeyTech(Technology technology, String user, KeyTechValueType keyValueType) {
         List<KeyTechValue> keyValus = technology.getKeyValues()
             .stream()
             .filter(keyTech -> keyTech.getKeyValueType().equals(keyValueType) &&
-                keyTech.getUserLogin().equals(technology.getCreator().getLogin()))
+                keyTech.getUserLogin().equalsIgnoreCase(user))
             .map(keyTech -> new KeyTechValue(keyTech.getValue1(), keyTech.getValue2(), keyTech.getValue3()))
             .collect(Collectors.toList());
-        KeyNote keyNote = keyNoteRepository.findOneByTechIdAndUserLoginAndKeyValueType(technology.getId(), technology.getCreator().getLogin(), keyValueType).orElse(null);
+        KeyNote keyNote = keyNoteRepository.findOneByTechIdAndUserLoginAndKeyValueType(technology.getId(), user, keyValueType).orElse(null);
         KeyTechVM keyTechVM = new KeyTechVM();
         keyTechVM.setKeyValueType(keyValueType);
-        keyTechVM.setUserLogin(technology.getCreator().getLogin());
+        keyTechVM.setUserLogin(user);
         keyTechVM.setTcl(technology.getTcl());
         keyTechVM.setTrl(technology.getTrl());
         keyTechVM.setKeyValues(keyValus);
         keyTechVM.setNote(keyNote==null?"":keyNote.getNote());
         return keyTechVM;
     }
-
 }

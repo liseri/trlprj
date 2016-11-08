@@ -1,7 +1,7 @@
 package com.caecc.trlprj.domain;
 
 import com.caecc.trlprj.config.Constants;
-import com.caecc.trlprj.domain.enumeration.KeyValueType;
+import com.caecc.trlprj.domain.enumeration.KeyTechValueType;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -39,18 +39,18 @@ public class KeyNote extends AbstractAuditingEntity implements Serializable {
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "key_type")
-    private KeyValueType keyValueType;
+    private KeyTechValueType keyValueType;
 
     @NotNull
     @Size(min = 1, max = 500)
     @Column(name = "note", length = 500, nullable = false)
     private String note;
 
-    public KeyValueType getKeyValueType() {
+    public KeyTechValueType getKeyValueType() {
         return keyValueType;
     }
 
-    public void setKeyValueType(KeyValueType keyValueType) {
+    public void setKeyValueType(KeyTechValueType keyValueType) {
         this.keyValueType = keyValueType;
     }
 
