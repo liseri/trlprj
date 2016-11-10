@@ -12,6 +12,8 @@
         vm.prjs = MyProject.query();
         vm.clickTech = clickTech;
 
+
+
         function clickTech(project) {
             $state.go('techtree', {id:project.id});
             $scope.$parent.vm.currentPrj = project;

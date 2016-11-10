@@ -1,51 +1,115 @@
 <div class="container-fluid">
     <h2>关键技术 — {{vm.tech.name}}</h2>
 
-    <div class="row">
-        <div class="col-sm-12">
-            <button type="button" class="btn btn-primary btn-sm" ng-click="vm.expandAll()">全部展开</button>
-            <button type="button" class="btn btn-primary btn-sm" ng-click="vm.collapseAll()">全部收回</button>
-        </div>
-    </div>
     <div class="table-responsive">
         <table class="jh-table table table-striped">
             <!-- colspan rowspan-->
             <thead>
             <tr>
-                <th>重要性</th>
-                <th>重要性说明</th>
-                <th>选项</th>
+                <th style="text-align: center">重要性</th>
+                <th style="text-align: center">重要性说明</th>
+                <th style="text-align: center">选项</th>
             </tr>
             </thead>
             <tbody>
-            <tr>
+            <tr style="text-align: center">
                 <td rowspan="2">很重要</td>
-                <td >bb</td>
-                <td >bb</td>
+                <td style="text-align: left">很重要1</td>
+                <td>
+                    <button ng-model="vm.tclValue" uib-btn-radio="'1,1,1'"
+                            ng-disabled="vm.enable==true" ng-class="{
+                                'btn btn-default': vm.tclValue!='1,1,1',
+                                'btn btn-success': vm.tclValue=='1,1,1',
+                            }">
+                    </button>
+                </td>
             </tr>
-            <tr>
-                <td >bb</td>
-                <td >bb</td>
+            <tr style="text-align: center">
+                <td style="text-align: left">很重要2</td>
+                <td>
+                    <label ng-model="vm.tclValue" uib-btn-radio="'1,1,2'"
+                           ng-disabled="vm.enable==true" ng-class="{
+                                'btn btn-default': vm.tclValue!='1,1,2',
+                                'btn btn-success': vm.tclValue=='1,1,2',
+                            }">
+
+                    </label>
+                </td>
             </tr>
-            <tr>
+            <tr style="text-align: center">
+                <td rowspan="2">重要</td>
+                <td style="text-align: left">重要1</td>
+                <td>
+                    <label ng-model="vm.tclValue" uib-btn-radio="'1,2,1'"
+                           ng-disabled="vm.enable==true" ng-class="{
+                                'btn btn-default': vm.tclValue!='1,2,1',
+                                'btn btn-success': vm.tclValue=='1,2,1',
+                            }">
+
+                    </label>
+                </td>
+            </tr>
+            <tr style="text-align: center">
+                <td style="text-align: left">重要2</td>
+                <td>
+                    <label ng-model="vm.tclValue" uib-btn-radio="'1,2,2'"
+                           ng-disabled="vm.enable==true" ng-class="{
+                                'btn btn-default': vm.tclValue!='1,2,2',
+                                'btn btn-success': vm.tclValue=='1,2,2',
+                            }"
+                    ></label>
+                </td>
+            </tr>
+            <tr style="text-align: center">
                 <td rowspan="2">一般</td>
-                <td >bb</td>
-                <td >bb</td>
+                <td style="text-align: left">一般1</td>
+                <td>
+                    <label ng-model="vm.tclValue" uib-btn-radio="'1,3,1'"
+                           ng-disabled="vm.enable==true" ng-class="{
+                                'btn btn-default': vm.tclValue!='1,3,1',
+                                'btn btn-success': vm.tclValue=='1,3,1',
+                            }">
+
+                    </label>
+                </td>
             </tr>
-            <tr>
-                <td >bb</td>
-                <td >bb</td>
-            </tr><tr>
-                <td rowspan="2">不重要</td>
-                <td >bb</td>
-                <td >bb</td>
-            </tr>
-            <tr>
-                <td >bb</td>
-                <td >bb</td>
+            <tr style="text-align: center">
+                <td style="text-align: left">一般2</td>
+                <td>
+                    <label ng-model="vm.tclValue" uib-btn-radio="'1,3,2'"
+                           ng-disabled="vm.enable==true" ng-class="{
+                                'btn btn-default': vm.tclValue!='1,3,2',
+                                'btn btn-success': vm.tclValue=='1,3,2',
+                            }">
+
+                    </label>
+                </td>
             </tr>
             </tbody>
         </table>
+    </div>
+    <div>
+        <div>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <span class="badge">14</span>
+                    Cras justo odio
+                </li>
+            </ul>
+        </div>
+        <div>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <strong>回复@创建人:</strong>
+                </li>
+                <li class="list-group-item">
+                    <div>
+                        <label>您选:</label>
+                    </div>
+                    <textarea></textarea>
+                </li>
+            </ul>
+        </div>
     </div>
 </div>
 

@@ -1,20 +1,15 @@
 package com.caecc.trlprj.domain;
 
-import com.caecc.trlprj.config.Constants;
 import com.caecc.trlprj.domain.enumeration.KeyTechValueType;
-import com.caecc.trlprj.domain.enumeration.TCL;
-import com.caecc.trlprj.domain.enumeration.TRL;
-import com.caecc.trlprj.web.rest.vm.TechnologyVM;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.caecc.trlprj.web.rest.vm.KeyTechVM;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.*;
+import java.util.Objects;
 
 /**
  * A Technology.
@@ -30,8 +25,9 @@ public class KeyTech extends AbstractAuditingEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
-    private Technology tech;
+    //    @ManyToOne
+    @Column(name = "tech_id")
+    private Long techId;
 
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -39,25 +35,65 @@ public class KeyTech extends AbstractAuditingEntity implements Serializable {
     private KeyTechValueType keyValueType;
 
     @NotNull
-    @Pattern(regexp = Constants.LOGIN_REGEX)
     @Size(min = 1, max = 50)
-    @Column(name = "user_login", length = 50, nullable = false)
-    private String userLogin;
+    @Column(name = "from_user_fullname", length = 50, nullable = false)
+    private String fromUserFullname;
 
-    private int value;
+    @Size(max = 50)
+    @Column(name = "from_user_type", length = 50)
+    private String fromUserType;
 
-    private int value1;
+    @NotNull
+    @Size(min = 1, max = 50)
+    @Column(name = "to_user_fullname", length = 50, nullable = false)
+    private String toUserFullname;
 
-    private int value2;
+    @Size(max = 50)
+    @Column(name = "to_user_type", length = 50)
+    private String toUserType;
 
-    private int value3;
+    @Size(max = 50)
+    @Column(name = "value", length = 50)
+    private String value;
 
-    public Technology getTech() {
-        return tech;
+    @Size(max = 50)
+    @Column(name = "value2", length = 50, nullable = false)
+    private String value2;
+
+    @Size(max = 500)
+    @Column(name = "note", length = 500)
+    private String note;
+
+    public Long getId() {
+        return id;
     }
 
-    public void setTech(Technology tech) {
-        this.tech = tech;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getFromUserFullname() {
+        return fromUserFullname;
+    }
+
+    public void setFromUserFullname(String fromUserFullname) {
+        this.fromUserFullname = fromUserFullname;
+    }
+
+    public String getToUserFullname() {
+        return toUserFullname;
+    }
+
+    public void setToUserFullname(String toUserFullname) {
+        this.toUserFullname = toUserFullname;
+    }
+
+    public String getToUserType() {
+        return toUserType;
+    }
+
+    public void setToUserType(String toUserType) {
+        this.toUserType = toUserType;
     }
 
     public KeyTechValueType getKeyValueType() {
@@ -68,82 +104,86 @@ public class KeyTech extends AbstractAuditingEntity implements Serializable {
         this.keyValueType = keyValueType;
     }
 
-    public int getValue1() {
-        return value1;
-    }
-
-    public void setValue1(int value1) {
-        this.value1 = value1;
-    }
-
-    public int getValue2() {
-        return value2;
-    }
-
-    public void setValue2(int value2) {
-        this.value2 = value2;
-    }
-
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) {
-//            return true;
-//        }
-//        if (o == null || getClass() != o.getClass()) {
-//            return false;
-//        }
-//        KeyTech technology = (KeyTech) o;
-//        if(technology.id == null || id == null) {
-//            return false;
-//        }
-//        return Objects.equals(id, technology.id);
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        return Objects.hashCode(id);
-//    }
-//
-//    @Override
-//    public String toString() {
-//        return "Technology{" +
-//            "id=" + id +
-//            ", tech='" + tech.getId() + "'" +
-//            ", keyValueType='" + keyValueType + "'" +
-//            ", value1='" + value1 + "'" +
-//            ", value2='" + value2 + "'" +
-//            '}';
-//    }
-
-    public int getValue3() {
-        return value3;
-    }
-
-    public void setValue3(int value3) {
-        this.value3 = value3;
-    }
-
-    public String getUserLogin() {
-        return userLogin;
-    }
-
-    public void setUserLogin(String userLogin) {
-        this.userLogin = userLogin;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public int getValue() {
+    public String getValue() {
         return value;
     }
 
-    public void setValue(int value) {
+    public void setValue(String value) {
         this.value = value;
+    }
+
+    public String getValue2() {
+        return value2;
+    }
+
+    public void setValue2(String value2) {
+        this.value2 = value2;
+    }
+
+    public String getFromUserType() {
+        return fromUserType;
+    }
+
+    public void setFromUserType(String fromUserType) {
+        this.fromUserType = fromUserType;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        KeyTech technology = (KeyTech) o;
+        if (technology.id == null || id == null) {
+            return false;
+        }
+        return Objects.equals(id, technology.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
+
+    @Override
+    public String toString() {
+        return "Technology{" +
+            "id=" + id +
+            ", tech='" + techId + "'" +
+            ", keyValueType='" + keyValueType + "'" +
+//            ", value='" + value + "'" +
+//            ", value2='" + value2 + "'" +
+            '}';
+    }
+
+    public static KeyTech fromKeyTechVM(Technology technology, KeyTechVM keyTechVM) {
+        KeyTech newKeyTech = new KeyTech();
+        newKeyTech.setId(keyTechVM.getId());
+        newKeyTech.setTechId(technology.getId());
+        newKeyTech.setKeyValueType(keyTechVM.getKeyValueType());
+        newKeyTech.setValue(keyTechVM.getValue());
+        newKeyTech.setValue2(keyTechVM.getValue2());
+        newKeyTech.setNote(keyTechVM.getNote());
+        return newKeyTech;
+    }
+
+
+    public Long getTechId() {
+        return techId;
+    }
+
+    public void setTechId(Long techId) {
+        this.techId = techId;
     }
 }

@@ -78,10 +78,10 @@ public class Technology extends AbstractAuditingEntity implements Serializable {
     @ManyToOne
     private Technology parentTech;
 
-    @OneToMany(mappedBy = "tech")
-    @JsonIgnore
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<KeyTech> keyValues = new HashSet<>();
+//    @OneToMany(mappedBy = "tech", fetch = FetchType.EAGER)
+//    @JsonIgnore
+//    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+//    private List<KeyTech> keyTechs;
 
     public void updateFrom(TechnologyVM technologyVM) {
         this.name(technologyVM.getName())
@@ -200,20 +200,20 @@ public class Technology extends AbstractAuditingEntity implements Serializable {
         this.subTeches = technologies;
     }
 
-    public Set<KeyTech> getKeyValues() {
-        return keyValues;
-    }
-    public Technology addKeyTech(KeyTech keyTech) {
-        getKeyValues().add(keyTech);
-        return this;
-    }
-    public Technology removeKeyTech(KeyTech keyTech) {
-        getKeyValues().remove(keyTech);
-        return this;
-    }
-    public void setKeyValues(Set<KeyTech> keyValues) {
-        this.keyValues = keyValues;
-    }
+//    public List<KeyTech> getKeyTechs() {
+//        return keyTechs;
+//    }
+//    public Technology addKeyTech(KeyTech keyTech) {
+//        getKeyTechs().add(keyTech);
+//        return this;
+//    }
+//    public Technology removeKeyTech(KeyTech keyTech) {
+//        getKeyTechs().remove(keyTech);
+//        return this;
+//    }
+//    public void setKeyTechs(List<KeyTech> keyTechs) {
+//        this.keyTechs = keyTechs;
+//    }
 
     public User getCreator() {
         return creator;

@@ -30,24 +30,30 @@
                 <constraints nullable="false" />
             </column>
 
-            <column name="user_login" type="varchar(50)">
+            <column name="from_user_fullname" type="varchar(50)">
                 <constraints nullable="false"/>
             </column>
-
-            <column name="value" type="int">
-                <constraints nullable="true" />
+            <column name="from_user_type" type="varchar(50)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="to_user_fullname" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="to_user_type" type="varchar(50)">
+                <constraints nullable="true"/>
             </column>
 
-            <column name="value1" type="int">
-                <constraints nullable="true" />
+
+            <column name="value" type="varchar(50)">
+                <constraints nullable="true"/>
             </column>
 
-            <column name="value2" type="int">
-                <constraints nullable="true" />
+            <column name="value2" type="varchar(50)">
+                <constraints nullable="true"/>
             </column>
 
-            <column name="value3" type="int">
-                <constraints nullable="true" />
+            <column name="note" type="varchar(500)">
+                <constraints nullable="true"/>
             </column>
 
             <column name="created_by" type="varchar(50)">
@@ -61,10 +67,10 @@
             <!-- jhipster-needle-liquibase-add-column - Jhipster will add columns here, do not remove-->
         </createTable>
 
-        <addForeignKeyConstraint baseColumnNames="tech_id"
-                                 baseTableName="keytech"
-                                 constraintName="fk_keytech_tech_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="technology"/>
+        <!--<addForeignKeyConstraint baseColumnNames="tech_id"-->
+                                 <!--baseTableName="keytech"-->
+                                 <!--constraintName="fk_keytech_tech_id"-->
+                                 <!--referencedColumnNames="id"-->
+                                 <!--referencedTableName="technology"/>-->
     </changeSet>
 </databaseChangeLog>

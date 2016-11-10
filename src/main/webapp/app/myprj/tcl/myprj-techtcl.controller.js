@@ -15,6 +15,8 @@
         vm.project = $scope.$parent.vm.currentPrj;
         vm.tech = $scope.$parent.vm.currentTech;
 
+        vm.enable = true
+        vm.tclValue = "1,1,1";
 
     }
 })();
