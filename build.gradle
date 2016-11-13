@@ -16,7 +16,6 @@ buildscript {
         classpath "com.moowork.gradle:gradle-gulp-plugin:0.12"
         classpath "se.transmode.gradle:gradle-docker:1.2"
         classpath "io.spring.gradle:dependency-management-plugin:0.5.6.RELEASE"
-        //jhipster-needle-gradle-buildscript-dependency - JHipster will add additional gradle build script plugins here
     }
 }
 
@@ -75,7 +74,6 @@ apply from: 'gradle/liquibase.gradle'
 apply from: 'gradle/gatling.gradle'
 apply from: 'gradle/mapstruct.gradle'
 apply from: 'gradle/docker.gradle'
-//jhipster-needle-gradle-apply-from - JHipster will add additional gradle scripts to be applied here
 
 if (project.hasProperty('prod')) {
     apply from: 'gradle/profile_prod.gradle'
@@ -90,7 +88,7 @@ if (project.hasProperty('shell')) {
 }
 
 group = 'com.caecc.trlprj'
-version = '0.0.1-SNAPSHOT'
+version = '1.0'
 
 description = ''
 
@@ -135,7 +133,7 @@ dependencies {
     compile ("com.ryantenney.metrics:metrics-spring:${metrics_spring_version}") {
         exclude(module: 'metrics-core')
         exclude(module: 'metrics-healthchecks')
-    } 
+    }
     compile "org.hibernate:hibernate-core:${hibernate_entitymanager_version}"
     compile("com.zaxxer:HikariCP") {
         exclude(module: 'tools')
@@ -145,7 +143,7 @@ dependencies {
     compile "javax.inject:javax.inject:${javax_inject_version}"
     compile "javax.transaction:javax.transaction-api"
     compile "org.apache.geronimo.javamail:geronimo-javamail_1.4_mail:${geronimo_javamail_1_4_mail_version}"
-    
+
     compile ("org.hibernate:hibernate-ehcache") {
         exclude(module: 'ehcache-core')
     }
@@ -193,12 +191,11 @@ dependencies {
     testCompile "org.mockito:mockito-core"
     testCompile "com.mattbertolini:liquibase-slf4j:${liquibase_slf4j_version}"
     testCompile "org.hamcrest:hamcrest-library"
-    
+
     testCompile "io.gatling.highcharts:gatling-charts-highcharts:${gatling_version}"
-    
+
     testCompile "com.h2database:h2"
     optional "org.springframework.boot:spring-boot-configuration-processor:${spring_boot_version}"
-    //jhipster-needle-gradle-dependency - JHipster will add additional dependencies here
 }
 
 clean {

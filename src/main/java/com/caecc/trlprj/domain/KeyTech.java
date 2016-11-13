@@ -56,8 +56,8 @@ public class KeyTech extends AbstractAuditingEntity implements Serializable {
     @Column(name = "value", length = 50)
     private String value;
 
-    @Size(max = 50)
-    @Column(name = "value2", length = 50, nullable = false)
+    @Size(max = 3000)
+    @Column(name = "value2", length = 3000, nullable = false)
     private String value2;
 
     @Size(max = 500)

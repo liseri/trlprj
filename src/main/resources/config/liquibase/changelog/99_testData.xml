@@ -16,7 +16,7 @@
     <!--
         Added the entity Project.
     -->
-    <changeSet id="20161011134959-1" author="jhipster">
+    <changeSet id="20161011134959-1" author="liseri">
         <loadData encoding="UTF-8"
                   file="config/liquibase/testBranchData.csv"
                   separator=";"

@@ -50,8 +50,8 @@
             <a class="btn btn-primary btn-xs"
                ng-show="tech.asCreator" ng-click="vm.changeKey(tech, !tech.key, this)">
                 关键<span class="badge">{{tech.key?'是':'否'}}</span>
-                <span ng-show="tech.key" class="badge">{{tech.tcl?telch.tcl:'TCL无'}}</span>
-                <span ng-show="tech.key" class="badge">{{tech.trl?telch.trl:'TRL无'}}</span>
+                <span ng-show="tech.key" class="badge">{{tech.tcl?tech.tcl:'TCL无'}}</span>
+                <span ng-show="tech.key" class="badge">{{tech.trl?tech.trl:'TRL无'}}</span>
             </a>
             <!--关键技术管理-->
             <a class="btn btn-primary btn-xs"
@@ -61,13 +61,13 @@
             <!--&lt;!&ndash;关键技术的TCL操作&ndash;&gt;-->
             <!--<a class="btn btn-primary btn-xs"-->
             <!--ng-show="tech.asCreator && tech.key" ng-click="vm.jumpToTcl(tech, this)">-->
-            <!--TCL<span class="badge">{{tech.tcl?telch.tcl:'无'}}</span>-->
+            <!--TCL<span class="badge">{{tech.tcl?tech.tcl:'无'}}</span>-->
             <!--<span class="glyphicon glyphicon-chevron-right"></span>-->
             <!--</a>-->
             <!--&lt;!&ndash;关键技术的TRL操作&ndash;&gt;-->
             <!--<a class="btn btn-primary btn-xs"-->
             <!--ng-show="tech.asCreator && tech.key" ng-click="vm.jumpToTrl(tech, this)">-->
-            <!--TRL<span class="badge">{{tech.trl?telch.trl:'无'}}</span></label>-->
+            <!--TRL<span class="badge">{{tech.trl?tech.trl:'无'}}</span></label>-->
             <!--<span class="glyphicon glyphicon-chevron-right"></span>-->
             <!--</a>-->
             <span class="data-nodrag" style="margin-left: 8px;margin-right: 8px;">|</span>
@@ -100,8 +100,8 @@
              ng-show="tech.asParentCreator" has-any-authority="ROLE_USER">
             <label class="label label-info" style="cursor: default">
                 关键<span class="badge">{{tech.key?'是':'否'}}</span>
-                <span ng-show="tech.key" class="badge">{{tech.tcl?telch.tcl:'TCL无'}}</span>
-                <span ng-show="tech.key" class="badge">{{tech.trl?telch.trl:'TRL无'}}</span>
+                <span ng-show="tech.key" class="badge">{{tech.tcl?tech.tcl:'TCL无'}}</span>
+                <span ng-show="tech.key" class="badge">{{tech.trl?tech.trl:'TRL无'}}</span>
             </label>
         </div>
         <!--TCL TRL 信息-->
@@ -110,12 +110,12 @@
              ng-show="tech.parentTechId!=null" has-any-authority="ROLE_ADMIN,ROLE_TRL,ROLE_EVL">
             <label class="btn btn-info btn-xs" style="cursor: default">
                 关键<span class="badge">{{tech.key?'是':'否'}}</span>
-                <span ng-show="tech.key" class="badge">{{tech.tcl?telch.tcl:'TCL无'}}</span>
-                <span ng-show="tech.key" class="badge">{{tech.trl?telch.trl:'TRL无'}}</span>
+                <span ng-show="tech.key" class="badge">{{tech.tcl?tech.tcl:'TCL无'}}</span>
+                <span ng-show="tech.key" class="badge">{{tech.trl?tech.trl:'TRL无'}}</span>
             </label>
             <!--关键技术管理-->
             <a class="btn btn-primary btn-xs"
-               ng-show="tech.asCreator && tech.key" ng-click="vm.jumpToKey(tech, this)">
+               ng-show="tech.key" ng-click="vm.jumpToKey(tech, this)">
                 关键技术<span class="glyphicon glyphicon-chevron-right"></span>
             </a>
         </div>
@@ -127,8 +127,6 @@
 </script>
 
 <div class="container-fluid">
-    <h2>技术树(项目：{{vm.project.name}})</h2>
-
     <div class="row">
         <div class="col-sm-12">
             <button type="button" class="btn btn-primary btn-sm" ng-click="vm.expandAll()">全部展开</button>

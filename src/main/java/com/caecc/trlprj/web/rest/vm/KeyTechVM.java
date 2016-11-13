@@ -26,7 +26,7 @@ public class KeyTechVM {
     @Size(max = 50)
     private String value;
 
-    @Size(max = 50)
+    @Size(max = 3000)
     private String value2;
 
     @Size(max = 500)

@@ -27,6 +27,7 @@
                     $translatePartialLoader.addPart('project');
                     $translatePartialLoader.addPart('prjStatus');
                     $translatePartialLoader.addPart('technology');
+                    $translatePartialLoader.addPart('authority');
                     $translatePartialLoader.addPart('tCL');
                     $translatePartialLoader.addPart('tRL');
                     $translatePartialLoader.addPart('global');
@@ -59,16 +60,16 @@
                     controllerAs: 'vm'
                 }
             }
-        }).state('techtcl', {
+        }).state('techkey', {
             parent: 'techtree',
-            url: '/{id}/tech/{techId}/tcl',
+            url: '/{id}/tech/{techId}/key/{node}',
             data: {
                 authorities: ['ROLE_USER','ROLE_TRL','ROLE_EVL','ROLE_ADMIN'],
             },
             views: {
                 'keyContent@myprj': {
-                    templateUrl: 'app/myprj/tcl/myprj-techtcl.html',
-                    controller: 'MyprjTechTclController',
+                    templateUrl: 'app/myprj/key/myprj-techkey.html',
+                    controller: 'MyprjTechKeyController',
                     controllerAs: 'vm'
                 }
             }

@@ -69,5 +69,4 @@
         timeToLiveSeconds="3600">
     </cache>
 
-    <!-- jhipster-needle-ehcache-add-entry -->
 </ehcache>

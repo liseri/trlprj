@@ -1,5 +1,5 @@
 <div class="wrap flex flex-h" ng-cloak>
-    <div class="btn btn-primary" ng-click="vm.prjClick()" >
+    <div class="btn btn-primary" ng-click="vm.prjClick()">
         <h4>
             项目
             <span ng-show="!vm.isPrjAction" class="glyphicon glyphicon-chevron-down"></span>
@@ -16,8 +16,11 @@
             <span ng-show="!vm.isTechAction" class="glyphicon glyphicon-chevron-down"></span>
             <span ng-show="vm.isTechAction" class="glyphicon glyphicon-chevron-right"></span>
         </h4>
+        <div class="shupai">
+            <h4>{{vm.currentPrj.name}}</h4>
+        </div>
     </div>
-    <div class="main well well-lg" ng-show="vm.isTechAction">
+    <div class="main" ng-show="vm.isTechAction">
         <div ui-view="techContent"></div>
     </div>
 
@@ -27,8 +30,11 @@
             <span ng-show="!vm.isKeyAction" class="glyphicon glyphicon-chevron-down"></span>
             <span ng-show="vm.isKeyAction" class="glyphicon glyphicon-chevron-right"></span>
         </h4>
+        <div class="shupai">
+            <h4>{{vm.currentTech.name}}</h4>
+        </div>
     </div>
-    <div class="main well well-lg" ng-show="vm.isKeyAction">
+    <div class="main" ng-show="vm.isKeyAction">
         <div ui-view="keyContent"></div>
     </div>
 </div>

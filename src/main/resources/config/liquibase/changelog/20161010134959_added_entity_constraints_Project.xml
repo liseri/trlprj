@@ -6,8 +6,8 @@
     <!--
         Added the constraints for entity Project.
     -->
-    <changeSet id="20161010134959-2" author="jhipster">
-        
+    <changeSet id="20161010134959-2" author="liseri">
+
         <addForeignKeyConstraint baseColumnNames="root_tech_id"
                                  baseTableName="project"
                                  constraintName="fk_project_root_tech_id"
@@ -30,7 +30,7 @@
                                  constraintName="fk_project_trlers_trlers_id"
                                  referencedColumnNames="id"
                                  referencedTableName="jhi_user"/>
-        
+
         <addForeignKeyConstraint baseColumnNames="projects_id"
                                  baseTableName="project_evlers"
                                  constraintName="fk_project_evlers_projects_id"
@@ -41,6 +41,6 @@
                                  constraintName="fk_project_evlers_evlers_id"
                                  referencedColumnNames="id"
                                  referencedTableName="jhi_user"/>
-        
+
     </changeSet>
 </databaseChangeLog>

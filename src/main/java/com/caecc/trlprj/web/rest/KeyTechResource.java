@@ -14,6 +14,7 @@ import com.caecc.trlprj.web.rest.vm.KeyTechsVM;
 import com.codahale.metrics.annotation.Timed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -49,7 +50,7 @@ public class KeyTechResource {
 
     @PostMapping(value = "/keytech/{techId}/type/{type}")
     @Timed
-    public ResponseEntity<KeyTech> createKeyTech(@PathVariable Long techId,  @PathVariable KeyTechValueType type,
+    public ResponseEntity<KeyTechsVM> createKeyTech(@PathVariable Long techId,  @PathVariable KeyTechValueType type,
                                                 @Valid @RequestBody KeyTechVM keyTechvVM) throws URISyntaxException {
         log.debug("REST request to createKeyTech : {}", keyTechvVM);
         if (keyTechvVM.getId() != null) {
@@ -57,15 +58,16 @@ public class KeyTechResource {
         }
         Technology technology = technologyRepository.findOne(techId);
         KeyTech result = keyTechService.saveKeyTech(technology, keyTechvVM);
+        KeyTechsVM result2 = keyTechService.getKeyTech(technology, type, new PageRequest(0, 20));
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityCreationAlert("keytech", result.getId().toString()))
-            .body(result);
+            .body(result2);
     }
 
 
     @PutMapping(value = "/keytech/{techId}/type/{type}")
     @Timed
-    public ResponseEntity<KeyTech> updateKeyTech(@PathVariable Long techId,  @PathVariable KeyTechValueType type,
+    public ResponseEntity<KeyTechsVM> updateKeyTech(@PathVariable Long techId,  @PathVariable KeyTechValueType type,
                                                @Valid @RequestBody KeyTechVM keyTechvVM) throws URISyntaxException {
         log.debug("REST request to updateBranch : {}", keyTechvVM);
         if (keyTechvVM.getId() == null) {
@@ -73,9 +75,10 @@ public class KeyTechResource {
         }
         Technology technology = technologyRepository.findOne(techId);
         KeyTech result = keyTechService.saveKeyTech(technology, keyTechvVM);
+        KeyTechsVM result2 = keyTechService.getKeyTech(technology, type, new PageRequest(0, 20));
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert("keytech", result.getId().toString()))
-            .body(result);
+            .body(result2);
     }
 
     /**

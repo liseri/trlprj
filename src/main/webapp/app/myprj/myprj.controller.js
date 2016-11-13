@@ -11,6 +11,7 @@
         var vm = this;
         vm.currentPrj = null;
         vm.currentTech = null;
+        vm.currentKeyNode = null;
         vm.isPrjAction = false;
         vm.isTechAction = false;
         vm.isKeyAction = false;

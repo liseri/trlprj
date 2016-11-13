@@ -4,6 +4,7 @@ package com.caecc.trlprj.web.rest.vm;
  * Created by Administrator on 2016/11/7.
  */
 public class KeyTechValue {
+    private Long id;
     private String fromUserFullName;
     private String fromUserType;
     private String toUserFullName;
@@ -66,5 +67,13 @@ public class KeyTechValue {
 
     public void setToUserType(String toUserType) {
         this.toUserType = toUserType;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

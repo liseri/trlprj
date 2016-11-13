@@ -1,0 +1,655 @@
+<uib-tabset active="0">
+    <uib-tab index="0" style="position: relative" select="vm.getTclValue()">
+        <uib-tab-heading>
+            <h4>TCL</h4>
+        </uib-tab-heading>
+        <div ng-cloak>
+            <div class="col-sm-6">
+                <h4 style="text-align: center">技术关键程度判定检查单(由创建人填写)</h4>
+                <h5>填写说明：</h5>
+                <div class="table-responsive">
+                    <table class="jh-table table table-striped">
+                        <!-- colspan rowspan-->
+                        <thead>
+                        <tr>
+                            <th style="text-align: center; width: 80px">重要性</th>
+                            <th style="text-align: center">重要性判定检查项</th>
+                            <th style="text-align: center; width: 50px">结果</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr style="text-align: center">
+                            <td rowspan="2">很重要</td>
+                            <td style="text-align: left">
+                                1. 对重要攻关技术指标影响重大，若技术不能达到要求，则重要攻关技术指标要求无法满足，
+                                无措施和协调余地，导致整个工程下马或暂缓执行；
+                            </td>
+                            <td>
+                                <button ng-model="vm.tclValue1" uib-btn-radio="'1,1,1'"
+                                        ng-disabled="vm.tclValueEnable" ng-class="{
+                                'btn btn-default': vm.tclValue1!='1,1,1',
+                                'btn btn-success': vm.tclValue1=='1,1,1'
+                            }">
+                                </button>
+                            </td>
+                        </tr>
+                        <tr style="text-align: center">
+                            <td style="text-align: left">
+                                2. 对重要攻关技术指标影响重大，若技术不能达到要求，则重要攻关技术指标要求无法满足，
+                                虽然有措施和协调作地，但将导致总体、关键分系统或重要单机的技术方案出现颠覆，对整个
+                                系统研制计划和成本产生重大影响。
+                            </td>
+                            <td>
+                                <label ng-model="vm.tclValue1" uib-btn-radio="'1,1,2'"
+                                       ng-disabled="vm.tclValueEnable" ng-class="{
+                                'btn btn-default': vm.tclValue1!='1,1,2',
+                                'btn btn-success': vm.tclValue1=='1,1,2'
+                            }">
+
+                                </label>
+                            </td>
+                        </tr>
+                        <tr style="text-align: center">
+                            <td rowspan="3">重要</td>
+                            <td style="text-align: left">
+                                1. 对重要攻关技术指标影响重大，若技术不能达到要求，则重要攻关技术指标要求部分未达到，使用效能降低；
+                            </td>
+                            <td>
+                                <label ng-model="vm.tclValue1" uib-btn-radio="'1,2,1'"
+                                       ng-disabled="vm.tclValueEnable" ng-class="{
+                                'btn btn-default': vm.tclValue1!='1,2,1',
+                                'btn btn-success': vm.tclValue1=='1,2,1'
+                            }">
+
+                                </label>
+                            </td>
+                        </tr>
+                        <tr style="text-align: center">
+                            <td style="text-align: left">
+                                2. 对重要攻关技术指标影响重大，若技术不能达到要求，则重要攻关技术指标未能达到，
+                                后续措施可行性无充分依据；
+                            </td>
+                            <td>
+                                <label ng-model="vm.tclValue1" uib-btn-radio="'1,2,2'"
+                                       ng-disabled="vm.tclValueEnable" ng-class="{
+                                'btn btn-default': vm.tclValue1!='1,2,2',
+                                'btn btn-success': vm.tclValue1=='1,2,2'
+                            }"
+                                ></label>
+                            </td>
+                        </tr>
+                        <tr style="text-align: center">
+                            <td style="text-align: left">
+                                3. 对重要攻关技术指标影响重大，若技术不能达到要求，则重要攻关技术指标要求无法满足，
+                                虽然有措施和协调余地，但将导致关键分系统或重要单机的技术方案出现颠覆或反复，
+                                对局部研制计划和成本影响较大。
+                            </td>
+                            <td>
+                                <label ng-model="vm.tclValue1" uib-btn-radio="'1,2,3'"
+                                       ng-disabled="vm.tclValueEnable" ng-class="{
+                                'btn btn-default': vm.tclValue1!='1,2,3',
+                                'btn btn-success': vm.tclValue1=='1,2,3'
+                            }"
+                                ></label>
+                            </td>
+                        </tr>
+                        <tr style="text-align: center">
+                            <td rowspan="2">一般</td>
+                            <td style="text-align: left">
+                                1. 对重要攻关技术指标影响轻微，若技术不能达到要求，则部分攻关技术指标要求无法满足，
+                                对下一阶段工作影响轻微；
+                            </td>
+                            <td>
+                                <label ng-model="vm.tclValue1" uib-btn-radio="'1,3,1'"
+                                       ng-disabled="vm.tclValueEnable" ng-class="{
+                                'btn btn-default': vm.tclValue1!='1,3,1',
+                                'btn btn-success': vm.tclValue1=='1,3,1'
+                            }">
+
+                                </label>
+                            </td>
+                        </tr>
+                        <tr style="text-align: center">
+                            <td style="text-align: left">
+                                2. 对重要攻关技术指标影响轻微，关键分系统或重要单机技术方案出现颠覆，但备用方案工作充分并可立即启用，
+                                对相关系统及单机的技术状态影响不大，对局部研制计划影响轻微。
+                            </td>
+                            <td>
+                                <label ng-model="vm.tclValue1" uib-btn-radio="'1,3,2'"
+                                       ng-disabled="vm.tclValueEnable" ng-class="{
+                                'btn btn-default': vm.tclValue1!='1,3,2',
+                                'btn btn-success': vm.tclValue1=='1,3,2'
+                            }">
+                                </label>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <br/>
+                <div class="table-responsive">
+                    <table class="jh-table table table-striped">
+                        <!-- colspan rowspan-->
+                        <thead>
+                        <tr>
+                            <th style="text-align: center; width: 80px">类别</th>
+                            <th style="text-align: center; width: 80px">困难度</th>
+                            <th style="text-align: center">困难程度判定检查项</th>
+                            <th style="text-align: center; width: 50px">结果</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr style="text-align: center">
+                            <td rowspan="3">理论</td>
+                            <td>很困难</td>
+                            <td style="text-align: left">
+                                需要基础理论取得重大或较大突破
+                            </td>
+                            <td>
+                                <label ng-model="vm.tclValue2" uib-btn-radio="'2,1,x'"
+                                       ng-disabled="vm.tclValueEnable" ng-class="{
+                                            'btn btn-default': vm.tclValue2!='2,1,x',
+                                            'btn btn-success': vm.tclValue2=='2,1,x'
+                                        }">
+                                </label>
+                            </td>
+                        </tr>
+                        <tr style="text-align: center">
+                            <td>困难</td>
+                            <td style="text-align: left">
+                                需要对已有基础理论做较大改进
+                            </td>
+                            <td>
+                                <label ng-model="vm.tclValue2" uib-btn-radio="'2,2,x'"
+                                       ng-disabled="vm.tclValueEnable" ng-class="{
+                                            'btn btn-default': vm.tclValue2!='2,2,x',
+                                            'btn btn-success': vm.tclValue2=='2,2,x'
+                                        }">
+                                </label>
+                            </td>
+                        </tr>
+                        <tr style="text-align: center">
+                            <td>一般</td>
+                            <td style="text-align: left">
+                                沿用成熟的基础理论或需要做一定改进
+                            </td>
+                            <td>
+                                <label ng-model="vm.tclValue2" uib-btn-radio="'2,3,x'"
+                                       ng-disabled="vm.tclValueEnable" ng-class="{
+                                            'btn btn-default': vm.tclValue2!='2,3,x',
+                                            'btn btn-success': vm.tclValue2=='2,3,x'
+                                        }">
+                                </label>
+                            </td>
+                        </tr>
+                        <tr style="text-align: center">
+                            <td rowspan="3">技术</td>
+                            <td>很困难</td>
+                            <td style="text-align: left">
+                                需要研发全新技术或技术取得较大突破
+                            </td>
+                            <td>
+                                <label ng-model="vm.tclValue3" uib-btn-radio="'3,1,x'"
+                                       ng-disabled="vm.tclValueEnable" ng-class="{
+                                            'btn btn-default': vm.tclValue3!='3,1,x',
+                                            'btn btn-success': vm.tclValue3=='3,1,x'
+                                        }">
+                                </label>
+                            </td>
+                        </tr>
+                        <tr style="text-align: center">
+                            <td>困难</td>
+                            <td style="text-align: left">
+                                需要对已有技术进行较大改进
+                            </td>
+                            <td>
+                                <label ng-model="vm.tclValue3" uib-btn-radio="'3,2,x'"
+                                       ng-disabled="vm.tclValueEnable" ng-class="{
+                                            'btn btn-default': vm.tclValue3!='3,2,x',
+                                            'btn btn-success': vm.tclValue3=='3,2,x'
+                                        }">
+                                </label>
+                            </td>
+                        </tr>
+                        <tr style="text-align: center">
+                            <td>一般</td>
+                            <td style="text-align: left">
+                                沿用已有成熟技术或需要做一定改进
+                            </td>
+                            <td>
+                                <label ng-model="vm.tclValue3" uib-btn-radio="'3,3,x'"
+                                       ng-disabled="vm.tclValueEnable" ng-class="{
+                                            'btn btn-default': vm.tclValue3!='3,3,x',
+                                            'btn btn-success': vm.tclValue3=='3,3,x'
+                                        }">
+                                </label>
+                            </td>
+                        </tr>
+                        <tr style="text-align: center">
+                            <td rowspan="3">验证</td>
+                            <td>很困难</td>
+                            <td style="text-align: left">
+                                需要大量验证
+                            </td>
+                            <td>
+                                <label ng-model="vm.tclValue4" uib-btn-radio="'4,1,x'"
+                                       ng-disabled="vm.tclValueEnable" ng-class="{
+                                            'btn btn-default': vm.tclValue4!='4,1,x',
+                                            'btn btn-success': vm.tclValue4=='4,1,x'
+                                        }">
+                                </label>
+                            </td>
+                        </tr>
+                        <tr style="text-align: center">
+                            <td>困难</td>
+                            <td style="text-align: left">
+                                需要一些验证
+                            </td>
+                            <td>
+                                <label ng-model="vm.tclValue4" uib-btn-radio="'4,2,x'"
+                                       ng-disabled="vm.tclValueEnable" ng-class="{
+                                            'btn btn-default': vm.tclValue2!='4,2,x',
+                                            'btn btn-success': vm.tclValue2=='4,2,x'
+                                        }">
+                                </label>
+                            </td>
+                        </tr>
+                        <tr style="text-align: center">
+                            <td>一般</td>
+                            <td style="text-align: left">
+                                基础不需要验证
+                            </td>
+                            <td>
+                                <label ng-model="vm.tclValue4" uib-btn-radio="'4,3,x'"
+                                       ng-disabled="vm.tclValueEnable" ng-class="{
+                                            'btn btn-default': vm.tclValue2!='4,3,x',
+                                            'btn btn-success': vm.tclValue2=='4,3,x'
+                                        }">
+                                </label>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-sm-6" style="position:relative">
+                <ul class="list-group" ng-show="vm.replyTclEnable">
+                    <li class="list-group-item" ng-show="!vm.replyTclEnableValue">
+                        <strong>回复@</strong>
+                        <strong ng-show="vm.replyTclUserType && vm.replyTclUserType.length>0">
+                            <span
+                                data-translate="{{'trlprjApp.userType.'+vm.replyTclUserType}}">{{vm.replyTclUserType}}</span>
+                            (
+                            <span>{{vm.replyTclUserFullName}}</span>
+                            )
+                        </strong>
+                        <strong ng-show="!vm.replyTclUserType || vm.replyTclUserType.length<=0">
+                            <span>创建人</span>
+                        </strong>
+                    </li>
+                    <li class="list-group-item">
+                        <!--只有未提交的创建者或评审人  才可见-->
+                        <div ng-show="vm.replyTclEnableValue">
+                            <label>您选:</label>
+                            <button class="btn btn-xs" ng-model="vm.replyTclValue" uib-btn-radio="'TCLA'"
+                                    ng-class="{
+                                        'btn btn-default': vm.replyTclValue!='TCLA',
+                                        'btn btn-success': vm.replyTclValue=='TCLA'}">
+                                TCLA
+                            </button>
+                            <button class="btn btn-xs" ng-model="vm.replyTclValue" uib-btn-radio="'TCLB'"
+                                    ng-class="{
+                                        'btn btn-default': vm.replyTclValue!='TCLB',
+                                        'btn btn-success': vm.replyTclValue=='TCLB'}">TCLB
+                            </button>
+                            <button class="btn btn-xs" ng-model="vm.replyTclValue" uib-btn-radio="'TCLC'"
+                                    ng-class="{
+                                        'btn btn-default': vm.replyTclValue!='TCLC',
+                                        'btn btn-success': vm.replyTclValue=='TCLC'}">TCLC
+                            </button>
+                        </div>
+                        <textarea style="width: 100%" ng-model="vm.replyTclNote"></textarea>
+                        <div>
+                            <label class="label label-primary" ng-click="vm.saveTclValue()">提交</label>
+                        </div>
+                    </li>
+                </ul>
+                <div class="well well-sm" style="overflow:auto">
+                    <ul class="list-group" ng-repeat="tclValue in vm.tclValues.values">
+                        <li class="list-group-item">
+                            <div>
+                                <strong>
+                                    <span data-translate="{{'trlprjApp.userType.'+tclValue.fromUserType}}">{{tclValue.fromUserType}}</span>
+                                    (
+                                    <span>{{tclValue.fromUserFullName}}</span>
+                                    )
+                                </strong>
+                                <strong
+                                    ng-show="!(tclValue.fromUserType=='ROLE_USER' && tclValue.toUserType=='ROLE_USER')">
+                                    :回复@
+                                    <span data-translate="{{'trlprjApp.userType.'+tclValue.toUserType}}">{{tclValue.toUserType}}</span>
+                                    (
+                                    <span>{{tclValue.toUserFullName}}</span>
+                                    )
+                                </strong>
+                            </div>
+                            <div class="well well-sm" style="margin-bottom: 0">
+                                <strong ng-show="tclValue.value && tclValue.value.length>0">
+                                    选择:<span>{{tclValue.value}}</span>
+                                </strong>
+                                <div>
+                                    <label>{{tclValue.note}}</label>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="label label-primary"
+                                       ng-click="vm.clickTclReply(tclValue.id, tclValue.fromUserFullName, tclValue.fromUserType)">
+                                    回复
+                                </label>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </uib-tab>
+    <uib-tab index="1" select="vm.getTrlValue()">
+        <uib-tab-heading>
+            <h4>TRL</h4>
+        </uib-tab-heading>
+        <div class="container-fluid" ng-cloak>
+            <div class="col-sm-8">
+                <h4 style="text-align: center">技术成熟度判定检查单(由创建人填写)</h4>
+                <h5>填写说明：</h5>
+                <div class="table-responsive">
+                    <table class="jh-table table table-striped">
+                        <!-- colspan rowspan-->
+                        <thead>
+                        <tr>
+                            <th style="text-align: center; width: 200px; min-width: 150px">技术成熟度等级定义</th>
+                            <th style="text-align: center">技术状态</th>
+                            <th style="text-align: center">集成状态</th>
+                            <th style="text-align: center">试验环境及目的</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr style="text-align: center">
+                            <td style="text-align: left">
+                                1. 发现支撑该技术研发的基本原理或看到基本原理的报道
+                            </td>
+                            <td>
+                                <textarea class="trlContent" rows="3" ng-model="vm.trlValue1a"
+                                          ng-readonly="vm.trlValueEnable"></textarea>
+                            </td>
+                            <td>
+                                <textarea class="trlContent" rows="3" ng-model="vm.trlValue1b"
+                                          ng-readonly="vm.trlValueEnable"></textarea>
+                            </td>
+                            <td>
+                                <textarea class="trlContent" rows="3" ng-model="vm.trlValue1c"
+                                          ng-readonly="vm.trlValueEnable"></textarea>
+                            </td>
+                        </tr>
+                        <tr style="text-align: center">
+                            <td style="text-align: left">
+                                2. 提出技术概念和应用设想
+                            </td>
+                            <td>
+                                <textarea class="trlContent" rows="3" ng-model="vm.trlValue2a"
+                                          ng-readonly="vm.trlValueEnable"></textarea>
+                            </td>
+                            <td>
+                                <textarea class="trlContent" rows="3" ng-model="vm.trlValue2b"
+                                          ng-readonly="vm.trlValueEnable"></textarea>
+                            </td>
+                            <td>
+                                <textarea class="trlContent" rows="3" ng-model="vm.trlValue2c"
+                                          ng-readonly="vm.trlValueEnable"></textarea>
+                            </td>
+                        </tr>
+                        <tr style="text-align: center">
+                            <td style="text-align: left">
+                                3. 关键功能和特性完成可行性验证
+                            </td>
+                            <td>
+                                <textarea class="trlContent" rows="3" ng-model="vm.trlValue3a"
+                                          ng-readonly="vm.trlValueEnable"></textarea>
+                            </td>
+                            <td>
+                                <textarea class="trlContent" rows="3" ng-model="vm.trlValue3b"
+                                          ng-readonly="vm.trlValueEnable"></textarea>
+                            </td>
+                            <td>
+                                <textarea class="trlContent" rows="3" ng-model="vm.trlValue3c"
+                                          ng-readonly="vm.trlValueEnable"></textarea>
+                            </td>
+                        </tr>
+                        <tr style="text-align: center">
+                            <td style="text-align: left">
+                                4. 技术以原理样机或部件 为载体， 完成实验室环境试验验证
+                            </td>
+                            <td>
+                                <textarea class="trlContent" rows="3" ng-model="vm.trlValue4a"
+                                          ng-readonly="vm.trlValueEnable"></textarea>
+                            </td>
+                            <td>
+                                <textarea class="trlContent" rows="3" ng-model="vm.trlValue4b"
+                                          ng-readonly="vm.trlValueEnable"></textarea>
+                            </td>
+                            <td>
+                                <textarea class="trlContent" rows="3" ng-model="vm.trlValue4c"
+                                          ng-readonly="vm.trlValueEnable"></textarea>
+                            </td>
+                        </tr>
+                        <tr style="text-align: center">
+                            <td style="text-align: left">
+                                5. 技术以科研样机或部件为载体，在模拟使用环境下完成试验验证
+                            </td>
+                            <td>
+                                <textarea class="trlContent" rows="3" ng-model="vm.trlValue5a"
+                                          ng-readonly="vm.trlValueEnable"></textarea>
+                            </td>
+                            <td>
+                                <textarea class="trlContent" rows="3" ng-model="vm.trlValue5b"
+                                          ng-readonly="vm.trlValueEnable"></textarea>
+                            </td>
+                            <td>
+                                <textarea class="trlContent" rows="3" ng-model="vm.trlValue5c"
+                                          ng-readonly="vm.trlValueEnable"></textarea>
+                            </td>
+                        </tr>
+                        <tr style="text-align: center">
+                            <td style="text-align: left">
+                                6. 分系统级或系统级的中试样机，在模拟使用环境下完成试验验证
+                            </td>
+                            <td>
+                                <textarea class="trlContent" rows="3" ng-model="vm.trlValue6a"
+                                          ng-readonly="vm.trlValueEnable"></textarea>
+                            </td>
+                            <td>
+                                <textarea class="trlContent" rows="3" ng-model="vm.trlValue6b"
+                                          ng-readonly="vm.trlValueEnable"></textarea>
+                            </td>
+                            <td>
+                                <textarea class="trlContent" rows="3" ng-model="vm.trlValue6c"
+                                          ng-readonly="vm.trlValueEnable"></textarea>
+                            </td>
+                        </tr>
+                        <tr style="text-align: center">
+                            <td style="text-align: left">
+                                7. 系统级工程样机，在典型使用环境下完成试验验证
+                            </td>
+                            <td>
+                                <textarea class="trlContent" rows="3" ng-model="vm.trlValue7a"
+                                          ng-readonly="vm.trlValueEnable"></textarea>
+                            </td>
+                            <td>
+                                <textarea class="trlContent" rows="3" ng-model="vm.trlValue7b"
+                                          ng-readonly="vm.trlValueEnable"></textarea>
+                            </td>
+                            <td>
+                                <textarea class="trlContent" rows="3" ng-model="vm.trlValue7c"
+                                          ng-readonly="vm.trlValueEnable"></textarea>
+                            </td>
+                        </tr>
+                        <tr style="text-align: center">
+                            <td style="text-align: left">
+                                8. 技术应用于预期的核心电设施并完成电厂鉴定试验验证
+                            </td>
+                            <td>
+                                <textarea class="trlContent" rows="3" ng-model="vm.trlValue8a"
+                                          ng-readonly="vm.trlValueEnable"></textarea>
+                            </td>
+                            <td>
+                                <textarea class="trlContent" rows="3" ng-model="vm.trlValue8b"
+                                          ng-readonly="vm.trlValueEnable"></textarea>
+                            </td>
+                            <td>
+                                <textarea class="trlContent" rows="3" ng-model="vm.trlValue8c"
+                                          ng-readonly="vm.trlValueEnable"></textarea>
+                            </td>
+                        </tr>
+                        <tr style="text-align: center">
+                            <td style="text-align: left">
+                                9. 设施在预期条件下运行成功，各项指标达到要求
+                            </td>
+                            <td>
+                                <textarea class="trlContent" rows="3" ng-model="vm.trlValue9a"
+                                          ng-readonly="vm.trlValueEnable"></textarea>
+                            </td>
+                            <td>
+                                <textarea class="trlContent" rows="3" ng-model="vm.trlValue9b"
+                                          ng-readonly="vm.trlValueEnable"></textarea>
+                            </td>
+                            <td>
+                                <textarea class="trlContent" rows="3" ng-model="vm.trlValue9c"
+                                          ng-readonly="vm.trlValueEnable"></textarea>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+            <div class="col-sm-4">
+                <ul class="list-group" ng-show="vm.replyTrlEnable">
+                    <li class="list-group-item" ng-show="!vm.replyTrlEnableValue">
+                        <strong>回复@</strong>
+                        <strong ng-show="vm.replyTrlUserType && vm.replyTrlUserType.length>0">
+                            <span
+                                data-translate="{{'trlprjApp.userType.'+vm.replyTrlUserType}}">{{vm.replyTrlUserType}}</span>
+                            (
+                            <span>{{vm.replyTrlUserFullName}}</span>
+                            )
+                        </strong>
+                        <strong ng-show="!vm.replyTrlUserType || vm.replyTrlUserType.length<=0">
+                            <span>创建人</span>
+                        </strong>
+                    </li>
+                    <li class="list-group-item">
+                        <!--只有未提交的创建者或评审人  才可见-->
+                        <div ng-show="vm.replyTrlEnableValue">
+                            <label>您判定TRL等级为:</label>
+                            <button class="btn btn-xs" ng-model="vm.replyTrlValue" uib-btn-radio="'TRL1'"
+                                    ng-class="{
+                                        'btn btn-default': vm.replyTrlValue!='TRL1',
+                                        'btn btn-success': vm.replyTrlValue=='TRL1'}">
+                                1
+                            </button>
+                            <button class="btn btn-xs" ng-model="vm.replyTrlValue" uib-btn-radio="'TRL2'"
+                                    ng-class="{
+                                        'btn btn-default': vm.replyTrlValue!='TRL2',
+                                        'btn btn-success': vm.replyTrlValue=='TRL2'}">
+                                2
+                            </button>
+                            <button class="btn btn-xs" ng-model="vm.replyTrlValue" uib-btn-radio="'TRL3'"
+                                    ng-class="{
+                                        'btn btn-default': vm.replyTrlValue!='TRL3',
+                                        'btn btn-success': vm.replyTrlValue=='TRL3'}">
+                                3
+                            </button>
+                            <button class="btn btn-xs" ng-model="vm.replyTrlValue" uib-btn-radio="'TRL4'"
+                                    ng-class="{
+                                        'btn btn-default': vm.replyTrlValue!='TRL4',
+                                        'btn btn-success': vm.replyTrlValue=='TRL4'}">
+                                4
+                            </button>
+                            <button class="btn btn-xs" ng-model="vm.replyTrlValue" uib-btn-radio="'TRL5'"
+                                    ng-class="{
+                                        'btn btn-default': vm.replyTrlValue!='TRL5',
+                                        'btn btn-success': vm.replyTrlValue=='TRL5'}">
+                                5
+                            </button>
+                            <button class="btn btn-xs" ng-model="vm.replyTrlValue" uib-btn-radio="'TRL6'"
+                                    ng-class="{
+                                        'btn btn-default': vm.replyTrlValue!='TRL6',
+                                        'btn btn-success': vm.replyTrlValue=='TRL6'}">
+                                6
+                            </button>
+                            <button class="btn btn-xs" ng-model="vm.replyTrlValue" uib-btn-radio="'TRL7'"
+                                    ng-class="{
+                                        'btn btn-default': vm.replyTrlValue!='TRL7',
+                                        'btn btn-success': vm.replyTrlValue=='TRL7'}">
+                                7
+                            </button>
+                            <button class="btn btn-xs" ng-model="vm.replyTrlValue" uib-btn-radio="'TRL8'"
+                                    ng-class="{
+                                        'btn btn-default': vm.replyTrlValue!='TRL8',
+                                        'btn btn-success': vm.replyTrlValue=='TRL8'}">
+                                8
+                            </button>
+                            <button class="btn btn-xs" ng-model="vm.replyTrlValue" uib-btn-radio="'TRL9'"
+                                    ng-class="{
+                                        'btn btn-default': vm.replyTrlValue!='TRL9',
+                                        'btn btn-success': vm.replyTrlValue=='TRL9'}">
+                                9
+                            </button>
+                        </div>
+                        <textarea style="width: 100%" ng-model="vm.replyTrlNote"></textarea>
+                        <div>
+                            <label class="label label-primary" ng-click="vm.saveTrlValue()">提交</label>
+                        </div>
+                    </li>
+                </ul>
+                <div class="well well-sm">
+                    <ul class="list-group" ng-repeat="trlValue in vm.trlValues.values">
+                        <li class="list-group-item">
+                            <div>
+                                <strong>
+                                    <span data-translate="{{'trlprjApp.userType.'+trlValue.fromUserType}}">{{trlValue.fromUserType}}</span>
+                                    (
+                                    <span>{{trlValue.fromUserFullName}}</span>
+                                    )
+                                </strong>
+                                <strong
+                                    ng-show="!trlValue.fromUserType=='ROLE_USER' && !trlValue.toUserType=='ROLE_USER'">
+                                    :回复@
+                                    <span data-translate="{{'trlprjApp.userType.'+trlValue.toUserType}}">{{trlValue.toUserType}}</span>
+                                    (
+                                    <span>{{trlValue.toUserFullName}}</span>
+                                    )
+                                </strong>
+                            </div>
+                            <div class="well well-sm" style="margin-bottom: 0">
+                                <strong ng-show="trlValue.value && trlValue.value.length>0">
+                                    选择:<span>{{trlValue.value}}</span>
+                                </strong>
+                                <div>
+                                    <label>{{trlValue.note}}</label>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="label label-primary"
+                                       ng-click="vm.clickTrlReply(trlValue.id, trlValue.fromUserFullName, trlValue.fromUserType)">
+                                    回复
+                                </label>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </uib-tab>
+</uib-tabset>
+
+

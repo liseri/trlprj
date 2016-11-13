@@ -44,3 +44,24 @@ html,body{height: 100%;}
 .flex-h :nth-child(4){flex:1 1 auto;}
 .flex-h :nth-child(5){flex:0 0 auto;}
 .flex-h :nth-child(6){flex:1 1 auto;}
+
+/*关键技术*/
+.flex-v-key{
+    -webkit-box-orient:vertical;-webkit-flex-direction:column;-ms-flex-direction:column;flex-direction:column;
+}
+.flex-v-key :nth-child(1){flex:0 0 auto;}
+.flex-v-key :nth-child(2){flex:1 1 auto;}
+.flex-v-key :nth-child(3){flex:0 0 auto;}
+
+
+.shupai {
+    text-align: center;
+    writing-mode:vertical-lr;
+}
+
+.trlContent {
+    width:100%;/*自动适应父布局宽度*/
+    overflow:auto;
+    word-break:break-all;
+    /*resize: vertical;*/
+}

@@ -91,8 +91,9 @@
         }
 
         function jumpToKey(tech, scope) {
-            $state.go('techtcl', {id:tech.prjId, techId: tech.id, node: scope});
+            $state.go('techkey', {id:tech.prjId, techId: tech.id});
             $scope.$parent.vm.currentTech = tech;
+            $scope.$parent.vm.currentKeyNode = scope.$modelValue;
             $scope.$parent.vm.keyClick();
         }
 

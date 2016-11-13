@@ -6,8 +6,8 @@
     <!--
         Added the constraints for entity Technology.
     -->
-    <changeSet id="20161010134900-2" author="jhipster">
-        
+    <changeSet id="20161010134900-2" author="liseri">
+
         <addForeignKeyConstraint baseColumnNames="creator_id"
                                  baseTableName="technology"
                                  constraintName="fk_technology_creator_id"
@@ -24,7 +24,7 @@
                                  constraintName="fk_technology_sub_creator_sub_creators_id"
                                  referencedColumnNames="id"
                                  referencedTableName="jhi_user"/>
-        
+
         <addForeignKeyConstraint baseColumnNames="prj_id"
                                  baseTableName="technology"
                                  constraintName="fk_technology_prj_id"

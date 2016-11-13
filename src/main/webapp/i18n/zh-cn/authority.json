@@ -5,6 +5,12 @@
             "ROLE_TRL": "TRL技术专家",
             "ROLE_EVL": "评审专家",
             "ROLE_ADMIN": "项目办管理人员"
+        },
+        "userType" : {
+            "ROLE_USER": "创建人",
+            "ROLE_TRL": "TRL技术专家",
+            "ROLE_EVL": "评审专家",
+            "ROLE_ADMIN": "项目管理人员"
         }
     }
 }
