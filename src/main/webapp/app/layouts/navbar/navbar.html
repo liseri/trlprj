@@ -22,50 +22,50 @@
                 </li>
                 <li ng-class="{active: vm.$state.includes('myprj')}" ng-switch-when="true">
                     <a ui-sref="myprj" ng-click="vm.collapseNavbar()">
-                        <span class="glyphicon glyphicon-asterisk"></span>&nbsp;
+                        <span class="glyphicon glyphicon-th-list"></span>&nbsp;
                         <span>我的项目</span>
                     </a>
                 </li>
-                <li ng-class="{active: vm.$state.includes('prjmgr')}" ng-switch-when="true"  has-authority="ROLE_ADMIN"
-                    uib-dropdown class="dropdown pointer">
-                    <a class="dropdown-toggle" uib-dropdown-toggle href="" id="project-menu">
-                        <span>
-                            <span class="glyphicon glyphicon-th-list"></span>
-                            <span class="hidden-sm" data-translate="global.menu.project.main">
-                                Entities
-                            </span>
-                            <b class="caret"></b>
-                        </span>
-                    </a>
-                    <ul class="dropdown-menu" uib-dropdown-menu>
-                        <li ui-sref-active="active">
-                            <a ui-sref="project" ng-click="vm.collapseNavbar()">
-                                <span class="glyphicon glyphicon-asterisk"></span>&nbsp;
-                                <span data-translate="global.menu.project.prjmanagement">Project</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+                <!--<li ng-class="{active: vm.$state.includes('prjmgr')}" ng-switch-when="true"  has-authority="ROLE_ADMIN"-->
+                <!--uib-dropdown class="dropdown pointer">-->
+                <!--<a class="dropdown-toggle" uib-dropdown-toggle href="" id="project-menu">-->
+                <!--<span>-->
+                <!--<span class="glyphicon glyphicon-th-list"></span>-->
+                <!--<span class="hidden-sm" data-translate="global.menu.project.main">-->
+                <!--Entities-->
+                <!--</span>-->
+                <!--<b class="caret"></b>-->
+                <!--</span>-->
+                <!--</a>-->
+                <!--<ul class="dropdown-menu" uib-dropdown-menu>-->
+                <!--<li ui-sref-active="active">-->
+                <!--<a ui-sref="project" ng-click="vm.collapseNavbar()">-->
+                <!--<span class="glyphicon glyphicon-asterisk"></span>&nbsp;-->
+                <!--<span data-translate="global.menu.project.prjmanagement">Project</span>-->
+                <!--</a>-->
+                <!--</li>-->
+                <!--</ul>-->
+                <!--</li>-->
 
                 <!--<li ng-class="{active: vm.$state.includes('entity')}" ng-switch-when="true" uib-dropdown-->
-                    <!--class="dropdown pointer">-->
-                    <!--<a class="dropdown-toggle" uib-dropdown-toggle href="" id="entity-menu">-->
-                        <!--<span>-->
-                            <!--<span class="glyphicon glyphicon-th-list"></span>-->
-                            <!--<span class="hidden-sm" data-translate="global.menu.entities.main">-->
-                                <!--Entities-->
-                            <!--</span>-->
-                            <!--<b class="caret"></b>-->
-                        <!--</span>-->
-                    <!--</a>-->
-                    <!--<ul class="dropdown-menu" uib-dropdown-menu>-->
-                        <!--<li ui-sref-active="active">-->
-                            <!--<a ui-sref="technology" ng-click="vm.collapseNavbar()">-->
-                                <!--<span class="glyphicon glyphicon-asterisk"></span>&nbsp;-->
-                                <!--<span data-translate="global.menu.entities.technology">Technology</span>-->
-                            <!--</a>-->
-                        <!--</li>-->
-                    <!--</ul>-->
+                <!--class="dropdown pointer">-->
+                <!--<a class="dropdown-toggle" uib-dropdown-toggle href="" id="entity-menu">-->
+                <!--<span>-->
+                <!--<span class="glyphicon glyphicon-th-list"></span>-->
+                <!--<span class="hidden-sm" data-translate="global.menu.entities.main">-->
+                <!--Entities-->
+                <!--</span>-->
+                <!--<b class="caret"></b>-->
+                <!--</span>-->
+                <!--</a>-->
+                <!--<ul class="dropdown-menu" uib-dropdown-menu>-->
+                <!--<li ui-sref-active="active">-->
+                <!--<a ui-sref="technology" ng-click="vm.collapseNavbar()">-->
+                <!--<span class="glyphicon glyphicon-asterisk"></span>&nbsp;-->
+                <!--<span data-translate="global.menu.entities.technology">Technology</span>-->
+                <!--</a>-->
+                <!--</li>-->
+                <!--</ul>-->
                 <!--</li>-->
                 <li ng-class="{active: vm.$state.includes('admin')}" ng-switch-when="true" has-authority="ROLE_ADMIN"
                     uib-dropdown class="dropdown pointer">
@@ -85,10 +85,17 @@
                         </li>
                         <li ui-sref-active="active">
                             <a ui-sref="branch" ng-click="vm.collapseNavbar()">
-                                <span class="glyphicon glyphicon-asterisk"></span>&nbsp;
+                                <span class="glyphicon glyphicon-inbox"></span>&nbsp;
                                 <span data-translate="global.menu.admin.branch">Branch</span>
                             </a>
                         </li>
+                        <li ui-sref-active="active">
+                            <a ui-sref="project" ng-click="vm.collapseNavbar()">
+                                <span class="glyphicon glyphicon-th-list"></span>&nbsp;
+                                <span data-translate="global.menu.project.prjmanagement">Project</span>
+                            </a>
+                        </li>
+                        <li role="presentation" class="divider"></li>
                         <li ui-sref-active="active">
                             <a ui-sref="jhi-metrics" ng-click="vm.collapseNavbar()">
                                 <span class="glyphicon glyphicon-dashboard"></span>&nbsp;

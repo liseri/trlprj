@@ -1,7 +1,7 @@
 <div  class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <h2 data-translate="settings.title" translate-values="{username: '{{vm.settingsAccount.login}}'}">User settings for [<b>{{vm.settingsAccount.login}}</b>]</h2>
+            <h2>用户设置</h2>
 
             <div class="alert alert-success" ng-show="vm.success" data-translate="settings.messages.success">
                 <strong>Settings saved!</strong>
@@ -26,6 +26,25 @@
                         </p>
                         <p class="help-block"
                                ng-show="form.name.$error.maxlength" data-translate="settings.messages.validate.name.maxlength">
+                            Your name cannot be longer than 50 characters.
+                        </p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="branch" data-translate="settings.form.branch">单位</label>
+                    <input ng-readonly="true" type="text" class="form-control" id="branch" name="branch" placeholder="{{'settings.form.branch.placeholder' | translate}}"
+                           ng-model="vm.settingsAccount.branch" ng-minlength=1 ng-maxlength=50 required maxlength="50">
+                    <div ng-show="form.branch.$dirty && form.branch.$invalid">
+                        <p class="help-block"
+                           ng-show="form.branch.$error.required" data-translate="settings.messages.validate.branch.required">
+                            Your name is required.
+                        </p>
+                        <p class="help-block"
+                           ng-show="form.branch.$error.minlength" data-translate="settings.messages.validate.branch.minlength">
+                            Your name is required to be at least 1 character.
+                        </p>
+                        <p class="help-block"
+                           ng-show="form.branch.$error.maxlength" data-translate="settings.messages.validate.branch.maxlength">
                             Your name cannot be longer than 50 characters.
                         </p>
                     </div>

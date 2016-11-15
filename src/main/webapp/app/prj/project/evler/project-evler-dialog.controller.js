@@ -38,7 +38,15 @@
             // $uibModalInstance.close(result);
         }
         function onRemoveSuccess (result) {
-            vm.evlers.pop();
+            var index = -1;
+            for(var i=0;i<vm.evlers.length;i++) {
+                if (vm.evlers[i].login == result.login) {
+                    index = i;
+                    break;
+                }
+            }
+            if (index>=0)
+                vm.evlers.splice(index, 1);
             // $uibModalInstance.close(result);
         }
 

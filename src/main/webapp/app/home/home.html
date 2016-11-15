@@ -1,36 +1,116 @@
-<div class="container-fluid" ng-cloak>
-    <div class="row">
-        <div class="col-md-4">
-            <span class="hipster img-responsive img-rounded"></span>
-        </div>
-        <div class="col-md-8">
-            <h1 data-translate="home.title">Welcome, Java Hipster!</h1>
-            <p class="lead" data-translate="home.subtitle">This is your homepage</p>
-
-            <div ng-switch="vm.isAuthenticated()">
-                <div class="alert alert-success" ng-switch-when="true" data-translate="home.logged.message" translate-values="{username: '{{vm.account.login}}'}">
-                    You are logged in as user "{{vm.account.login}}".
-                </div>
-
-                <div class="alert alert-warning" ng-switch-when="false" data-translate="global.messages.info.authenticated" translate-compile>
-                    If you want to <a class="alert-link" href="" ng-click="vm.login()">sign in</a>, you can try the default accounts:<br/>- Administrator (login="admin" and password="admin") <br/>- User (login="user" and password="user").
-                </div>
-
-                <div class="alert alert-warning" ng-switch-when="false" data-translate="global.messages.info.register" translate-compile>
-                    You don't have an account yet? <a class="alert-link" ui-sref="register">Register a new account</a>
-                </div>
+<div class="container-fluid" style="margin-bottom: 20px;text-align: center;">
+    <div uib-carousel active="0" interval="5000" no-wrap="false" no-transition="false" style="height: 500px;margin-bottom: 50px;">
+        <div uib-slide index="0">
+            <img class="img-responsive" ng-src="../../content/images/nuclear1.jpg" style="margin:0; padding: 0; height: 500px; width: 100%">
+            <div class="carousel-caption">
+                <h4>Slide1</h4>
+                <p>Slide1</p>
             </div>
+        </div>
+        <div uib-slide index="1">
+            <img class="img-responsive" ng-src="../../content/images/nuclear2.jpg" style="margin:0; padding: 0; height: 500px; width: 100%">
+            <div class="carousel-caption">
+                <h4>Slide2</h4>
+                <p>Slide2</p>
+            </div>
+        </div>
+        <div uib-slide index="2">
+            <img class="img-responsive" ng-src="../../content/images/nuclear3.jpg" style="margin:0; padding: 0; height: 500px; width: 100%">
+            <div class="carousel-caption">
+                <h4>Slide3</h4>
+                <p>Slide3</p>
+            </div>
+        </div>
+    </div>
+    <br/>
 
-            <p data-translate="home.question">
-                If you have any question on JHipster:
+    <div class="container marketing">
+
+        <!-- Three columns of text below the carousel -->
+        <div class="row">
+            <div class="col-lg-4">
+                <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
+                <h2>技术成熟度</h2>
+                <p>技术成熟度(Technology Readiness Level，简称TRL)作为一种先进的技术管理工具，通过将技术成熟过程划分为9个级别，可准确地评价技术发展状态，提高管理决策的科学性，降低新技术在工程中的应用风险。</p>
+                <p><a class="btn btn-default" href="#" role="button">查看详情 &raquo;</a></p>
+            </div><!-- /.col-lg-4 -->
+            <div class="col-lg-4">
+                <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
+                <h2>中国核电技术</h2>
+                <p>核能代表一个国家的综合国力。</p>
+                <p>核电研发投资大、周期长，。。。，因此技术成熟度分级方法应用于核电对于保障核电项目的顺利进行具有重大的意义。</p>
+                <p><a class="btn btn-default" href="#" role="button">查看详情 &raquo;</a></p>
+            </div><!-- /.col-lg-4 -->
+            <div class="col-lg-4">
+                <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
+                <h2>项目评估系统</h2>
+                <p>该系统可用于项目管理、关键性分级和成熟度评估。</p>
+                <p>能够让项目管理人员、评审专家、成熟度技术专家和研发人员完全地配合进行项目技术管理和评审评估。</p>
+                <p><a class="btn btn-default" href="#" role="button">查看详情 &raquo;</a></p>
+            </div><!-- /.col-lg-4 -->
+        </div><!-- /.row -->
+
+
+        <!-- START THE FEATURETTES -->
+
+        <hr class="featurette-divider">
+
+        <div class="row featurette">
+            <div class="col-md-7">
+                <h2 class="featurette-heading">项目管理和技术树管理</h2>
+                <p class="lead">系统支持项目管理人员对项目进行管理</p>
+                <p class="lead">系统支持项目技术树的创建与维护</p>
+            </div>
+            <div class="col-md-5">
+                <img class="img-responsive center-block" ng-src="../../content/images/nuclear4.jpg" alt="Generic placeholder image">
+            </div>
+        </div>
+
+        <hr class="featurette-divider">
+
+        <div class="row featurette">
+            <div class="col-md-7 col-md-push-5">
+                <h2 class="featurette-heading">关键技术分类与成熟度分级</h2>
+                <p class="lead">研发人员能够在技术树中选择某技术成为关键技术</p>
+                <p class="lead">对关键技术进行关键程度分类</p>
+                <p class="lead">对关键技术进行技术成熟度分级</p>
+            </div>
+            <div class="col-md-5 col-md-pull-7">
+                <img class="img-responsive center-block" ng-src="../../content/images/nuclear5.jpg" alt="Generic placeholder image">
+            </div>
+        </div>
+
+        <hr class="featurette-divider">
+
+        <div class="row featurette">
+            <div class="col-md-7">
+                <h2 class="featurette-heading">关键技术评审和技术成熟度专家指导<span class="text-muted">Checkmate.</span></h2>
+                <p class="lead">评审专家能够对关键技术进行评审</p>
+                <p class="lead">成熟度技术专家能够在线进行指导并与相关人员进行在线沟通</p>
+            </div>
+            <div class="col-md-5">
+                <img class="img-responsive center-block" ng-src="../../content/images/nuclear6.jpg" alt="Generic placeholder image">
+            </div>
+        </div>
+
+        <hr class="featurette-divider">
+
+        <!-- /END THE FEATURETTES -->
+
+
+        <!-- FOOTER -->
+        <div style="text-align: left">
+            <p>如果您有任何问题，可以联系我们：
             </p>
-
+            <br/>
+            <p>相关链接</p>
             <ul>
                 <li><a href="http://www.caasse.com/index.asp?modelname=index" target="_blank">系统院</a></li>
                 <li><a href="http://www.cnnc.com.cn/" target="_blank">中国核工业集团</a></li>
                 <li><a href="http://www.snptc.com/" target="_blank" >国家核电</a></li>
             </ul>
-
         </div>
-    </div>
+
+    </div><!-- /.container -->
+
 </div>

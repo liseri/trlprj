@@ -3,7 +3,9 @@
         "title": "[<b>{{username}}</b>] 的用户设置",
         "form": {
             "name": "姓名",
+            "branch": "单位",
             "name.placeholder": "您的姓名",
+            "branch.placeholder": "您的单位",
             "language": "语言",
             "button": "保存"
         },

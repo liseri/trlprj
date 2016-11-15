@@ -10,7 +10,7 @@
     function stateConfig($stateProvider) {
         $stateProvider
             .state('project', {
-                parent: 'prjmgr',
+                parent: 'admin',
                 url: '/project?page&sort&search',
                 data: {
                     authorities: ['ROLE_ADMIN'],
@@ -54,7 +54,7 @@
                 }
             })
             .state('project-detail', {
-                parent: 'prjmgr',
+                parent: 'admin',
                 url: '/project/{id}',
                 data: {
                     authorities: ['ROLE_ADMIN'],

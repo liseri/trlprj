@@ -34,13 +34,13 @@
             "detail": {
                 "title": "项目详情"
             },
-            "name": "名称",
+            "name": "项目名称",
             "statu": "状态",
             "statuAction": "状态操作",
-            "descript1": "描述1",
-            "descript2": "描述2",
-            "descript3": "描述3",
-            "descript4": "描述4",
+            "descript1": "项目描述",
+            "descript2": "项目背景",
+            "descript3": "项目目标",
+            "descript4": "进展情况",
             "startTime": "启动时间",
             "completeTime": "完成时间",
             "rootTech": "技术树根结点",

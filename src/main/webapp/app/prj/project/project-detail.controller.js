@@ -5,9 +5,9 @@
         .module('trlprjApp')
         .controller('ProjectDetailController', ProjectDetailController);
 
-    ProjectDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'previousState', 'entity', 'Project', 'Technology', 'User'];
+    ProjectDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'previousState', 'entity', 'Project', 'User'];
 
-    function ProjectDetailController($scope, $rootScope, $stateParams, previousState, entity, Project, Technology, User) {
+    function ProjectDetailController($scope, $rootScope, $stateParams, previousState, entity, Project,  User) {
         var vm = this;
 
         vm.project = entity;

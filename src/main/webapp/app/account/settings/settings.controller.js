@@ -23,6 +23,7 @@
                 activated: account.activated,
                 email: account.email,
                 name: account.name,
+                branch: account.branch,
                 langKey: account.langKey,
                 login: account.login
             };
