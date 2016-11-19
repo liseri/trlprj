@@ -6,6 +6,10 @@
     activeClass: 'btn-info'
 }
 
+.angular-ui-tree-node {
+    margin-left: 10px;
+}
+
 .angular-ui-tree-handle {
     background: #f8faff;
     border: 1px solid #dae2ea;
