@@ -47,14 +47,14 @@
         <div class="pull-right" data-nodrag
              ng-show="tech.asCreator || tech.asSubCreator" has-authority="ROLE_USER">
             <!--关键性操作-->
-            <a class="btn btn-primary btn-xs"
+            <a class="btn btn-primary btn-xs" uib-tooltip="点击判定技术为关键或非关键"
                ng-show="tech.asCreator" ng-click="vm.changeKey(tech, !tech.key, this)">
                 关键<span class="badge">{{tech.key?'是':'否'}}</span>
                 <span ng-show="tech.key" class="badge">{{tech.tcl?tech.tcl:'TCL无'}}</span>
                 <span ng-show="tech.key" class="badge">{{tech.trl?tech.trl:'TRL无'}}</span>
             </a>
             <!--关键技术管理-->
-            <a class="btn btn-primary btn-xs"
+            <a class="btn btn-primary btn-xs" uib-tooltip="跳转到关键技术管理界面"
                ng-show="tech.asCreator && tech.key" ng-click="vm.jumpToKey(tech, this)">
                 关键技术<span class="glyphicon glyphicon-chevron-right"></span>
             </a>
@@ -97,7 +97,7 @@
         <!--TCL TRL 信息-->
         <!--研发人员如果是拥有者， 能够查看和查看详细TCL TRL信息-->
         <div class="pull-right" data-nodrag
-             ng-show="tech.asParentCreator" has-any-authority="ROLE_USER">
+             ng-show="tech.asParentCreator == true && tech.asCreator == false" has-any-authority="ROLE_USER">
             <label class="label label-info" style="cursor: default">
                 关键<span class="badge">{{tech.key?'是':'否'}}</span>
                 <span ng-show="tech.key" class="badge">{{tech.tcl?tech.tcl:'TCL无'}}</span>
@@ -114,7 +114,7 @@
                 <span ng-show="tech.key" class="badge">{{tech.trl?tech.trl:'TRL无'}}</span>
             </label>
             <!--关键技术管理-->
-            <a class="btn btn-primary btn-xs"
+            <a class="btn btn-primary btn-xs" uib-tooltip="跳转到关键技术管理或评审界面"
                ng-show="tech.key" ng-click="vm.jumpToKey(tech, this)">
                 关键技术<span class="glyphicon glyphicon-chevron-right"></span>
             </a>
