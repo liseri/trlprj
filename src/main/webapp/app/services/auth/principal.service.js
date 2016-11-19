@@ -95,5 +95,6 @@
         function isIdentityResolved () {
             return angular.isDefined(_identity);
         }
+
     }
 })();

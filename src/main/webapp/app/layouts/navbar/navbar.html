@@ -135,7 +135,21 @@
                     </ul>
                 </li>
                 <!--账户-->
-                <li ng-class="{active: vm.$state.includes('account')}" uib-dropdown class="dropdown pointer">
+                <li ui-sref-active="active" ng-switch-when="false">
+                    <a href="" ng-click="vm.login()" id="login">
+                        <span class="glyphicon glyphicon-log-in"></span>&nbsp;
+                        <span data-translate="global.menu.account.login">Sign in</span>
+                    </a>
+                </li>
+                <li ui-sref-active="active" ng-switch-when="false">
+                    <a ui-sref="register" ng-click="vm.collapseNavbar()">
+                        <span class="glyphicon glyphicon-plus-sign"></span>&nbsp;
+                        <span data-translate="global.menu.account.register">Register</span>
+                    </a>
+                </li>
+                <li ng-class="{active: vm.$state.includes('account')}" uib-dropdown
+                    on-toggle="vm.accountInfo(this.is-open)"
+                    ng-switch-when="true" class="dropdown pointer">
                     <a class="dropdown-toggle" uib-dropdown-toggle href="" id="account-menu">
                         <span>
                             <span class="glyphicon glyphicon-user"></span>
@@ -146,34 +160,32 @@
                         </span>
                     </a>
                     <ul class="dropdown-menu" uib-dropdown-menu>
-                        <li ui-sref-active="active" ng-switch-when="true">
+                        <li style="margin-left: 5px">
+                            <h5>姓名：<span class="badge">{{vm.userAccount.name}}</span></h5>
+                            <h5>单位：<span class="badge">{{vm.userAccount.branch}}</span></h5>
+                            <h5>角色：<span class="badge" ng-repeat="author in vm.userAccount.authorities"
+                                data-translate="{{'trlprjApp.authority.'+author}}">
+                                {{author}}</span>
+                            </h5>
+                        </li>
+
+                        <li role="presentation" class="divider"></li>
+                        <li ui-sref-active="active">
                             <a ui-sref="settings" ng-click="vm.collapseNavbar()">
                                 <span class="glyphicon glyphicon-wrench"></span>&nbsp;
                                 <span data-translate="global.menu.account.settings">Settings</span>
                             </a>
                         </li>
-                        <li ui-sref-active="active" ng-switch-when="true">
+                        <li ui-sref-active="active">
                             <a ui-sref="password" ng-click="vm.collapseNavbar()">
                                 <span class="glyphicon glyphicon-lock"></span>&nbsp;
                                 <span data-translate="global.menu.account.password">Password</span>
                             </a>
                         </li>
-                        <li ui-sref-active="active" ng-switch-when="true">
+                        <li ui-sref-active="active">
                             <a href="" ng-click="vm.logout()" id="logout">
                                 <span class="glyphicon glyphicon-log-out"></span>&nbsp;
                                 <span data-translate="global.menu.account.logout">Sign out</span>
-                            </a>
-                        </li>
-                        <li ui-sref-active="active" ng-switch-when="false">
-                            <a href="" ng-click="vm.login()" id="login">
-                                <span class="glyphicon glyphicon-log-in"></span>&nbsp;
-                                <span data-translate="global.menu.account.login">Sign in</span>
-                            </a>
-                        </li>
-                        <li ui-sref-active="active" ng-switch-when="false">
-                            <a ui-sref="register" ng-click="vm.collapseNavbar()">
-                                <span class="glyphicon glyphicon-plus-sign"></span>&nbsp;
-                                <span data-translate="global.menu.account.register">Register</span>
                             </a>
                         </li>
                     </ul>

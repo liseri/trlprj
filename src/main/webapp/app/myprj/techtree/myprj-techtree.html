@@ -134,7 +134,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-8">
+        <div class="col-sm-8" style="min-width: 800px;">
             <div ui-tree id="tree-root" data-max-depth="4" data-drag-enabled="false">
                 <ol ui-tree-nodes ng-model="vm.techs">
                     <li ng-repeat="tech in vm.techs" ui-tree-node ng-include="'nodes_renderer.html'"></li>
