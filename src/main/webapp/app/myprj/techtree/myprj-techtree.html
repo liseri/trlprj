@@ -28,7 +28,7 @@
         <span data-nodrag style="cursor: default"
               uib-popover-template="'techInfo_renderer.html'"
               popover-placement="right"
-                uib-tooltip="{{tech.name.length<8?tech.name:tech.name.substring(0,8)+'...'}}, 点击查看详细信息">
+              uib-tooltip="{{tech.name.length<8?tech.name:tech.name.substring(0,8)+'...'}}, 点击查看详细信息">
             {{tech.name.length<20?tech.name:tech.name.substring(0,20)+'...'}}
         </span>
         <!--项目创建者的项目办人员对根结点任何时候都能分配子结点创建人-->
@@ -143,11 +143,22 @@
         </div>
 
         <div class="col-sm-4">
-            <jhi-alert></jhi-alert>
-            <div class="info">
-                {{info}}
+            <div class="weld well-sm">
+                <h4>操作说明：</h4>
+                <p>1. XXX</p>
+                <p>2. XXX</p>
             </div>
-            <pre class="code">{{ vm.techs | json }}</pre>
+
+            <jhi-alert></jhi-alert>
+            <div>
+                <div class="info">
+                    {{info}}
+                </div>
+                <pre class="code">
+                    <p>以下为测试时显示</p>
+                    <div>{{ vm.techs | json }}</div>
+                </pre>
+            </div>
         </div>
     </div>
 </div>

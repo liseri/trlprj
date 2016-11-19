@@ -28,7 +28,7 @@
         vm.tclValue2 = '';
         vm.tclValue3 = '';
         vm.tclValue4 = '';
-        vm.tclValueEnable = false;
+        vm.tclValueEnable = true;
 
         vm.trlValue1a = '';
         vm.trlValue1b = '';
@@ -57,7 +57,7 @@
         vm.trlValue9a = '';
         vm.trlValue9b = '';
         vm.trlValue9c = '';
-        vm.trlValueEnable = false;
+        vm.trlValueEnable = true;
 
         vm.creatorKeyValue;
         vm.creatorTclValue;
@@ -108,7 +108,6 @@
                 vm.replyTclEnableValue = (!(vm.creatorTclValue && vm.creatorTclValue.id) && vm.myUserType == 'ROLE_USER') || vm.myUserType == 'ROLE_EVL';
                 //
                 if (resp.creatorValue && resp.creatorValue.value2 && resp.creatorValue.value2.length >0) {
-                    vm.tclValueEnable = true;
                     var tclValueArray= new Array(); //
                     tclValueArray=resp.creatorValue.value2.split(";"); //字符分割
                     for (var i=0;i<tclValueArray.length ;i++ )
@@ -126,6 +125,10 @@
                             vm.tclValue4 = tclValueArray[i];
                         }
                     }
+                }
+                else {
+                    if (vm.myUserType == "ROLE_USER")
+                        vm.tclValueEnable = false;
                 }
 
             });
@@ -149,7 +152,6 @@
                 vm.replyTrlEnableValue = (!vm.creatorTrlValue.id && vm.myUserType == 'ROLE_USER') || vm.myUserType == 'ROLE_EVL';
                 //
                 if (resp.creatorValue.value2 && resp.creatorValue.value2.length >0) {
-                    vm.trlValueEnable = true;
                     var trlValueArray= new Array(); //
                     trlValueArray=resp.creatorValue.value2.split(")!@#("); //字符分割
                     for (var i=0;i<trlValueArray.length ;i++ )
@@ -290,6 +292,10 @@
                             continue;
                         }
                     }
+                }
+                else {
+                    if (vm.myUserType == "ROLE_USER")
+                        vm.trlValueEnable = false;
                 }
 
             });
