@@ -55,6 +55,16 @@ tr.angular-ui-tree-empty {
 .tree-node-content {
     margin: 10px;
 }
+
+.tree-node-mycontent {
+    display:-webkit-box;display:-webkit-flex;display:-ms-flexbox;display:flex;
+    -webkit-box-orient:horizontal;-webkit-flex-direction:row ;-ms-flex-direction:row ;flex-direction:row;
+}
+.tree-node-mycontent :nth-child(1){flex:1 1 auto; }
+.tree-node-mycontent :nth-child(2){flex:0 0 auto;}
+.tree-node-mycontent :nth-child(3){flex:0 0 auto;}
+.tree-node-mycontent :nth-child(4){flex:0 0 auto;}
+
 .tree-handle {
     padding: 10px;
     background: #428bca;
