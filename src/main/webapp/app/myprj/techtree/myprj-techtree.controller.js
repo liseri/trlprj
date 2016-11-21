@@ -4,7 +4,6 @@
     angular
         .module('trlprjApp')
         .controller('MyprjTechTreeController', MyprjTechTreeController);
-
     MyprjTechTreeController.$inject = ['$scope', '$state', '$uibModal', '$stateParams', 'TechTree', 'ProjectTech'];
 
     function MyprjTechTreeController($scope, $state, $uibModal, $stateParams, TechTree, ProjectTech) {
@@ -12,6 +11,10 @@
         vm.prjId = $stateParams.id;
         vm.project = $scope.$parent.vm.currentPrj;
         vm.techs = null;
+        vm.query = "";
+        vm.queryDim = true;
+        vm.queryHight = true;
+        vm.queryPattern = null;
 
         vm.expandAll = expandAll;
         vm.collapseAll = collapseAll;
@@ -20,6 +23,16 @@
         vm.removeTech = removeTech;
         vm.changeKey = changeKey;
         vm.jumpToKey = jumpToKey;
+        vm.filterNode = filterNode;
+
+        $scope.toggle = function (scope) {
+            scope.toggle();
+        };
+
+        $scope.moveLastToTheBeginning = function () {
+            var a = $scope.data.pop();
+            $scope.data.splice(0, 0, a);
+        };
 
         TechTree.get({prjId: vm.prjId}, function (resp) {
             vm.techs = [resp];
@@ -32,15 +45,18 @@
         function collapseAll() {
             $scope.$broadcast('angular-ui-tree:collapse-all');
         }
-        $scope.toggle = function (scope) {
-            scope.toggle();
-        };
 
-        $scope.moveLastToTheBeginning = function () {
-            var a = $scope.data.pop();
-            $scope.data.splice(0, 0, a);
-        };
-
+        function filterNode(nodes, filterValue) {
+            if (nodes != null && nodes.length >0) {
+                for(var i=0;i<nodes.length;i++) {
+                    if (nodes[i].name && nodes[i].name.indexOf(filterValue) != -1) {
+                        nodes[i].filtered = true;
+                    }
+                    else nodes[i].filtered = false;
+                    filterNode(nodes[i].subTechs, filterValue);
+                }
+            }
+        }
 
         function openTechModal(isAdd, tech, scope) {
 
@@ -54,11 +70,11 @@
                         isRootTech: false,
                         data1: scope.$modelValue,
                         data2: {
-                            id: isAdd ? null: tech.id,
-                            name: isAdd ? null: tech.name,
-                            descript: isAdd ? null: tech.descript,
+                            id: isAdd ? null : tech.id,
+                            name: isAdd ? null : tech.name,
+                            descript: isAdd ? null : tech.descript,
                             prjId: tech.prjId,
-                            parentTechId: isAdd? tech.id: tech.parentTechId
+                            parentTechId: isAdd ? tech.id : tech.parentTechId
                         }
                     }
                 }
@@ -73,7 +89,7 @@
                 controllerAs: 'vm',
                 backdrop: 'static',
                 resolve: {
-                    entity: {tech:tech, node:scope.$modelValue}
+                    entity: {tech: tech, node: scope.$modelValue}
                 }
             });
         }
@@ -85,17 +101,16 @@
         }
 
         function changeKey(tech, key, scope) {
-            ProjectTech.changeKey({id: tech.prjId, techId: tech.id, isKey: key},{}, function () {
+            ProjectTech.changeKey({id: tech.prjId, techId: tech.id, isKey: key}, {}, function () {
                 scope.$modelValue.key = key;
             });
         }
 
         function jumpToKey(tech, scope) {
-            $state.go('techkey', {id:tech.prjId, techId: tech.id});
+            $state.go('techkey', {id: tech.prjId, techId: tech.id});
             $scope.$parent.vm.currentTech = tech;
             $scope.$parent.vm.currentKeyNode = scope.$modelValue;
-            $scope.$parent.vm.keyClick();
         }
-
     }
+
 })();

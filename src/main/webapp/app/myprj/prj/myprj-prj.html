@@ -1,51 +1,89 @@
 <div class="container-fluid">
-    <h2 data-translate="trlprjApp.project.myprj.title">Projects</h2>
-    <jhi-alert></jhi-alert>
-    <div class="table-responsive">
-        <table class="jh-table table table-striped table-hover">
-            <thead>
-            <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
-                <th jh-sort-by="name"><span data-translate="trlprjApp.project.name">Name</span> <span
-                    class="glyphicon glyphicon-sort"></span></th>
-                <th jh-sort-by="statu">状态<span class="glyphicon glyphicon-sort"></span></th>
-                <th><span data-translate="trlprjApp.project.descript1">Descript 1</span></th>
-                <th><span data-translate="trlprjApp.project.descript2">Descript 1</span></th>
-                <th><span data-translate="trlprjApp.project.descript3">Descript 1</span></th>
-                <th><span data-translate="trlprjApp.project.descript4">Descript 1</span></th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr ng-repeat="project in vm.prjs">
-                <td nowrap><strong>{{project.name}}</strong></td>
-                <td nowrap>
-                    <span class="label label-success" ng-show="project.statu == 'CREATED'">已创建</span>
-                    <span class="label label-warning"  ng-show="project.statu == 'STARTED'">已启动</span>
-                    <span class="label label-warning"  ng-show="project.statu == 'PAUSED'">已暂停</span>
-                    <span class="label label-danger"  ng-show="project.statu == 'COMPLETED'">已完成</span>
-                </td>
-                <!--{{project.descript1}}   <span data-translate="trlprjApp.project.descript1">Descript 1</span>-->
-                <td>
-                    <textarea rows="3" ng-disabled="true" style="width: 100%">{{project.descript1}}</textarea>
-                </td>
-                <td>
-                    <textarea rows="3" ng-disabled="true" style="width: 100%">{{project.descript2}}</textarea>
-                </td>
-                <td>
-                    <textarea rows="3" ng-disabled="true" style="width: 100%">{{project.descript3}}</textarea>
-                </td>
-                <td>
-                    <textarea rows="3" ng-disabled="true" style="width: 100%">{{project.descript4}}</textarea>
-                </td>
-                <td>
-                    <button type="button" class="btn btn btn-primary" ng-click="vm.clickTech(project)">
-                        技术树
-                        <span class="glyphicon glyphicon-chevron-right"></span>
-                    </button>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+
+    <div class="col-sm-9">
+        <div class="table-responsive">
+            <table class="jh-table table table-striped table-hover">
+                <thead>
+                <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
+                    <th jh-sort-by="name"><span data-translate="trlprjApp.project.name">Name</span> <span
+                        class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="statu">状态<span class="glyphicon glyphicon-sort"></span></th>
+                    <th><span
+                        tooltip-append-to-body="true" tooltip-is-open="true" uib-tooltip="拖动右下角可放大"
+                        data-translate="trlprjApp.project.descript1">Descript 1</span></th>
+                    <th><span data-translate="trlprjApp.project.descript2">Descript 1</span></th>
+                    <th><span data-translate="trlprjApp.project.descript3">Descript 1</span></th>
+                    <th><span data-translate="trlprjApp.project.descript4">Descript 1</span></th>
+                    <th>
+                        <span tooltip-append-to-body="true" tooltip-is-open="true" uib-tooltip="点击操作技术树">操作</span>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="project in vm.prjs">
+                    <td nowrap><strong>{{project.name}}</strong></td>
+                    <td nowrap>
+                        <span class="label label-success" ng-show="project.statu == 'CREATED'">已创建</span>
+                        <span class="label label-warning" ng-show="project.statu == 'STARTED'">已启动</span>
+                        <span class="label label-warning" ng-show="project.statu == 'PAUSED'">已暂停</span>
+                        <span class="label label-danger" ng-show="project.statu == 'COMPLETED'">已完成</span>
+                    </td>
+                    <!--{{project.descript1}}   <span data-translate="trlprjApp.project.descript1">Descript 1</span>-->
+                    <td>
+                        <textarea rows="3" ng-disabled="true" style="width: 100%">{{project.descript1}}</textarea>
+                    </td>
+                    <td>
+                        <textarea rows="3" ng-disabled="true" style="width: 100%">{{project.descript2}}</textarea>
+                    </td>
+                    <td>
+                        <textarea rows="3" ng-disabled="true" style="width: 100%">{{project.descript3}}</textarea>
+                    </td>
+                    <td>
+                        <textarea rows="3" ng-disabled="true" style="width: 100%">{{project.descript4}}</textarea>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn btn-primary"
+                                tooltip-append-to-body="true" uib-tooltip="点击操作技术树"
+                                ng-click="vm.clickTech(project)">
+                            技术树界面
+                            <span class="glyphicon glyphicon-chevron-right"></span>
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <jhi-alert></jhi-alert>
+        <div class="well well-sm">
+            <h4><strong>操作说明：</strong></h4>
+            <h5><strong>1. 可拖动文本框如“项目描述”的右下角来放大阅读</strong></h5>
+            <h5><strong>2. 点击左侧<label class="label label-primary">技术树</label>按钮进入技术树管理界面</strong></h5>
+            <h5><strong>3. <label class="label label-info">项目办人员</label>权限说明</strong></h5>
+            <ul class="list-unstyled">
+                <li>
+                    3.1 所有状态的项目对您均可见
+                </li>
+            </ul>
+            <h5><strong>4. <label class="label label-info">评审专家或TRL技术专家</label>权限说明</strong></h5>
+            <ul class="list-unstyled">
+                <li>
+                    4.1 当项目办人员将您设置为某项目的“评审专家”或“TRL技术专家”，且该项目状态为“已启动”，该项目对您才可见
+                </li>
+            </ul>
+            <h5><strong>5. <label class="label label-info">研发人员</label>权限说明</strong></h5>
+            <ul class="list-unstyled">
+                <li>
+                    5.1 只有项目状态为“已启动”，该项目对您才可见
+                </li>
+                <li>
+                    5.2 只有您是该项目技术树某结点的创建人或子结点创建人，该项目对您才可见
+                </li>
+            </ul>
+
+
+        </div>
     </div>
 </div>
 

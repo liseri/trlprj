@@ -17,7 +17,6 @@
         function clickTech(project) {
             $state.go('techtree', {id:project.id});
             $scope.$parent.vm.currentPrj = project;
-            $scope.$parent.vm.techClick();
         }
     }
 })();

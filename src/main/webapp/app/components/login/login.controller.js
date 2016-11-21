@@ -38,7 +38,7 @@
                 username: vm.username,
                 password: vm.password,
                 rememberMe: vm.rememberMe
-            }).then(function () {
+            }).then(function (data) {
                 vm.authenticationError = false;
                 $uibModalInstance.close();
                 if ($state.current.name === 'register' || $state.current.name === 'activate' ||

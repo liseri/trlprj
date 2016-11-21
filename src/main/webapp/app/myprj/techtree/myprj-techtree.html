@@ -1,6 +1,6 @@
 <!-- Nested node template -->
 <script type="text/ng-template" id="techInfo_renderer.html">
-    <div class="panel panel-info" style="cursor: text"  tooltip-append-to-body="true">
+    <div class="panel panel-info" style="cursor: text" tooltip-append-to-body="true">
         <div class="panel-heading">
             {{tech.name}}
         </div>
@@ -13,7 +13,8 @@
     </div>
 </script>
 <script type="text/ng-template" id="nodes_renderer.html">
-    <div ui-tree-handle class="tree-node tree-node-content tree-node-mycontent"
+
+    <div ng-show="tech.filtered == null || tech.filtered == true" ui-tree-handle class="tree-node tree-node-content tree-node-mycontent"
          ng-style="{
                 'border-color': (tech.key)?'red':'inherit'
             }">
@@ -26,7 +27,7 @@
                     }">
                 </span>
             </a>
-            <span class="badge">{{this.depth()}}层</span>
+            <span class="badge" style="background-color: #5cb85c">第{{this.depth()}}层</span>
             <!--项目名称-->
             <span style="cursor: default" popover-placement="right" tooltip-append-to-body="true"
                   uib-popover-template="'techInfo_renderer.html'"
@@ -39,29 +40,33 @@
             <!--研发人员如果是拥有者， 能够查看和查看详细TCL TRL信息-->
             <div style="cursor: default"
                  ng-show="tech.asParentCreator || tech.asCreator || tech.asSubCreator" has-any-authority="ROLE_USER">
-                <span class="badge">{{tech.key?'关键技术':'非关键技术'}}</span>
-                <span ng-show="tech.key" class="badge">{{tech.tcl?tech.tcl:'TCL无'}}</span>
-                <span ng-show="tech.key" class="badge">{{tech.trl?tech.trl:'TRL无'}}</span>
+                <span class="badge" style="background-color: #5cb85c">{{tech.key?'关键技术':'非关键技术'}}</span>
+                <span ng-show="tech.key" class="badge"
+                      style="background-color: #5cb85c">{{tech.tcl?tech.tcl:'TCL无'}}</span>
+                <span ng-show="tech.key" class="badge"
+                      style="background-color: #5cb85c">{{tech.trl?tech.trl:'TRL无'}}</span>
             </div>
             <!--TCL TRL 信息-->
             <!--非研发人员， 能够查看和进入详细TCL TRL信息-->
             <div style="cursor: default"
-                   ng-show="tech.parentTechId!=null" has-any-authority="ROLE_ADMIN,ROLE_TRL,ROLE_EVL">
-                <span class="badge">{{tech.key?'关键技术':'非关键技术'}}</span>
-                <span ng-show="tech.key" class="badge">{{tech.tcl?tech.tcl:'TCL无'}}</span>
-                <span ng-show="tech.key" class="badge">{{tech.trl?tech.trl:'TRL无'}}</span>
+                 ng-show="tech.parentTechId!=null" has-any-authority="ROLE_ADMIN,ROLE_TRL,ROLE_EVL">
+                <span class="badge" style="background-color: #5cb85c">{{tech.key?'关键技术':'非关键技术'}}</span>
+                <span ng-show="tech.key" class="badge"
+                      style="background-color: #5cb85c">{{tech.tcl?tech.tcl:'TCL无'}}</span>
+                <span ng-show="tech.key" class="badge"
+                      style="background-color: #5cb85c">{{tech.trl?tech.trl:'TRL无'}}</span>
             </div>
         </div>
 
         <!--结点操作-->
-        <div data-nodrag style="width: 200px;">
+        <div data-nodrag style="width: 180px;">
             <!--<span class="data-nodrag" style="margin-left: 8px;margin-right: 8px;">|</span>-->
             <!--<span>结点操作:</span>-->
             <div ng-show="tech.asCreator && tech.parentTechId == null" has-authority="ROLE_ADMIN">
                 <!--分配子结点创建人-->
                 <a class="btn btn-primary btn-xs" data-nodrag
                    uib-tooltip="分配子结点创建人" ng-click="vm.openSubcreatorModal(tech, this)"
-                   style="margin-right: 12px;"  tooltip-append-to-body="true">
+                   style="margin-right: 4px;" tooltip-append-to-body="true">
                     <span class="glyphicon glyphicon-user"></span>
                     <span class="badge">{{tech.subCreator.length>0?tech.subCreator.length+'人':'无'}}</span>
                 </a>
@@ -69,46 +74,68 @@
             <div ng-show="tech.asCreator || tech.asSubCreator" has-authority="ROLE_USER">
                 <!--分配子结点创建人-->
                 <a class="btn btn-primary btn-xs" data-nodrag uib-tooltip="分配子结点创建人"
-                   style="margin-right: 8px;"  tooltip-append-to-body="true"
+                   style="margin-right: 4px;" tooltip-append-to-body="true"
                    ng-show="tech.asCreator" ng-click="vm.openSubcreatorModal(tech, this)">
                     <span class="glyphicon glyphicon-user"></span>
                     <span class="badge">{{tech.subCreator.length>0?tech.subCreator.length+'人':'无'}}</span>
                 </a>
                 <!--增加子节点-->
                 <a class="btn btn-primary btn-xs" data-nodrag uib-tooltip="添加子节点"
-                   style="margin-right: 8px;"  tooltip-append-to-body="true"
+                   style="margin-right: 4px;" tooltip-append-to-body="true"
                    ng-show="tech.asCreator || tech.asSubCreator"
                    ng-click="vm.openTechModal(true, tech, this)">
                     <span class="glyphicon glyphicon-plus"></span>
                 </a>
                 <!--编辑本节点-->
                 <a class="btn btn-primary btn-xs" data-nodrag uib-tooltip="编辑本节点"
-                   style="margin-right: 8px;"  tooltip-append-to-body="true"
+                   style="margin-right: 4px;" tooltip-append-to-body="true"
                    ng-show="tech.asCreator" ng-click="vm.openTechModal(false, tech, this)">
                     <span class="glyphicon glyphicon-pencil"></span>
                 </a>
                 <!--删除本节点-->
                 <a class="btn btn-danger btn-xs" data-nodrag uib-tooltip="删除本节点"
-                   style="margin-right: 8px;"  tooltip-append-to-body="true"
+                   style="margin-right: 4px;" tooltip-append-to-body="true"
                    ng-show="tech.asCreator" ng-click="vm.removeTech(tech, this)">
                     <span class="glyphicon glyphicon-remove"></span>
                 </a>
             </div>
         </div>
         <!--关键性操作-->
-        <div data-nodrag style="width: 180px;">
-            <div ng-show="tech.asCreator || tech.asSubCreator" has-authority="ROLE_USER">
+        <div data-nodrag style="width: 220px;">
+            <div ng-show="tech.asCreator" has-authority="ROLE_USER">
                 <!--关键性操作-->
-                <a class="btn btn-primary btn-xs" uib-tooltip="点击设置技术为关键或非关键" tooltip-append-to-body="true"
-                   ng-show="tech.asCreator" ng-click="vm.changeKey(tech, !tech.key, this)">
-                    {{tech.key?'设为关键技术':'设为非关键技术'}}
-                </a>
+                <span>关键技术</span>
+                <button ng-model="tech.key" uib-btn-radio="true"
+                        tooltip-append-to-body="true" uib-tooltip="点击设置为关键技术"
+                        ng-click="vm.changeKey(tech, tech.key, this)"
+                        ng-class="{
+                                'btn btn-xs btn-default': tech.key!=true,
+                                'btn btn-xs btn-success': tech.key==true
+                            }">是
+                </button>
+                <button ng-model="tech.key" uib-btn-radio="false"
+                        tooltip-append-to-body="true" uib-tooltip="点击设置为非关键技术"
+                        ng-click="vm.changeKey(tech, tech.key, this)"
+                        ng-class="{
+                                'btn btn-xs btn-default': tech.key==true,
+                                'btn btn-xs btn-success': tech.key!=true
+                            }">否
+                </button>
                 <!--关键技术管理-->
-                <a class="btn btn-primary btn-xs" uib-tooltip="跳转到关键技术管理界面" tooltip-append-to-body="true"
-                   ng-show="tech.asCreator && tech.key" ng-click="vm.jumpToKey(tech, this)">
-                    关键技术<span class="glyphicon glyphicon-chevron-right"></span>
+                <a class="btn btn-primary btn-xs" ng-show="(tech.asCreator || tech.asSubCreator) && tech.key==true"
+                   has-authority="ROLE_USER"
+                   uib-tooltip="跳转到关键技术管理界面" tooltip-append-to-body="true"
+                   ng-click="vm.jumpToKey(tech, this)">
+                    关键技术界面<span class="glyphicon glyphicon-chevron-right"></span>
                 </a>
             </div>
+            <!--关键技术管理-->
+            <a class="btn btn-primary btn-xs" ng-show="tech.key==true"
+               has-any-authority="ROLE_ADMIN,ROLE_TRL,ROLE_EVL"
+               uib-tooltip="跳转到关键技术管理界面" tooltip-append-to-body="true"
+               ng-click="vm.jumpToKey(tech, this)">
+                关键技术界面<span class="glyphicon glyphicon-chevron-right"></span>
+            </a>
         </div>
     </div>
     <ol ui-tree-nodes="" ng-model="tech.subTechs" ng-class="{hidden: collapsed}">
@@ -116,20 +143,70 @@
     </ol>
 </script>
 
-<div class="container-fluid" ng-cloak>
+<div class="container-fluid">
     <div class="row">
-        <div class="col-sm-8">
-            <div>
-                <button type="button" class="btn btn-primary btn-sm" ng-click="vm.expandAll()">全部展开</button>
-                <button type="button" class="btn btn-primary btn-sm" ng-click="vm.collapseAll()">全部收回</button>
-            </div>
-            <div class="tree-node-mycontent" style="text-align: center; margin-top: 5px;">
-                <label class="label label-success" style="border-radius: 10px"><h4>技术名称</h4></label>
-                <label class="label label-success" style="border-radius: 10px"><h4 style="width: 200px">基本信息</h4></label>
-                <label class="label label-success" style="border-radius: 10px"><h4 style="width: 200px">技术结点操作</h4></label>
-                <label class="label label-success" style="border-radius: 10px"><h4 style="width: 200px">关键技术相关操作</h4></label>
-            </div>
+        <div class="col-sm-9" style="min-width: 800px">
 
+            <div class="tree-node-mycontent" style="text-align: center;">
+                <label class="label label-success" style="border-radius: 10px">
+                    <h4>技术名称<span>(项目：{{vm.project.name}})</span></h4>
+
+                </label>
+                <label class="label label-success" style="border-radius: 10px; text-align: center"><h4
+                    style="width: 200px">基本信息</h4>
+                </label>
+                <label class="label label-success" style="border-radius: 10px;  text-align: center"
+                       tooltip-append-to-body="true" tooltip-is-open="true" tooltip-placement="top"
+                       uib-tooltip="技术结点的增、删、改等操作">
+                    <h4 style="width: 180px">技术结点操作</h4>
+                </label>
+                <label class="label label-success" style="border-radius: 10px;  text-align: center"
+                       tooltip-append-to-body="true" tooltip-is-open="true" tooltip-placement="top"
+                       uib-tooltip="可设置是否为关键技术，并跳转到关键技术管理界面">
+                    <h4 style="width: 220px">关键技术操作</h4>
+                </label>
+            </div>
+            <div style="margin-top: 10px" class="row">
+                <div class="col-sm-4">
+                    <div class="input-group">
+                        <button type="button" class="btn btn-primary" ng-click="vm.expandAll()"><span
+                            class="glyphicon glyphicon-chevron-down"></span>树结点全部展开
+                        </button>
+                        <button type="button" class="btn btn-primary" ng-click="vm.collapseAll()"><span
+                            class="glyphicon glyphicon-chevron-right"></span>树结点全部收回
+                        </button>
+                    </div>
+                </div>
+                <div class="col-sm-8">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <div class="input-group">
+                                <span class="input-group-addon">结点搜索</span>
+                                <input type="search" class="form-control"
+                                       placeholder="技术结点名称..." ng-model="vm.query">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button"
+                                            ng-click="vm.filterNode(vm.techs, vm.query)">
+                                        <span class="glyphicon glyphicon-search"></span>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <ul class="list-unstyled">
+                                <li>
+                                    <input type="checkbox" ng-model="vm.queryHight">
+                                    <small>高度选中条目</small>
+                                </li>
+                                <li>
+                                    <input type="checkbox" ng-model="vm.queryDim">
+                                    <small>不显示未选中条目</small>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div ui-tree id="tree-root" data-max-depth="4" data-drag-enabled="false">
                 <ol ui-tree-nodes ng-model="vm.techs">
                     <li ng-repeat="tech in vm.techs" ui-tree-node ng-include="'nodes_renderer.html'"></li>
@@ -137,22 +214,69 @@
             </div>
         </div>
 
-        <div class="col-sm-4">
-            <div class="weld well-sm">
-                <h4>操作说明：</h4>
-                <p>1. XXX</p>
-                <p>2. XXX</p>
+        <div class="col-sm-3">
+            <jhi-alert></jhi-alert>
+            <div class="well well-sm">
+                <h4><strong>操作说明：</strong></h4>
+                <h5><strong>1. 技术树以树形分层展示技术结点，可点击左上角“展开”、“收回”按钮</strong></h5>
+                <h5><strong>2. 名称解释</strong></h5>
+                <ul class="list-unstyled">
+                    <li>2.1 TCL：技术关键程度类别，共有A、B、C三类</li>
+                    <li>2.2 TCL：技术成熟度级别，共有9级</li>
+                    <li>2.3 分配子结点创建人：即指定某研发人员拥有该结点的子结点创建权限</li>
+                </ul>
+
+                <h5><strong>3. <label class="label label-success">技术名称</label>说明</strong></h5>
+                <p>展示技术结点名称和层级信息，可点击技术结点名称查看详细信息 </p>
+                <h5><strong>4. <label class="label label-success">基本信息</label>说明</strong></h5>
+                <p>展示技术结点是否为关键技术，关键技术的关键程度类别和成熟度级别信息</p>
+                <h5><strong>5. <label class="label label-success">技术结点操作</label>说明</strong></h5>
+                <p>可以对技术结点进行“编辑节点”、“删除节点”、“添加子节点”和“分配子节点创建人”等操作</p>
+                <h5><strong>6. <label class="label label-success">关键技术操作</label>说明</strong></h5>
+                <p>可设置技术是否为关键技术，如果是关键技术则可跳转到关键技术管理界面</p>
+                <h5><strong>7. <label class="label label-info">研发人员</label>技术树权限说明</strong></h5>
+                <ul class="list-unstyled">
+                    <li>
+                        7.1 如果您是某技术结点的创建者或子结点创建者，则您具有该结点的操作权限和信息查看权限
+                    </li>
+                    <li>
+                        7.2 如果7.1不符合，但该结点是您创建的某结点的子结点，则您具有该结点的查看权限
+                    </li>
+                    <li>
+                        7.3 如果7.1和7.2都不符合，但该结点的某子结点您是创建人或子结点创建人，则您具有该结点对您可见，但仅能查看技术名称
+                    </li>
+                    <li>
+                        7.4 如果7.1,7.2,7.3都不符合的结点，则您无权查看，该结点对您不可见
+                    </li>
+                </ul>
+                <h5><strong>8. <label class="label label-info">项目办人员</label>技术树权限说明</strong></h5>
+                <ul class="list-unstyled">
+                    <li>
+                        8.1 您只有技术树根结点“分配子结点创建人”的操作权限，没有其它技术结点的操作权限
+                    </li>
+                    <li>
+                        8.2 您拥有所有技术结点的查看权限
+                    </li>
+                </ul>
+                <h5><strong>9. <label class="label label-info">评审专家或TRL技术专家</label>技术树权限说明</strong></h5>
+                <ul class="list-unstyled">
+                    <li>
+                        9.1 您拥有所有技术结点的查看权限，但没有操作权限
+                    </li>
+                    <li>
+                        9.2 您拥有所有关键技术的评审权限或技术指导权限
+                    </li>
+                </ul>
             </div>
 
-            <jhi-alert></jhi-alert>
             <div>
                 <div class="info">
                     {{info}}
                 </div>
                 <pre class="code">
-                    <p>以下为测试时显示</p>
-                    <div>{{ vm.techs | json }}</div>
-                </pre>
+            <p>以下为测试时显示</p>
+            <div style="max-height: 500px; overflow: scroll">{{ vm.techs | json }}</div>
+            </pre>
             </div>
         </div>
     </div>

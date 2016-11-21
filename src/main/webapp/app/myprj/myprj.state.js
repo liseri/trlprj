@@ -54,7 +54,7 @@
                 authorities: ['ROLE_USER','ROLE_TRL','ROLE_EVL','ROLE_ADMIN'],
             },
             views: {
-                'techContent@myprj': {
+                'prjContent@myprj': {
                     templateUrl: 'app/myprj/techtree/myprj-techtree.html',
                     controller: 'MyprjTechTreeController',
                     controllerAs: 'vm'
@@ -67,7 +67,7 @@
                 authorities: ['ROLE_USER','ROLE_TRL','ROLE_EVL','ROLE_ADMIN'],
             },
             views: {
-                'keyContent@myprj': {
+                'prjContent@myprj': {
                     templateUrl: 'app/myprj/key/myprj-techkey.html',
                     controller: 'MyprjTechKeyController',
                     controllerAs: 'vm'

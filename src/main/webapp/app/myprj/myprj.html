@@ -1,40 +1,34 @@
-<div class="wrap flex flex-h" ng-cloak>
-    <div class="btn btn-primary" ng-click="vm.prjClick()">
-        <h4>
-            项目
-            <span ng-show="!vm.isPrjAction" class="glyphicon glyphicon-chevron-down"></span>
-            <span ng-show="vm.isPrjAction" class="glyphicon glyphicon-chevron-right"></span>
-        </h4>
-    </div>
-    <div class="main" ng-show="vm.isPrjAction">
-        <div ui-view="prjContent"></div>
-    </div>
-
-    <div class="btn btn-primary" ng-click="vm.techClick()">
-        <h4>
-            技术树
-            <span ng-show="!vm.isTechAction" class="glyphicon glyphicon-chevron-down"></span>
-            <span ng-show="vm.isTechAction" class="glyphicon glyphicon-chevron-right"></span>
-        </h4>
-        <div class="shupai">
-            <h4>{{vm.currentPrj.name}}</h4>
+<div class="container-fluid" style="margin-left: 10px; margin-right: 10px;">
+    <div class="row">
+        <div class="col-sm-1 sidebar">
+            <ul class="nav nav-sidebar" style="text-align: center; cursor: default;">
+                <li class="active" ng-show="vm.currentPrj==null" style="margin-top: 10px;cursor: default;">
+                    <h3>项目列表<span class="glyphicon glyphicon-hand-right" style="margin-left: 5px;"></span></h3>
+                </li>
+                <li ng-show="vm.currentPrj!=null" style="margin-top: 10px;" ng-click="vm.backToPrj()"
+                    tooltip-append-to-body="true" tooltip-is-open="true" tooltip-placement="right" uib-tooltip="返回到项目列表">
+                    <h4>项目列表<span class="glyphicon glyphicon-hand-left" style="margin-left: 5px;"></span></h4>
+                </li>
+                <li ng-show="vm.currentPrj!=null && vm.currentTech==null"
+                    tooltip-append-to-body="true" tooltip-is-open="true" tooltip-placement="right"
+                    uib-tooltip="项目({{vm.currentPrj.name}})的技术树"
+                    style="margin-top: 10px;cursor: default">
+                    <h3>技术树<span class="glyphicon glyphicon-hand-right" style="margin-left: 5px;"></span></h3>
+                </li>
+                <li ng-show="vm.currentTech!=null" style="margin-top: 10px;" ng-click="vm.backToTechtree()"
+                    tooltip-append-to-body="true" tooltip-is-open="true" tooltip-placement="right" uib-tooltip="返回到项目({{vm.currentPrj.name}})的技术树">
+                    <h4>技术树<span class="glyphicon glyphicon-hand-left" style="margin-left: 5px;"></span></h4>
+                </li>
+                <li ng-show="vm.currentTech!=null"
+                    tooltip-append-to-body="true" tooltip-is-open="true" tooltip-placement="right"
+                    uib-tooltip="关键技术({{vm.currentTech.name}})"
+                    style="margin-top: 10px;cursor: default">
+                    <h3>关键技术<span class="glyphicon glyphicon-hand-right" style="margin-left: 5px;"></span></h3>
+                </li>
+            </ul>
         </div>
-    </div>
-    <div class="main" ng-show="vm.isTechAction">
-        <div ui-view="techContent"></div>
-    </div>
-
-    <div class="btn btn-primary" ng-click="vm.keyClick()">
-        <h4>
-            关键技术
-            <span ng-show="!vm.isKeyAction" class="glyphicon glyphicon-chevron-down"></span>
-            <span ng-show="vm.isKeyAction" class="glyphicon glyphicon-chevron-right"></span>
-        </h4>
-        <div class="shupai">
-            <h4>{{vm.currentTech.name}}</h4>
+        <div class="col-sm-11 col-sm-offset-1 main">
+            <div ui-view="prjContent"></div>
         </div>
-    </div>
-    <div class="main" ng-show="vm.isKeyAction">
-        <div ui-view="keyContent"></div>
     </div>
 </div>

@@ -13,7 +13,8 @@
             </a>
         </div>
         <div class="navbar-collapse" uib-collapse="vm.isNavbarCollapsed" ng-switch="vm.isAuthenticated()">
-            <ul class="nav navbar-nav navbar-right">
+            <ul class="nav navbar-nav navbar-right" tooltip-append-to-body="true" tooltip-is-open="true" tooltip-placement="bottom"
+                uib-tooltip="点击进行项目">
                 <li ui-sref-active="active">
                     <a ui-sref="home" ng-click="vm.collapseNavbar()">
                         <span class="glyphicon glyphicon-home"></span>
@@ -21,7 +22,7 @@
                     </a>
                 </li>
                 <li ng-class="{active: vm.$state.includes('myprj')}" ng-switch-when="true">
-                    <a ui-sref="myprj" ng-click="vm.collapseNavbar()">
+                    <a ui-sref="prj" ng-click="vm.collapseNavbar()">
                         <span class="glyphicon glyphicon-th-list"></span>&nbsp;
                         <span>我的项目</span>
                     </a>

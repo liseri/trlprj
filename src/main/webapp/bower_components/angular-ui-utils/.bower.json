@@ -1,0 +1,17 @@
+{
+  "name": "angular-ui-highlight",
+  "main": "./highlight.js",
+  "dependencies": {
+    "angular": ">= 1.0.2"
+  },
+  "homepage": "https://github.com/angular-ui/ui-utils",
+  "_release": "highlight-0.1.1",
+  "_resolution": {
+    "type": "tag",
+    "tag": "highlight-0.1.1",
+    "commit": "7ec80f9abfb74e0d40ab10480941c0a7898f2050"
+  },
+  "_source": "https://github.com/angular-ui/ui-utils.git",
+  "_target": "highlight-0.1.1",
+  "_originalSource": "https://github.com/angular-ui/ui-utils.git"
+}
